@@ -70,7 +70,7 @@ Memastikan halaman yang dikembangkan mengikuti desain utama website.
 
 Setiap anggota wajib mengembangkan modulnya dengan standar yang sama, meliputi:
 
-Materi pembelajaran yang sistematis dan sesuai konsep kimia.
+ Materi pembelajaran yang sistematis dan sesuai konsep kimia.
 
 Tujuan pembelajaran yang jelas.
 
