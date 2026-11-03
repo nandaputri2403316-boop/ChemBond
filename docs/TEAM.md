@@ -6,7 +6,7 @@ Nanda Putri Wardaningtyas
 
 Sonia Farah Abdila
 
-3. Pembagian Peran dan Tanggung Jawab
+Pembagian Peran dan Tanggung Jawab
 
 Pembagian tugas menggunakan sistem pengembangan berbasis modul. Setiap anggota bertanggung jawab mengembangkan materi, konten visual, dan latihan soal sesuai bagian yang telah ditentukan.
 
