@@ -558,7 +558,8 @@
 
 .hero-title-accent {
   background: linear-gradient(135deg, #FFD152 0%, #FFA68D 45%, #FFFFFF 100%);
-  -webkit-background-clip: text;
+-webkit-background-clip: text;
+background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   filter: drop-shadow(0 2px 10px rgba(255, 209, 82, 0.4));
@@ -1675,9 +1676,10 @@
 }
 
 .cta-title-highlight {
-  background: linear-gradient(135deg, var(--c-hot-pink) 0%, var(--c-magenta) 50%, var(--c-orange) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #FFD152 0%, #FFA68D 45%, #FFFFFF 100%);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;
   display: inline-block;
 }
 

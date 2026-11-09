@@ -1,5 +1,7 @@
+
 import { useState } from 'react';
 import './App.css';
+
 import { Navbar, type Page } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { IntroCards } from './components/IntroCards';
@@ -8,6 +10,7 @@ import { CallToAction } from './components/CallToAction';
 import { Footer } from './components/Footer';
 import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
+import { MateriPage } from './components/MateriPage';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
@@ -52,16 +55,12 @@ export function App() {
       {/* Page Content: Beranda */}
       {currentPage === 'Beranda' && (
         <main id="main-content">
-          {/* Hero Section */}
           <Hero onScrollToSection={scrollToSection} />
 
-          {/* Bagian Pengenalan: 3 Kartu (Kenali Atom, Jelajahi Ikatan, Eksperimen Kimia) */}
           <IntroCards onCardAction={handleCardAction} />
 
-          {/* Galeri Ikatan Nyata: Edukasi Ikatan Kimia SMA */}
           <QuickMoleculeViewer />
 
-          {/* Bagian Ajakan (Call to Action) */}
           <CallToAction
             onStartAdventure={() => handleNavigate('Materi')}
             onExploreCards={() => scrollToSection('pengenalan')}
@@ -69,23 +68,28 @@ export function App() {
         </main>
       )}
 
-      {/* Page Content: Placeholder for In-Progress Pages */}
-      {currentPage !== 'Beranda' && (
+      {/* Page Content: Materi */}
+      {currentPage === 'Materi' && <MateriPage />}
+
+      {/* Page Content: Simulasi, Kuis, dan Progres */}
+      {currentPage !== 'Beranda' && currentPage !== 'Materi' && (
         <main id="main-content" className="page-placeholder-section">
           <div className="container">
             <div className="placeholder-panel">
               <div className="placeholder-badge-pill">
                 <span>🔬 Halaman {currentPage} • ChemBond SMA</span>
               </div>
+
               <h1 className="placeholder-heading">
-                {currentPage === 'Materi' && 'Modul Materi Ikatan Kimia'}
-                {currentPage === 'Simulasi' && 'Simulasi Interaktif Ikatan Kimia'}
-                {currentPage === 'Kuis' && 'Kuis dan Evaluasi Pemahaman'}
-                {currentPage === 'Progres' && 'Progres dan Riwayat Belajar'}
+                {currentPage === 'Simulasi' &&
+                  'Simulasi Interaktif Ikatan Kimia'}
+                {currentPage === 'Kuis' &&
+                  'Kuis dan Evaluasi Pemahaman'}
+                {currentPage === 'Progres' &&
+                  'Progres dan Riwayat Belajar'}
               </h1>
+
               <p className="placeholder-subheading">
-                {currentPage === 'Materi' &&
-                  'Materi terstruktur ke dalam tiga modul: Pengenalan Ikatan Kimia, Jenis-Jenis Ikatan Kimia, dan Contoh Penerapan Ikatan Kimia.'}
                 {currentPage === 'Simulasi' &&
                   'Visualisasi interaktif perpindahan elektron pada ikatan ion dan pemakaian bersama pasangan elektron pada ikatan kovalen.'}
                 {currentPage === 'Kuis' &&
@@ -96,10 +100,13 @@ export function App() {
 
               <div className="placeholder-status-card">
                 <div className="placeholder-status-icon">🚀</div>
+
                 <div className="placeholder-status-info">
                   <h4>Fondasi Navigasi Aktif</h4>
                   <p>
-                    Navigasi halaman {currentPage} telah terhubung dengan state aplikasi. Komponen dan fitur halaman ini sedang disiapkan untuk tahap implementasi berikutnya.
+                    Navigasi halaman {currentPage} telah terhubung dengan
+                    state aplikasi. Komponen dan fitur halaman ini sedang
+                    disiapkan untuk tahap implementasi berikutnya.
                   </p>
                 </div>
               </div>
@@ -134,6 +141,7 @@ export function App() {
       {toastMessage && (
         <div className="toast-banner" role="status" aria-live="polite">
           <p className="toast-message">{toastMessage}</p>
+
           <button
             type="button"
             className="toast-close-btn"
