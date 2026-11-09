@@ -1,43 +1,37 @@
 import React, { useState } from 'react';
 
+export type Page = 'Beranda' | 'Materi' | 'Simulasi' | 'Kuis' | 'Progres';
+
 interface NavbarProps {
-  onShowToast: (message: string) => void;
+  currentPage: Page;
+  onNavigate: (page: Page) => void;
+  onShowToast?: (message: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  currentPage,
+  onNavigate,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Beranda');
 
-  const navItems = [
-    { name: 'Beranda', isCurrent: true, href: '#home' },
-    { name: 'Petualangan', isCurrent: false, hint: 'Jalur petualangan dunia atom (Segera Hadir)' },
-    { name: 'Materi', isCurrent: false, hint: 'Kumpulan modul materi kimia SMA (Segera Hadir)' },
-    { name: 'Laboratorium', isCurrent: false, hint: 'Simulasi lab virtual kimia (Segera Hadir)' },
-    { name: 'Kuis', isCurrent: false, hint: 'Tantangan uji pemahaman atom & ikatan (Segera Hadir)' },
+  const navItems: { name: Page; hint: string }[] = [
+    { name: 'Beranda', hint: 'Halaman utama ChemBond' },
+    { name: 'Materi', hint: 'Tiga modul pembelajaran Ikatan Kimia' },
+    { name: 'Simulasi', hint: 'Simulasi interaktif ikatan ion dan kovalen' },
+    { name: 'Kuis', hint: 'Latihan soal dan evaluasi pemahaman' },
+    { name: 'Progres', hint: 'Pemantauan hasil dan perkembangan belajar' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent, item: typeof navItems[0]) => {
+  const handleNavClick = (e: React.MouseEvent, page: Page) => {
     e.preventDefault();
-    if (item.name === 'Beranda') {
-      setActiveMenu('Beranda');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setActiveMenu(item.name);
-      onShowToast(`🧭 Menu "${item.name}": Fitur ini segera hadir! Silakan nikmati eksplorasi di beranda.`);
-      // Scroll to intro section to show available preview
-      const el = document.getElementById('pengenalan');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    onNavigate(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setMobileMenuOpen(false);
   };
 
   const handleStartAdventure = () => {
-    const el = document.getElementById('pengenalan');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    onNavigate('Materi');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setMobileMenuOpen(false);
   };
 
@@ -45,7 +39,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
     <header className="navbar-header">
       <div className="container navbar-container">
         {/* Brand Logo */}
-        <a href="#home" className="navbar-brand" onClick={(e) => handleNavClick(e, navItems[0])}>
+        <a
+          href="#beranda"
+          className="navbar-brand"
+          onClick={(e) => handleNavClick(e, 'Beranda')}
+          aria-label="Kembali ke Beranda ChemBond"
+        >
           <div className="brand-logo-icon">
             <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
               <circle cx="20" cy="20" r="19" fill="#FFFFFF" stroke="#F72F91" strokeWidth="2.5" />
@@ -70,14 +69,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
         <nav className="navbar-nav desktop-nav" aria-label="Main Navigation">
           <ul className="nav-list">
             {navItems.map((item) => {
-              const isActive = activeMenu === item.name;
+              const isActive = currentPage === item.name;
               return (
                 <li key={item.name} className="nav-item">
                   <a
-                    href={item.href || '#'}
+                    href={`#${item.name.toLowerCase()}`}
                     className={`nav-link ${isActive ? 'active' : ''}`}
-                    onClick={(e) => handleNavClick(e, item)}
-                    title={item.hint || item.name}
+                    onClick={(e) => handleNavClick(e, item.name)}
+                    title={item.hint}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.name}
                     {isActive && <span className="nav-active-pill" />}
@@ -96,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
             onClick={handleStartAdventure}
           >
             <span className="btn-icon">🚀</span>
-            <span>Mulai Petualangan</span>
+            <span>Mulai Belajar</span>
           </button>
         </div>
 
@@ -119,19 +119,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
         <div className="mobile-nav-inner">
           <ul className="mobile-nav-list">
             {navItems.map((item) => {
-              const isActive = activeMenu === item.name;
+              const isActive = currentPage === item.name;
               return (
                 <li key={item.name} className="mobile-nav-item">
                   <button
                     type="button"
                     className={`mobile-nav-link ${isActive ? 'active' : ''}`}
-                    onClick={(e) => handleNavClick(e, item)}
+                    onClick={(e) => handleNavClick(e, item.name)}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     <span>{item.name}</span>
                     {isActive ? (
                       <span className="badge-active">Aktif</span>
                     ) : (
-                      <span className="badge-hint">Eksplor</span>
+                      <span className="badge-hint">Buka</span>
                     )}
                   </button>
                 </li>
@@ -144,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onShowToast }) => {
               className="btn btn-primary btn-block"
               onClick={handleStartAdventure}
             >
-              🚀 Mulai Petualangan
+              🚀 Mulai Belajar
             </button>
           </div>
         </div>

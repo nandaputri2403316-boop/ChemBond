@@ -1,14 +1,23 @@
 import React from 'react';
+import type { Page } from './Navbar';
 
 interface FooterProps {
-  onNavClick: (menuName: string) => void;
+  currentPage?: Page;
+  onNavigate: (page: Page) => void;
 }
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
+export const Footer: React.FC<FooterProps> = ({ currentPage, onNavigate }) => {
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
+    onNavigate('Beranda');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNav = (e: React.MouseEvent, page: Page) => {
+    e.preventDefault();
+    onNavigate(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -43,19 +52,49 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick }) => {
             <h4 className="footer-col-title">Navigasi Halaman</h4>
             <ul className="footer-links">
               <li>
-                <a href="#home" onClick={scrollToTop}>Beranda</a>
+                <a
+                  href="#beranda"
+                  onClick={(e) => handleNav(e, 'Beranda')}
+                  aria-current={currentPage === 'Beranda' ? 'page' : undefined}
+                >
+                  Beranda {currentPage === 'Beranda' && '•'}
+                </a>
               </li>
               <li>
-                <a href="#pengenalan" onClick={() => onNavClick('Petualangan')}>Petualangan</a>
+                <a
+                  href="#materi"
+                  onClick={(e) => handleNav(e, 'Materi')}
+                  aria-current={currentPage === 'Materi' ? 'page' : undefined}
+                >
+                  Materi Ikatan Kimia {currentPage === 'Materi' && '•'}
+                </a>
               </li>
               <li>
-                <a href="#pengenalan" onClick={() => onNavClick('Materi')}>Materi Atom</a>
+                <a
+                  href="#simulasi"
+                  onClick={(e) => handleNav(e, 'Simulasi')}
+                  aria-current={currentPage === 'Simulasi' ? 'page' : undefined}
+                >
+                  Simulasi Interaktif {currentPage === 'Simulasi' && '•'}
+                </a>
               </li>
               <li>
-                <a href="#pengenalan" onClick={() => onNavClick('Laboratorium')}>Laboratorium Virtual</a>
+                <a
+                  href="#kuis"
+                  onClick={(e) => handleNav(e, 'Kuis')}
+                  aria-current={currentPage === 'Kuis' ? 'page' : undefined}
+                >
+                  Kuis Kimia {currentPage === 'Kuis' && '•'}
+                </a>
               </li>
               <li>
-                <a href="#pengenalan" onClick={() => onNavClick('Kuis')}>Kuis Kimia</a>
+                <a
+                  href="#progres"
+                  onClick={(e) => handleNav(e, 'Progres')}
+                  aria-current={currentPage === 'Progres' ? 'page' : undefined}
+                >
+                  Progres Belajar {currentPage === 'Progres' && '•'}
+                </a>
               </li>
             </ul>
           </div>

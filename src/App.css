@@ -2086,3 +2086,107 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Page Placeholder Container (Issue #1 - Navigation Foundation)
+   -------------------------------------------------------------------------- */
+.page-placeholder-section {
+  position: relative;
+  z-index: 10;
+  min-height: calc(100vh - 78px - 260px);
+  padding: 50px 0 90px;
+  display: flex;
+  align-items: center;
+}
+
+.placeholder-panel {
+  background: var(--surface-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-xl, 28px);
+  padding: 48px 40px;
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(102, 0, 50, 0.25);
+  animation: fadeIn 0.4s ease;
+}
+
+.placeholder-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: var(--c-peach-soft);
+  color: var(--c-magenta-deep);
+  border: 1px solid var(--c-coral-soft);
+  border-radius: var(--radius-full);
+  font-size: 13.5px;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+.placeholder-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+.placeholder-subheading {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-dark-secondary);
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+
+.placeholder-status-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--surface-card-warm);
+  border: 1.5px solid var(--border-card-colored);
+  border-radius: var(--radius-lg, 18px);
+  padding: 20px 24px;
+  text-align: left;
+  margin-bottom: 36px;
+}
+
+.placeholder-status-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.placeholder-status-info h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--c-magenta-deep);
+  margin-bottom: 4px;
+}
+
+.placeholder-status-info p {
+  font-size: 14px;
+  color: var(--text-dark-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.placeholder-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .placeholder-panel {
+    padding: 36px 20px;
+  }
+
+  .placeholder-status-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}

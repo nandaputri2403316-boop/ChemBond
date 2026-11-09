@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import { Navbar } from './components/Navbar';
+import { Navbar, type Page } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { IntroCards } from './components/IntroCards';
 import { QuickMoleculeViewer } from './components/QuickMoleculeViewer';
@@ -10,6 +10,7 @@ import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
 
 export function App() {
+  const [currentPage, setCurrentPage] = useState<Page>('Beranda');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalTopic, setModalTopic] = useState<string | null>(null);
 
@@ -27,9 +28,9 @@ export function App() {
     }
   };
 
-  const handleStartAdventure = () => {
-    scrollToSection('pengenalan');
-    showToast('🚀 Selamat datang di petualangan ChemBond! Mulai eksplorasi dari tiga kartu di bawah.');
+  const handleNavigate = (page: Page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCardAction = (cardTitle: string) => {
@@ -42,27 +43,86 @@ export function App() {
       <MoleculeDecorations />
 
       {/* Main Navbar */}
-      <Navbar onShowToast={showToast} />
+      <Navbar
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+        onShowToast={showToast}
+      />
 
-      <main>
-        {/* Hero Section */}
-        <Hero onScrollToSection={scrollToSection} />
+      {/* Page Content: Beranda */}
+      {currentPage === 'Beranda' && (
+        <main id="main-content">
+          {/* Hero Section */}
+          <Hero onScrollToSection={scrollToSection} />
 
-        {/* Bagian Pengenalan: 3 Kartu (Kenali Atom, Jelajahi Ikatan, Eksperimen Kimia) */}
-        <IntroCards onCardAction={handleCardAction} />
+          {/* Bagian Pengenalan: 3 Kartu (Kenali Atom, Jelajahi Ikatan, Eksperimen Kimia) */}
+          <IntroCards onCardAction={handleCardAction} />
 
-        {/* Galeri Ikatan Nyata: Edukasi Ikatan Kimia SMA */}
-        <QuickMoleculeViewer />
+          {/* Galeri Ikatan Nyata: Edukasi Ikatan Kimia SMA */}
+          <QuickMoleculeViewer />
 
-        {/* Bagian Ajakan (Call to Action) */}
-        <CallToAction
-          onStartAdventure={handleStartAdventure}
-          onExploreCards={() => scrollToSection('pengenalan')}
-        />
-      </main>
+          {/* Bagian Ajakan (Call to Action) */}
+          <CallToAction
+            onStartAdventure={() => handleNavigate('Materi')}
+            onExploreCards={() => scrollToSection('pengenalan')}
+          />
+        </main>
+      )}
+
+      {/* Page Content: Placeholder for In-Progress Pages */}
+      {currentPage !== 'Beranda' && (
+        <main id="main-content" className="page-placeholder-section">
+          <div className="container">
+            <div className="placeholder-panel">
+              <div className="placeholder-badge-pill">
+                <span>🔬 Halaman {currentPage} • ChemBond SMA</span>
+              </div>
+              <h1 className="placeholder-heading">
+                {currentPage === 'Materi' && 'Modul Materi Ikatan Kimia'}
+                {currentPage === 'Simulasi' && 'Simulasi Interaktif Ikatan Kimia'}
+                {currentPage === 'Kuis' && 'Kuis dan Evaluasi Pemahaman'}
+                {currentPage === 'Progres' && 'Progres dan Riwayat Belajar'}
+              </h1>
+              <p className="placeholder-subheading">
+                {currentPage === 'Materi' &&
+                  'Materi terstruktur ke dalam tiga modul: Pengenalan Ikatan Kimia, Jenis-Jenis Ikatan Kimia, dan Contoh Penerapan Ikatan Kimia.'}
+                {currentPage === 'Simulasi' &&
+                  'Visualisasi interaktif perpindahan elektron pada ikatan ion dan pemakaian bersama pasangan elektron pada ikatan kovalen.'}
+                {currentPage === 'Kuis' &&
+                  'Latihan soal pilihan ganda interaktif dengan penyimpanan jawaban awal, ID percobaan, skor, dan pembahasan mendalam.'}
+                {currentPage === 'Progres' &&
+                  'Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.'}
+              </p>
+
+              <div className="placeholder-status-card">
+                <div className="placeholder-status-icon">🚀</div>
+                <div className="placeholder-status-info">
+                  <h4>Fondasi Navigasi Aktif</h4>
+                  <p>
+                    Navigasi halaman {currentPage} telah terhubung dengan state aplikasi. Komponen dan fitur halaman ini sedang disiapkan untuk tahap implementasi berikutnya.
+                  </p>
+                </div>
+              </div>
+
+              <div className="placeholder-actions">
+                <button
+                  type="button"
+                  className="btn btn-capsule-cta-main"
+                  onClick={() => handleNavigate('Beranda')}
+                >
+                  ← Kembali ke Beranda
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      )}
 
       {/* Footer */}
-      <Footer onNavClick={(menuName) => showToast(`🧭 Menu "${menuName}" segera hadir!`)} />
+      <Footer
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+      />
 
       {/* Interactive Detail Modal Popup */}
       <InteractiveDetailModal
