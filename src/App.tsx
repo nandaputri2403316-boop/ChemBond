@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 import { Navbar, type Page } from './components/Navbar';
@@ -14,12 +14,21 @@ import { MateriPage } from './components/MateriPage';
 import { QuizSection } from './components/QuizSection';
 import { AuthLayout } from './components/auth/AuthLayout';
 import type { UserProfile } from './types/auth';
+import { subscribeToAuthChanges, logoutUser } from './services/authService';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalTopic, setModalTopic] = useState<string | null>(null);
+
+  // Pantau sesi autentikasi secara realtime
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const showToast = (message: string) => {
     setToastMessage(message);
@@ -28,9 +37,20 @@ export function App() {
     }, 4500);
   };
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-    showToast('Sesi akun ChemBond telah berhasil diakhiri.');
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      setCurrentUser(null);
+      showToast('Sesi akun ChemBond telah berhasil diakhiri.');
+    } catch {
+      showToast('Gagal mengakhiri sesi akun.');
+    }
+  };
+
+  const handleAuthSuccess = () => {
+    showToast('Berhasil masuk ke ChemBond! Selamat belajar.');
+    setCurrentPage('Beranda');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -87,7 +107,11 @@ export function App() {
 
       {/* Page Content: Masuk / Registrasi Akun */}
       {currentPage === 'Masuk' && (
-        <AuthLayout onNavigate={handleNavigate} initialView="login" />
+        <AuthLayout
+          onNavigate={handleNavigate}
+          initialView="login"
+          onAuthSuccess={handleAuthSuccess}
+        />
       )}
 
       {/* Page Content: Simulasi dan Progres */}

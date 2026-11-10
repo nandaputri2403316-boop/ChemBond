@@ -1,28 +1,62 @@
 /**
  * src/services/authService.ts
- * Jembatan Layanan Autentikasi ChemBond.
- * Disiapkan khusus untuk integrasi Firebase Authentication dan Cloud Firestore.
- *
- * PENTING:
- * Sesuai aturan pengembangan ChemBond, fungsi-fungsi di bawah tidak membuat
- * sesi login palsu ke database cloud sebelum Firebase SDK dikonfigurasi secara resmi.
+ * Layanan Autentikasi Pengguna ChemBond terintegrasi dengan Firebase Authentication & Cloud Firestore.
+ * Sesuai DATABASE.md, PRD.md, dan AGENTS.md.
  */
 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  updateProfile,
+} from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
+import { auth, db, googleProvider, isFirebaseConfigured } from './firebase';
 import type { LoginFormData, RegisterFormData, UserProfile } from '../types/auth';
 
-/**
- * Status koneksi Firebase SDK (akan bernilai true saat Firebase dikonfigurasi resmi)
- */
-export const isFirebaseConfigured = false;
+export { isFirebaseConfigured };
 
 /**
- * Hasil operasi autentikasi
+ * Hasil operasi autentikasi untuk antarmuka UI
  */
 export interface AuthOperationResult {
   success: boolean;
   user?: UserProfile;
   error?: string;
   isBackendPending?: boolean;
+}
+
+/**
+ * Menerjemahkan kode error Firebase Authentication menjadi pesan yang ramah dalam Bahasa Indonesia
+ */
+export function mapFirebaseAuthError(errorCode: string): string {
+  switch (errorCode) {
+    case 'auth/invalid-email':
+      return 'Format alamat email tidak valid.';
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'Email atau kata sandi tidak cocok. Silakan periksa kembali.';
+    case 'auth/email-already-in-use':
+      return 'Alamat email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+    case 'auth/weak-password':
+      return 'Kata sandi terlalu lemah. Gunakan minimal 6 karakter kombinasi.';
+    case 'auth/popup-closed-by-user':
+      return 'Jendela masuk Google ditutup sebelum proses verifikasi selesai.';
+    case 'auth/popup-blocked':
+      return 'Jendela popup Google diblokir oleh peramban. Harap izinkan popup di situs ini.';
+    case 'auth/network-request-failed':
+      return 'Koneksi jaringan terputus. Harap periksa koneksi internet Anda.';
+    case 'auth/too-many-requests':
+      return 'Terlalu banyak percobaan masuk yang gagal. Silakan tunggu beberapa saat lagi.';
+    case 'auth/operation-not-allowed':
+      return 'Metode autentikasi ini belum diaktifkan di Firebase Console. Harap aktifkan Email/Password atau Google Provider di menu Authentication > Sign-in method.';
+    default:
+      return `Gagal melakukan autentikasi (${errorCode}). Silakan coba kembali.`;
+  }
 }
 
 /**
@@ -34,8 +68,7 @@ export function isValidEmail(email: string): boolean {
 }
 
 /**
- * Validasi kekuatan kata sandi:
- * Minimal 6 karakter, memiliki huruf dan angka untuk keamanan dasar
+ * Validasi kekuatan kata sandi (minimal 6 karakter)
  */
 export function validatePasswordSecurity(password: string): { isValid: boolean; message?: string } {
   if (password.length < 6) {
@@ -48,9 +81,8 @@ export function validatePasswordSecurity(password: string): { isValid: boolean; 
 }
 
 /**
- * Fungsi masuk dengan Email dan Kata Sandi.
- * Nantinya akan memanggil: `signInWithEmailAndPassword(auth, email, password)`
- * dan mengambil profil dari Firestore `getDoc(doc(db, "users", user.uid))`.
+ * Masuk menggunakan Email dan Kata Sandi melalui Firebase Authentication
+ * serta membaca dokumen profil siswa dari Cloud Firestore
  */
 export async function loginWithEmail(
   credentials: LoginFormData
@@ -70,35 +102,66 @@ export async function loginWithEmail(
     };
   }
 
-  // Simulasi latensi jaringan kecil untuk pengujian UI loading state
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  const activeAuth = auth;
+  const activeDb = db;
 
-  // 2. Pemeriksaan status Firebase
-  if (!isFirebaseConfigured) {
+  // 2. Pemeriksaan kesiapan Firebase SDK
+  if (!isFirebaseConfigured || !activeAuth || !activeDb) {
     return {
       success: false,
       isBackendPending: true,
       error:
-        'Layanan Firebase Authentication belum dikonfigurasi pada proyek ini. Antarmuka dan validasi formulir telah siap untuk dihubungkan pada tahap integrasi backend berikutnya.',
+        'Konfigurasi Firebase belum terpasang di berkas .env.local. Silakan salin kredensial dari Firebase Console ke .env.local untuk mengaktifkan koneksi.',
     };
   }
 
-  // Hook implementasi Firebase Authentication yang akan diaktifkan:
-  // try {
-  //   const userCredential = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-  //   const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
-  //   return { success: true, user: userDoc.data() as UserProfile };
-  // } catch (err: any) {
-  //   return { success: false, error: mapFirebaseAuthError(err.code) };
-  // }
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      activeAuth,
+      credentials.email.trim(),
+      credentials.password
+    );
 
-  return { success: false, error: 'Koneksi backend belum aktif.' };
+    // Ambil dokumen profil siswa dari Cloud Firestore (users/{uid})
+    const userDocRef = doc(activeDb, 'users', userCredential.user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    let profile: UserProfile;
+    if (userDocSnap.exists()) {
+      profile = userDocSnap.data() as UserProfile;
+    } else {
+      profile = {
+        uid: userCredential.user.uid,
+        namaLengkap: userCredential.user.displayName || credentials.email.split('@')[0],
+        email: credentials.email.trim(),
+        provider: 'password',
+        role: 'student',
+        createdAt: new Date().toISOString(),
+        isClassMember: false,
+        profileCompleted: false,
+      };
+      await setDoc(userDocRef, profile);
+    }
+
+    return {
+      success: true,
+      user: profile,
+    };
+  } catch (err: unknown) {
+    const firebaseErr = err as { code?: string; message?: string };
+    const errorMessage = firebaseErr.code
+      ? mapFirebaseAuthError(firebaseErr.code)
+      : firebaseErr.message || 'Gagal masuk ke akun.';
+    return {
+      success: false,
+      error: errorMessage,
+    };
+  }
 }
 
 /**
- * Fungsi pendaftaran akun siswa baru.
- * Nantinya akan memanggil: `createUserWithEmailAndPassword(auth, email, password)`
- * dan menyimpan dokumen profil ke Cloud Firestore: `setDoc(doc(db, "users", user.uid), profile)`.
+ * Pendaftaran akun siswa baru menggunakan Email dan Kata Sandi pada Firebase Authentication
+ * serta menyimpan profil ke Cloud Firestore (users/{uid})
  */
 export async function registerWithEmail(
   data: RegisterFormData
@@ -129,7 +192,7 @@ export async function registerWithEmail(
   if (isNaN(presensiNum) || presensiNum <= 0 || presensiNum > 99) {
     return {
       success: false,
-      error: 'Nomor presensi harus berupa angka yang valid (antara 1 sampai 99).',
+      error: 'Nomor presensi harus berupa angka 1 sampai 99.',
     };
   }
 
@@ -148,79 +211,172 @@ export async function registerWithEmail(
     };
   }
 
-  // Simulasi latensi jaringan untuk pengujian UI loading state
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  const activeAuth = auth;
+  const activeDb = db;
 
-  // 2. Pemeriksaan status Firebase
-  if (!isFirebaseConfigured) {
+  // 2. Pemeriksaan kesiapan Firebase SDK
+  if (!isFirebaseConfigured || !activeAuth || !activeDb) {
     return {
       success: false,
       isBackendPending: true,
       error:
-        'Pendaftaran berhasil divalidasi secara lokal! Integrasi Firebase Authentication & Cloud Firestore sedang disiapkan untuk tahap berikutnya, sehingga akun belum disimpan ke server cloud.',
+        'Konfigurasi Firebase belum terpasang di berkas .env.local. Silakan salin kredensial dari Firebase Console ke .env.local untuk mengaktifkan koneksi.',
     };
   }
 
-  // Hook implementasi Firebase Authentication & Firestore yang akan diaktifkan:
-  // try {
-  //   const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-  //   const profile: UserProfile = {
-  //     uid: userCredential.user.uid,
-  //     namaLengkap: data.namaLengkap.trim(),
-  //     kelas: data.kelas,
-  //     nomorPresensi: presensiNum,
-  //     email: data.email.trim(),
-  //     provider: 'password',
-  //     role: 'student', // Default pendaftaran mandiri adalah siswa
-  //     createdAt: new Date().toISOString(),
-  //     isClassMember: false,
-  //     profileCompleted: true,
-  //   };
-  //   await setDoc(doc(db, "users", profile.uid), profile);
-  //   return { success: true, user: profile };
-  // } catch (err: any) {
-  //   return { success: false, error: mapFirebaseAuthError(err.code) };
-  // }
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      activeAuth,
+      data.email.trim(),
+      data.password
+    );
 
-  return { success: false, error: 'Koneksi backend belum aktif.' };
+    // Perbarui display name di Firebase Auth
+    await updateProfile(userCredential.user, {
+      displayName: data.namaLengkap.trim(),
+    });
+
+    // Simpan dokumen profil siswa ke Cloud Firestore (users/{uid})
+    const profile: UserProfile = {
+      uid: userCredential.user.uid,
+      namaLengkap: data.namaLengkap.trim(),
+      kelas: data.kelas,
+      nomorPresensi: presensiNum,
+      email: data.email.trim(),
+      provider: 'password',
+      role: 'student', // AGENTS.md: default role pendaftaran mandiri adalah siswa
+      createdAt: new Date().toISOString(),
+      isClassMember: false,
+      profileCompleted: true,
+    };
+
+    const userDocRef = doc(activeDb, 'users', profile.uid);
+    await setDoc(userDocRef, profile);
+
+    return {
+      success: true,
+      user: profile,
+    };
+  } catch (err: unknown) {
+    const firebaseErr = err as { code?: string; message?: string };
+    const errorMessage = firebaseErr.code
+      ? mapFirebaseAuthError(firebaseErr.code)
+      : firebaseErr.message || 'Gagal mendaftarkan akun siswa.';
+    return {
+      success: false,
+      error: errorMessage,
+    };
+  }
 }
 
 /**
- * Fungsi masuk menggunakan Google Authentication.
- * Nantinya akan memanggil: `signInWithPopup(auth, googleProvider)`.
+ * Masuk menggunakan Google Provider melalui Firebase Authentication
+ * serta membuat atau mengambil dokumen profil dari Cloud Firestore
  */
 export async function loginWithGoogle(): Promise<AuthOperationResult> {
-  // Simulasi latensi
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  const activeAuth = auth;
+  const activeDb = db;
+  const activeProvider = googleProvider;
 
-  if (!isFirebaseConfigured) {
+  if (!isFirebaseConfigured || !activeAuth || !activeDb || !activeProvider) {
     return {
       success: false,
       isBackendPending: true,
       error:
-        'Metode masuk dengan Google telah disiapkan pada antarmuka. Integrasi Google Auth Provider dengan Firebase Console akan diaktifkan pada tahap konfigurasi backend berikutnya.',
+        'Konfigurasi Firebase belum terpasang di berkas .env.local. Silakan salin kredensial dari Firebase Console ke .env.local untuk mengaktifkan koneksi.',
     };
   }
 
-  // Hook implementasi Firebase Google Auth:
-  // try {
-  //   const provider = new GoogleAuthProvider();
-  //   const result = await signInWithPopup(auth, provider);
-  //   // Periksa apakah profil sudah ada di Firestore
-  //   // Jika belum ada, arahkan ke tahap lengkapi data profil siswa (kelas & nomor presensi)
-  // } catch (err: any) {
-  //   return { success: false, error: mapFirebaseAuthError(err.code) };
-  // }
+  try {
+    const result = await signInWithPopup(activeAuth, activeProvider);
+    const userDocRef = doc(activeDb, 'users', result.user.uid);
+    const userDocSnap = await getDoc(userDocRef);
 
-  return { success: false, error: 'Koneksi Google Provider belum aktif.' };
+    let profile: UserProfile;
+    if (userDocSnap.exists()) {
+      profile = userDocSnap.data() as UserProfile;
+    } else {
+      profile = {
+        uid: result.user.uid,
+        namaLengkap: result.user.displayName || 'Siswa ChemBond',
+        email: result.user.email || '',
+        provider: 'google',
+        role: 'student',
+        createdAt: new Date().toISOString(),
+        isClassMember: false,
+        profileCompleted: false, // Menandakan dapat melengkapi data kelas & nomor presensi
+      };
+      await setDoc(userDocRef, profile);
+    }
+
+    return {
+      success: true,
+      user: profile,
+    };
+  } catch (err: unknown) {
+    const firebaseErr = err as { code?: string; message?: string };
+    const errorMessage = firebaseErr.code
+      ? mapFirebaseAuthError(firebaseErr.code)
+      : firebaseErr.message || 'Gagal masuk dengan akun Google.';
+    return {
+      success: false,
+      error: errorMessage,
+    };
+  }
 }
 
 /**
- * Fungsi keluar dari sesi akun.
- * Nantinya akan memanggil: `signOut(auth)`.
+ * Mengakhiri sesi akun (Logout) melalui Firebase Authentication
  */
 export async function logoutUser(): Promise<void> {
-  // Hook signOut(auth)
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  const activeAuth = auth;
+  if (activeAuth) {
+    await signOut(activeAuth);
+  }
 }
 
+/**
+ * Mengamati perubahan status autentikasi pengguna secara realtime (Realtime Auth Listener)
+ * Menjaga sesi login tetap aktif saat halaman di-refresh
+ */
+export function subscribeToAuthChanges(
+  callback: (user: UserProfile | null) => void
+): () => void {
+  const activeAuth = auth;
+  const activeDb = db;
+
+  if (!isFirebaseConfigured || !activeAuth || !activeDb) {
+    callback(null);
+    return () => {};
+  }
+
+  return onAuthStateChanged(activeAuth, async (firebaseUser) => {
+    if (!firebaseUser) {
+      callback(null);
+      return;
+    }
+
+    try {
+      const userDocRef = doc(activeDb, 'users', firebaseUser.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        callback(userDocSnap.data() as UserProfile);
+      } else {
+        const fallbackProfile: UserProfile = {
+          uid: firebaseUser.uid,
+          namaLengkap: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Pengguna',
+          email: firebaseUser.email || '',
+          provider: firebaseUser.providerData[0]?.providerId === 'google.com' ? 'google' : 'password',
+          role: 'student',
+          createdAt: new Date().toISOString(),
+          isClassMember: false,
+          profileCompleted: false,
+        };
+        callback(fallbackProfile);
+      }
+    } catch (err) {
+      console.error('Gagal menyinkronkan profil Firestore:', err);
+      callback(null);
+    }
+  });
+}

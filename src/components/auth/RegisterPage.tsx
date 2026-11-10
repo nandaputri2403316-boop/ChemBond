@@ -21,7 +21,7 @@ const AVAILABLE_CLASSES = [
   { value: 'XII', label: 'Kelas XII' },
 ];
 
-export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) => {
+export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onSuccess }) => {
   const [formData, setFormData] = useState<RegisterFormData>({
     namaLengkap: '',
     kelas: 'X-1',
@@ -104,6 +104,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin }) =
     try {
       const result = await registerWithEmail(formData);
       setStatusMessage(result);
+      if (result.success) {
+        onSuccess?.();
+      }
     } catch {
       setStatusMessage({
         success: false,

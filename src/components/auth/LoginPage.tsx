@@ -12,7 +12,7 @@ interface LoginPageProps {
   onSuccess?: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSuccess }) => {
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -62,6 +62,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
     try {
       const result = await loginWithEmail(formData);
       setStatusMessage(result);
+      if (result.success) {
+        onSuccess?.();
+      }
     } catch {
       setStatusMessage({
         success: false,
@@ -79,6 +82,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
     try {
       const result = await loginWithGoogle();
       setStatusMessage(result);
+      if (result.success) {
+        onSuccess?.();
+      }
     } catch {
       setStatusMessage({
         success: false,

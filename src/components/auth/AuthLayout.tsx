@@ -7,11 +7,13 @@ import type { Page } from '../Navbar';
 interface AuthLayoutProps {
   onNavigate: (page: Page) => void;
   initialView?: 'login' | 'register';
+  onAuthSuccess?: () => void;
 }
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({
   onNavigate,
   initialView = 'login',
+  onAuthSuccess,
 }) => {
   const [currentView, setCurrentView] = useState<'login' | 'register'>(initialView);
   const [showPermissionsInfo, setShowPermissionsInfo] = useState<boolean>(false);
@@ -19,6 +21,14 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   const handleBackToHome = () => {
     onNavigate('Beranda');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSuccess = () => {
+    if (onAuthSuccess) {
+      onAuthSuccess();
+    } else {
+      handleBackToHome();
+    }
   };
 
   return (
@@ -47,6 +57,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
               setCurrentView('register');
               window.scrollTo({ top: 80, behavior: 'smooth' });
             }}
+            onSuccess={handleSuccess}
           />
         ) : (
           <RegisterPage
@@ -54,6 +65,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
               setCurrentView('login');
               window.scrollTo({ top: 80, behavior: 'smooth' });
             }}
+            onSuccess={handleSuccess}
           />
         )}
       </div>
