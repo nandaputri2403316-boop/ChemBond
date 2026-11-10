@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
 import { MateriPage } from './components/MateriPage';
+import { QuizSection } from './components/QuizSection';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
@@ -71,8 +72,11 @@ export function App() {
       {/* Page Content: Materi */}
       {currentPage === 'Materi' && <MateriPage />}
 
-      {/* Page Content: Simulasi, Kuis, dan Progres */}
-      {currentPage !== 'Beranda' && currentPage !== 'Materi' && (
+      {/* Page Content: Kuis */}
+      {currentPage === 'Kuis' && <QuizSection onNavigate={handleNavigate} />}
+
+      {/* Page Content: Simulasi dan Progres */}
+      {(currentPage === 'Simulasi' || currentPage === 'Progres') && (
         <main id="main-content" className="page-placeholder-section">
           <div className="container">
             <div className="placeholder-panel">
@@ -83,8 +87,6 @@ export function App() {
               <h1 className="placeholder-heading">
                 {currentPage === 'Simulasi' &&
                   'Simulasi Interaktif Ikatan Kimia'}
-                {currentPage === 'Kuis' &&
-                  'Kuis dan Evaluasi Pemahaman'}
                 {currentPage === 'Progres' &&
                   'Progres dan Riwayat Belajar'}
               </h1>
@@ -92,8 +94,6 @@ export function App() {
               <p className="placeholder-subheading">
                 {currentPage === 'Simulasi' &&
                   'Visualisasi interaktif perpindahan elektron pada ikatan ion dan pemakaian bersama pasangan elektron pada ikatan kovalen.'}
-                {currentPage === 'Kuis' &&
-                  'Latihan soal pilihan ganda interaktif dengan penyimpanan jawaban awal, ID percobaan, skor, dan pembahasan mendalam.'}
                 {currentPage === 'Progres' &&
                   'Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.'}
               </p>
