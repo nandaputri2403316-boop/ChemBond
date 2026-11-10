@@ -48,7 +48,7 @@ export const modul1Data: ModuleData = {
       ],
       "keyPoints": [
         "Tidak semua atom harus membentuk ikatan.",
-         "Gaya tarik dan gaya tolak bekerja secara bersamaan.",
+        "Gaya tarik dan gaya tolak bekerja secara bersamaan.",
         "Kestabilan berkaitan dengan energi total sistem."
       ]
     },
@@ -92,7 +92,7 @@ export const modul1Data: ModuleData = {
         "Helium memiliki konfigurasi 1s² sehingga kulit pertamanya penuh. Gas mulia lainnya umumnya mempunyai konfigurasi terluar ns²np⁶. Konfigurasi ini berkaitan dengan energi ionisasi yang relatif tinggi dan kecenderungan menerima elektron yang rendah pada kondisi biasa.",
         "Gas mulia bukan berarti mutlak tidak reaktif. Senyawa xenon dan kripton telah dikenal. Aturan duplet dan oktet merupakan model untuk menjelaskan banyak kecenderungan unsur golongan utama, bukan hukum universal."
       ],
-           "keyPoints": [
+      "keyPoints": [
         "He stabil dengan duplet; gas mulia lain umumnya oktet.",
         "Gas mulia memiliki reaktivitas rendah, bukan selalu nol.",
         "Duplet dan oktet adalah model sederhana."
@@ -247,7 +247,7 @@ export const modul1Data: ModuleData = {
         "Rangkuman Bab 2: (1) Konfigurasi elektron adalah susunan elektron berdasarkan tingkat energi. (2) Atom netral memiliki elektron sebanyak nomor atom. (3) Bohr menjelaskan kulit, mekanika kuantum menjelaskan orbital. (4) Kapasitas kulit 2n². (5) Kapasitas s/p/d/f = 2/6/10/14. (6) Pengisian mengikuti Aufbau, Pauli, Hund. (7) Aturan n+l adalah pedoman dengan pengecualian. (8) Konfigurasi dapat ditulis lengkap atau singkat gas mulia. (9) Konfigurasi membantu menentukan periode, golongan utama, dan blok. (10) Keadaan elektron dijelaskan oleh n, l, mₗ, mₛ.",
         "Pertanyaan refleksi: 1. Mengapa kapasitas maksimum kulit mengikuti 2n²? 2. Apa perbedaan kulit, subkulit, dan orbital? 3. Mengapa orbital berenergi rendah diisi terlebih dahulu? 4. Bagaimana Aufbau, Pauli, dan Hund saling melengkapi? 5. Mengapa konfigurasi elektron dapat memperkirakan letak unsur dalam tabel periodik?"
       ],
-          },
+    },
     {
       "id": "sub-3-5",
       "title": "Bab 3 · Pengaruh Elektron Valensi terhadap Sifat Kimia Unsur",
@@ -335,7 +335,7 @@ export const modul1Data: ModuleData = {
       "title": "Bab 4 · Hubungan Konfigurasi Gas Mulia dengan Kestabilan Atom",
       "content": [
         "Konfigurasi gas mulia sering menjadi gambaran susunan elektron relatif stabil. Atom golongan utama dapat membentuk ikatan sehingga menghasilkan ion atau susunan elektron yang menyerupai gas mulia terdekat.",
-         "Contoh: Na dapat melepas satu elektron menjadi Na⁺; Cl dapat menerima satu elektron menjadi Cl⁻; Mg dapat melepas dua elektron menjadi Mg²⁺; O dapat menerima dua elektron menjadi O²⁻ dalam senyawa ion tertentu.",
+        "Contoh: Na dapat melepas satu elektron menjadi Na⁺; Cl dapat menerima satu elektron menjadi Cl⁻; Mg dapat melepas dua elektron menjadi Mg²⁺; O dapat menerima dua elektron menjadi O²⁻ dalam senyawa ion tertentu.",
         "Namun, atom tidak selalu membentuk ion hanya demi memperoleh konfigurasi gas mulia. Pembentukan senyawa ditentukan oleh perubahan energi keseluruhan, interaksi antarpartikel, dan kondisi lingkungan."
       ],
       "keyPoints": [
@@ -366,7 +366,7 @@ export const modul1Data: ModuleData = {
         "C. Menggunakan pasangan elektron bersama: pada ikatan kovalen dua atom menggunakan pasangan elektron bersama. Dalam H₂, tiap H memperoleh akses terhadap dua elektron (duplet). Dalam H₂O, O berbagi pasangan elektron dengan dua H; O dikelilingi delapan elektron dalam struktur Lewis dan tiap H memenuhi duplet.",
         "Ketiga mekanisme ini adalah gambaran sederhana. Proses sebenarnya berkaitan dengan perubahan energi dan interaksi elektron."
       ],
-       "keyPoints": [
+      "keyPoints": [
         "Pelepasan elektron membentuk kation.",
         "Penerimaan elektron membentuk anion.",
         "Penggunaan bersama pasangan elektron membentuk ikatan kovalen."
@@ -396,7 +396,7 @@ export const modul1Data: ModuleData = {
       "keyPoints": [
         "Konfigurasi gas mulia bukan hukum mutlak."
       ]
-          },
+    },
     {
       "id": "sub-4-8",
       "title": "Bab 4 · Contoh Soal, Rangkuman, dan Refleksi Bab 4",
@@ -456,7 +456,7 @@ export const modul1Data: ModuleData = {
       "id": "sub-5-4",
       "title": "Bab 5 · Pengecualian terhadap Aturan Oktet",
       "content": [
-  "Pengecualian aturan oktet meliputi tiga kelompok: oktet tidak lengkap, molekul dengan jumlah elektron valensi ganjil, dan oktet diperluas dalam struktur Lewis.",
+        "Pengecualian aturan oktet meliputi tiga kelompok: oktet tidak lengkap, molekul dengan jumlah elektron valensi ganjil, dan oktet diperluas dalam struktur Lewis.",
         "Oktet tidak lengkap: BeCl₂ fase gas mempunyai atom Be dengan dua ikatan dan empat elektron ikatan di sekelilingnya. BF₃ mempunyai tiga ikatan B—F dan enam elektron di sekitar B. BH₃ juga mempunyai tiga ikatan B—H dan enam elektron di sekitar B.",
         "Elektron valensi ganjil: NO mempunyai 5+6=11 elektron valensi; NO₂ mempunyai 5+(2×6)=17. Karena jumlah total ganjil, struktur Lewis biasa menyisakan satu elektron tidak berpasangan. Spesies seperti ini disebut radikal; reaktivitas bergantung struktur elektronik dan kondisi.",
         "Oktet diperluas: struktur Lewis sederhana PCl₅ menggambarkan 10 elektron di sekitar P; SF₆ menggambarkan 12 elektron di sekitar S; XeF₄ menggambarkan empat ikatan Xe—F dan dua pasangan elektron bebas pada Xe sehingga lebih dari delapan elektron berada di sekitar atom pusat.",
@@ -495,7 +495,7 @@ export const modul1Data: ModuleData = {
         "Kestabilan bukan sekadar menghitung elektron."
       ]
     },
-        {
+    {
       "id": "sub-5-7",
       "title": "Bab 5 · Miskonsepsi Aturan Duplet dan Oktet",
       "content": [
@@ -531,7 +531,7 @@ export const modul1Data: ModuleData = {
         "Pada unsur golongan utama, pembentukan ikatan sering dikaitkan dengan susunan elektron yang menyerupai gas mulia, tetapi konfigurasi gas mulia bukan satu-satunya penentu kestabilan.",
         "Faktor yang berperan meliputi jumlah dan susunan elektron valensi, energi ionisasi, afinitas elektron, keelektronegatifan, gaya tarik elektrostatik, dan energi keseluruhan sistem."
       ],
- "keyPoints": [
+      "keyPoints": [
         "Pembentukan ikatan terkait interaksi antaratom dan perubahan energi."
       ]
     },
@@ -544,7 +544,7 @@ export const modul1Data: ModuleData = {
         "Keelektronegatifan adalah ukuran kemampuan relatif atom menarik pasangan elektron dalam ikatan. Perbedaan keelektronegatifan membantu memperkirakan karakter ikatan: perbedaan relatif besar sering berkaitan dengan karakter ionik lebih kuat; perbedaan kecil sering berkaitan dengan kovalen. Batasnya tidak mutlak karena karakter ionik-kovalen berada dalam suatu rentang.",
         "Energi kisi berkaitan dengan energi yang dilepaskan ketika ion gas membentuk kristal ionik, atau energi yang diperlukan untuk memisahkan kristal menjadi ion gas bergantung konvensi definisi. Besarnya dipengaruhi muatan ion dan jarak antarion."
       ],
-      "keyPoints": [  "Energi ionisasi, afinitas elektron, keelektronegatifan, dan energi kisi memengaruhi pembentukan ikatan."
+      "keyPoints": ["Energi ionisasi, afinitas elektron, keelektronegatifan, dan energi kisi memengaruhi pembentukan ikatan."
       ]
     },
     {
@@ -595,7 +595,7 @@ export const modul1Data: ModuleData = {
         "Ikatan ion melibatkan pelepasan dan penerimaan elektron dalam model sederhana; umumnya melibatkan logam dan nonlogam; partikel penyusunnya kation dan anion; gaya utama adalah tarik-menarik elektrostatik antarion; contoh NaCl, MgO, CaCl₂; umumnya membentuk kisi kristal ionik.",
         "Ikatan kovalen melibatkan penggunaan pasangan elektron bersama; umumnya melibatkan nonlogam dan nonlogam; dapat membentuk molekul atau jaringan kovalen; ikatan berkaitan dengan interaksi elektron dan inti atom; contoh H₂O, CO₂, CH₄, N₂.",
         "Tabel ini menunjukkan pola umum. Sebagian senyawa mempunyai karakter ikatan campuran, sehingga ikatan tidak selalu dapat dikategorikan secara mutlak sebagai ionik atau kovalen."
-      ],"keyPoints": [
+      ], "keyPoints": [
         "Ion: interaksi elektrostatik antarion; kovalen: pasangan elektron bersama."
       ]
     },
@@ -638,7 +638,7 @@ export const modul1Data: ModuleData = {
         "Rangkuman Bab 6: (1) Ikatan terbentuk melalui interaksi antaratom dan perubahan energi. (2) Faktor penting: energi ionisasi, afinitas elektron, keelektronegatifan, energi kisi. (3) Kation melepas elektron, anion menerima elektron. (4) Ikatan ion adalah tarik-menarik elektrostatik antarion. (5) Ikatan kovalen menggunakan pasangan elektron bersama. (6) Ikatan kovalen dapat tunggal, rangkap dua, rangkap tiga. (7) Senyawa ion umumnya kisi kristal; kovalen dapat berupa molekul atau jaringan. (8) Pembentukan ikatan umumnya melepas energi, pemutusan memerlukan energi. (9) Kestabilan ditentukan energi keseluruhan.",
         "Pertanyaan refleksi: 1. Mengapa energi ionisasi berpengaruh pada pembentukan kation? 2. Apa perbedaan pembentukan kation dan anion? 3. Mengapa NaCl ionik sedangkan H₂O kovalen? 4. Apa perbedaan ikatan tunggal, rangkap dua, dan rangkap tiga? 5. Mengapa kestabilan tidak cukup dijelaskan aturan oktet? 6. Bagaimana perubahan energi berperan dalam pembentukan dan pemutusan ikatan?"
       ],
-            "keyPoints": [
+      "keyPoints": [
         "NaCl dan MgO: ionik; H₂O dan CO₂: kovalen."
       ]
     }
