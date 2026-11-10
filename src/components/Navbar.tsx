@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
+import type { UserProfile } from '../types/auth';
 
-export type Page = 'Beranda' | 'Materi' | 'Simulasi' | 'Kuis' | 'Progres';
+export type Page = 'Beranda' | 'Materi' | 'Simulasi' | 'Kuis' | 'Progres' | 'Masuk';
 
 interface NavbarProps {
   currentPage: Page;
   onNavigate: (page: Page) => void;
   onShowToast?: (message: string) => void;
+  currentUser?: UserProfile | null;
+  onLogout?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentPage,
   onNavigate,
+  currentUser,
+  onLogout,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -90,6 +95,38 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Desktop Header Action */}
         <div className="navbar-action desktop-action">
+          {currentUser ? (
+            <div className="navbar-user-logged">
+              <span className="navbar-user-name" title={`Masuk sebagai ${currentUser.namaLengkap}`}>
+                👤 {currentUser.namaLengkap.split(' ')[0]}
+              </span>
+              {onLogout && (
+                <button
+                  type="button"
+                  className="btn btn-nav-auth btn-nav-logout"
+                  onClick={onLogout}
+                  title="Keluar dari akun"
+                >
+                  Keluar
+                </button>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              className={`btn btn-nav-auth ${currentPage === 'Masuk' ? 'active' : ''}`}
+              onClick={() => {
+                onNavigate('Masuk');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              aria-label="Masuk ke Akun ChemBond"
+              title="Masuk ke Akun ChemBond"
+            >
+              <span className="btn-icon">👤</span>
+              <span>Masuk</span>
+            </button>
+          )}
+
           <button
             type="button"
             className="btn btn-nav-cta"
@@ -140,6 +177,38 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </ul>
           <div className="mobile-drawer-cta">
+            {currentUser ? (
+              <div className="mobile-user-status">
+                <span className="mobile-user-greeting">
+                  👤 Halo, {currentUser.namaLengkap}
+                </span>
+                {onLogout && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-block"
+                    onClick={() => {
+                      onLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Keluar Akun
+                  </button>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                className={`btn btn-secondary btn-block ${currentPage === 'Masuk' ? 'active' : ''}`}
+                onClick={() => {
+                  onNavigate('Masuk');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setMobileMenuOpen(false);
+                }}
+              >
+                👤 Masuk / Daftar Akun
+              </button>
+            )}
+
             <button
               type="button"
               className="btn btn-primary btn-block"

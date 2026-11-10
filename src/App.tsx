@@ -12,9 +12,12 @@ import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
 import { MateriPage } from './components/MateriPage';
 import { QuizSection } from './components/QuizSection';
+import { AuthLayout } from './components/auth/AuthLayout';
+import type { UserProfile } from './types/auth';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalTopic, setModalTopic] = useState<string | null>(null);
 
@@ -23,6 +26,11 @@ export function App() {
     setTimeout(() => {
       setToastMessage((prev) => (prev === message ? null : prev));
     }, 4500);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    showToast('Sesi akun ChemBond telah berhasil diakhiri.');
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -51,6 +59,8 @@ export function App() {
         currentPage={currentPage}
         onNavigate={handleNavigate}
         onShowToast={showToast}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Page Content: Beranda */}
@@ -74,6 +84,11 @@ export function App() {
 
       {/* Page Content: Kuis */}
       {currentPage === 'Kuis' && <QuizSection onNavigate={handleNavigate} />}
+
+      {/* Page Content: Masuk / Registrasi Akun */}
+      {currentPage === 'Masuk' && (
+        <AuthLayout onNavigate={handleNavigate} initialView="login" />
+      )}
 
       {/* Page Content: Simulasi dan Progres */}
       {(currentPage === 'Simulasi' || currentPage === 'Progres') && (

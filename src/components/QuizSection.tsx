@@ -13,9 +13,10 @@ import {
   type QuizDraft,
   type QuizAttemptRecord,
 } from '../services/localStore';
+import type { Page } from './Navbar';
 
 interface QuizSectionProps {
-  onNavigate?: (page: 'Beranda' | 'Materi' | 'Simulasi' | 'Kuis' | 'Progres') => void;
+  onNavigate?: (page: Page) => void;
 }
 
 type QuizPhase = 'intro' | 'in_progress' | 'completed';
