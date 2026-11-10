@@ -220,7 +220,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
   const progressPercent = Math.round((answeredCount / modul1Quiz.length) * 100);
 
   return (
-    <main id="main-content" className="quiz-section-wrapper" aria-label="Kuis Diagnostik Ikatan Kimia">
+    <main id="main-content" className="quiz-section-wrapper" aria-label="Kuis Ikatan Kimia">
       <div className="container">
         {/* Peringatan Storage jika ada */}
         {storageWarning && (
@@ -248,7 +248,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
             </div>
 
             <h1 id="quiz-intro-title" className="quiz-main-heading">
-              Kuis Diagnostik Ikatan Kimia
+              Kuis Ikatan Kimia
             </h1>
 
             <p className="quiz-intro-subheading">
