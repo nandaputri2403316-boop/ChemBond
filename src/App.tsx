@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 import { Navbar, type Page } from './components/Navbar';
@@ -12,17 +12,45 @@ import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
 import { MateriPage } from './components/MateriPage';
 import { QuizSection } from './components/QuizSection';
+import { AuthLayout } from './components/auth/AuthLayout';
+import type { UserProfile } from './types/auth';
+import { subscribeToAuthChanges, logoutUser } from './services/authService';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalTopic, setModalTopic] = useState<string | null>(null);
+
+  // Pantau sesi autentikasi secara realtime
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const showToast = (message: string) => {
     setToastMessage(message);
     setTimeout(() => {
       setToastMessage((prev) => (prev === message ? null : prev));
     }, 4500);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      setCurrentUser(null);
+      showToast('Sesi akun ChemBond telah berhasil diakhiri.');
+    } catch {
+      showToast('Gagal mengakhiri sesi akun.');
+    }
+  };
+
+  const handleAuthSuccess = () => {
+    showToast('Berhasil masuk ke ChemBond! Selamat belajar.');
+    setCurrentPage('Beranda');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -51,6 +79,8 @@ export function App() {
         currentPage={currentPage}
         onNavigate={handleNavigate}
         onShowToast={showToast}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Page Content: Beranda */}
@@ -74,6 +104,15 @@ export function App() {
 
       {/* Page Content: Kuis */}
       {currentPage === 'Kuis' && <QuizSection onNavigate={handleNavigate} />}
+
+      {/* Page Content: Masuk / Registrasi Akun */}
+      {currentPage === 'Masuk' && (
+        <AuthLayout
+          onNavigate={handleNavigate}
+          initialView="login"
+          onAuthSuccess={handleAuthSuccess}
+        />
+      )}
 
       {/* Page Content: Simulasi dan Progres */}
       {(currentPage === 'Simulasi' || currentPage === 'Progres') && (
