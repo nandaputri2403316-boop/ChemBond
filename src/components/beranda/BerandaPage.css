@@ -1,0 +1,1324 @@
+/* ==========================================================================
+   ChemBond — Modern Playful Chemistry
+   BerandaPage.css: Interactive Chemistry Learning Landing Page Styles
+   ========================================================================== */
+
+.beranda-master-page {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background: #FFF9FC;
+  color: #352B3D;
+}
+
+/* ==========================================================================
+   1. HERO SECTION
+   ========================================================================== */
+.beranda-hero-section {
+  position: relative;
+  padding: 54px 0 72px;
+  background: radial-gradient(circle at 10% 20%, rgba(247, 47, 145, 0.08) 0%, transparent 45%),
+              radial-gradient(circle at 90% 70%, rgba(255, 155, 82, 0.1) 0%, transparent 45%),
+              #FFF9FC;
+  overflow: hidden;
+}
+
+.beranda-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero Typography */
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFF0F7;
+  border: 1.5px solid #F1E3EB;
+  color: #D91D78;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  margin-bottom: 18px;
+}
+
+.hero-primary-brand {
+  font-size: 3.8rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  color: #352B3D;
+  margin: 0 0 10px;
+}
+
+.brand-dot {
+  color: #F72F91;
+}
+
+.hero-tagline-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #D91D78;
+  margin: 0 0 18px;
+  letter-spacing: -0.4px;
+}
+
+.hero-editorial-desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #5A4B59;
+  max-width: 540px;
+  margin: 0 0 28px;
+}
+
+.hero-cta-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 34px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #F72F91, #FF6B79 55%, #FF9B52 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(247, 47, 145, 0.32);
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(247, 47, 145, 0.42);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF;
+  color: #352B3D;
+  border: 1.5px solid #F1E3EB;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 14px rgba(53, 43, 61, 0.04);
+}
+
+.btn-hero-secondary:hover {
+  background: #FFF0F7;
+  border-color: #F72F91;
+  color: #D91D78;
+  transform: translateY(-2px);
+}
+
+.btn-icon-move {
+  font-size: 1.15rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-hero-primary:hover .btn-icon-move,
+.btn-hero-secondary:hover .btn-icon-move {
+  transform: translateX(3px);
+}
+
+/* Hero Metrics Strip */
+.hero-metrics-strip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  width: fit-content;
+  box-shadow: 0 6px 18px rgba(53, 43, 61, 0.03);
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-val {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #352B3D;
+  line-height: 1;
+}
+
+.metric-lbl {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8B7B89;
+  margin-top: 4px;
+}
+
+.metric-divider {
+  width: 1px;
+  height: 28px;
+  background: #F1E3EB;
+}
+
+/* Hero Visual Card & 3D Molecule Interactive Viewer */
+.hero-visual-card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-3d-viewer-container {
+  width: 100%;
+  max-width: 520px;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 28px;
+  padding: 20px;
+  box-shadow: 0 16px 45px rgba(53, 43, 61, 0.06), 0 0 0 1px rgba(247, 47, 145, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-3d-viewer-container:hover {
+  box-shadow: 0 20px 50px rgba(247, 47, 145, 0.12);
+}
+
+/* Tabs switcher for H2O, CH4, NH3, CO2 */
+.viewer-tabs-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #FFF9FC;
+  padding: 6px;
+  border-radius: 16px;
+  border: 1.5px solid #F1E3EB;
+}
+
+.viewer-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 6px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #8B7B89;
+}
+
+.viewer-tab-btn:hover {
+  background: rgba(247, 47, 145, 0.06);
+  color: #D91D78;
+}
+
+.viewer-tab-btn.active {
+  background: linear-gradient(135deg, #F72F91, #FF6B79);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(247, 47, 145, 0.3);
+}
+
+.tab-formula {
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.2px;
+}
+
+.tab-name-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.viewer-tab-btn.active .tab-name-sub {
+  opacity: 0.95;
+}
+
+/* Canvas Stage for 3D Molecule */
+.viewer-canvas-stage {
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, #FFFFFF 30%, #FFF5FA 100%);
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  padding: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(53, 43, 61, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 290px;
+}
+
+.viewer-svg-graphic {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  filter: drop-shadow(0 14px 28px rgba(53, 43, 61, 0.12));
+  transition: transform 0.4s ease;
+}
+
+.viewer-svg-graphic.viewer-hovered {
+  transform: scale(1.02);
+}
+
+/* Floating Molecule Animation */
+.mol-group-float {
+  animation: heroMolFloat 7s ease-in-out infinite;
+  transform-origin: 230px 170px;
+}
+
+.atom-node {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.atom-node:hover {
+  filter: brightness(1.1);
+}
+
+@keyframes heroMolFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+}
+
+/* Metadata Card */
+.viewer-meta-card {
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meta-headline-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.meta-badge-formula {
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  color: #FFFFFF;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(247, 47, 145, 0.25);
+}
+
+.meta-chem-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #352B3D;
+}
+
+.meta-geom-desc {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #5A4B59;
+  margin: 0;
+}
+
+.meta-right-specs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px dashed #F1E3EB;
+}
+
+.spec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid #F1E3EB;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+}
+
+.spec-label {
+  font-weight: 600;
+  color: #8B7B89;
+}
+
+.spec-val {
+  font-weight: 800;
+  color: #352B3D;
+}
+
+.spec-val.highlight-pink {
+  color: #D91D78;
+}
+
+/* CPK Color Guide Legend */
+.cpk-legend-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  border: 1px solid #F1E3EB;
+  border-radius: 12px;
+}
+
+.legend-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #8B7B89;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legend-items-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cpk-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #352B3D;
+}
+
+.cpk-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.cpk-swatch.cpk-white {
+  background: #FFFFFF;
+  border: 1px solid #9CA3AF;
+}
+
+.cpk-swatch.cpk-red {
+  background: #EF4444;
+}
+
+.cpk-swatch.cpk-black {
+  background: #1F2937;
+}
+
+.cpk-swatch.cpk-blue {
+  background: #2563EB;
+}
+
+/* ==========================================================================
+   2. PEMANTIK PEMBELAJARAN — FENOMENA GARAM DAPUR (NaCl)
+   ========================================================================= */
+.pemantik-section {
+  padding: 64px 0 80px;
+  background: #FFFFFF;
+  position: relative;
+  border-top: 1.5px solid #F1E3EB;
+  border-bottom: 1.5px solid #F1E3EB;
+}
+
+.pemantik-card-wrapper {
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 32px;
+  padding: 44px 48px;
+  box-shadow: 0 16px 45px rgba(53, 43, 61, 0.04);
+}
+
+.pemantik-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.pemantik-tag {
+  background: #FFF0F7;
+  color: #D91D78;
+  border: 1px solid #F1E3EB;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.pemantik-chem-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8B7B89;
+}
+
+.pemantik-content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.pemantik-headline {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 16px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.pemantik-story-text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #5A4B59;
+  margin: 0 0 24px;
+}
+
+/* Hook Questions Box */
+.hook-questions-box {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 18px rgba(53, 43, 61, 0.03);
+}
+
+.hook-title {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #D91D78;
+  margin: 0 0 14px;
+}
+
+.hook-questions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hook-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hook-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.76rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.hook-question {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #352B3D;
+  line-height: 1.5;
+}
+
+.pemantik-action-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-find-answers {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #D91D78, #F72F91);
+  color: #FFFFFF;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 6px 20px rgba(217, 29, 120, 0.28);
+}
+
+.btn-find-answers:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(217, 29, 120, 0.38);
+}
+
+.action-hint {
+  font-size: 0.82rem;
+  color: #8B7B89;
+  font-weight: 600;
+}
+
+/* Visual Stage Right */
+.pemantik-visual-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Video Pemantik NaCl Block */
+.hook-video-block {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(53, 43, 61, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hook-video-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hook-video-badge {
+  background: #FFF0F7;
+  color: #D91D78;
+  border: 1px solid #F1E3EB;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.hook-video-subhead {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8B7B89;
+}
+
+.hook-video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #1A131F;
+  border: 2px solid #F1E3EB;
+  box-shadow: 0 6px 18px rgba(53, 43, 61, 0.06);
+  position: relative;
+}
+
+.hook-native-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  outline: none;
+}
+
+.hook-video-caption {
+  font-size: 0.82rem;
+  color: #5A4B59;
+  line-height: 1.5;
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+  font-weight: 500;
+  padding: 0 8px;
+}
+
+.visual-toggle-tabs {
+  display: flex;
+  background: #FFFFFF;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1.5px solid #F1E3EB;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #8B7B89;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #F72F91, #FF6B79);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(247, 47, 145, 0.25);
+}
+
+.visual-display-stage {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(53, 43, 61, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.crystal-svg,
+.transfer-svg {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+
+.crystal-caption {
+  font-size: 0.78rem;
+  color: #8B7B89;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. PENGENALAN KONSEP IKATAN KIMIA (3 KARTU)
+   ========================================================================= */
+.konsep-ikatan-section {
+  padding: 72px 0 80px;
+  background: #FFF9FC;
+}
+
+.section-head-centered {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 48px;
+}
+
+.section-eyebrow-tag {
+  display: inline-block;
+  background: #FFF0F7;
+  color: #D91D78;
+  border: 1px solid #F1E3EB;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  margin-bottom: 12px;
+}
+
+.section-main-heading {
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.section-lead-paragraph {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #5A4B59;
+  margin: 0;
+}
+
+.bond-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.bond-feature-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 28px;
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 6px 22px rgba(53, 43, 61, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.bond-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: #F72F91;
+  box-shadow: 0 16px 36px rgba(247, 47, 145, 0.12);
+}
+
+.card-badge-top {
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  margin-bottom: 16px;
+}
+
+.card-ion .card-badge-top { background: #E0F2FE; color: #0369A1; }
+.card-kovalen .card-badge-top { background: #FFF0F7; color: #D91D78; }
+.card-logam .card-badge-top { background: #FFF1E8; color: #C2410C; }
+
+.card-illustration-box {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.card-svg {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+}
+
+.card-bond-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 14px;
+}
+
+.card-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-bullet-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #5A4B59;
+}
+
+.card-bullet-list li::before {
+  content: '•';
+  position: absolute;
+  left: 4px;
+  color: #F72F91;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.btn-card-explore {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  color: #D91D78;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 12px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-explore:hover {
+  background: linear-gradient(135deg, #F72F91, #FF6B79);
+  color: #FFFFFF;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(247, 47, 145, 0.25);
+}
+
+/* ==========================================================================
+   4. VIDEO PEMBELAJARAN SECTION & PLAYER
+   ========================================================================= */
+.video-section-wrapper {
+  padding: 72px 0 84px;
+  background: #FFFFFF;
+  border-top: 1.5px solid #F1E3EB;
+  border-bottom: 1.5px solid #F1E3EB;
+}
+
+.learning-video-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.video-player-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #25122F;
+  border: 2px solid #F1E3EB;
+  box-shadow: 0 20px 50px rgba(53, 43, 61, 0.12);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-media-element {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+
+.video-interactive-display {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.video-poster-art {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.poster-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anim-transfer-flow {
+  animation: dashFlow 1.5s linear infinite;
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -24; }
+}
+
+.video-overlay-content {
+  position: relative;
+  z-index: 3;
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: linear-gradient(0deg, rgba(37, 18, 47, 0.85) 0%, transparent 100%);
+  margin-top: auto;
+}
+
+.btn-video-play-huge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px rgba(247, 47, 145, 0.45);
+  flex-shrink: 0;
+}
+
+.btn-video-play-huge:hover {
+  transform: scale(1.08);
+  box-shadow: 0 14px 32px rgba(247, 47, 145, 0.6);
+}
+
+.play-triangle {
+  font-size: 1.5rem;
+  margin-left: 4px;
+}
+
+.btn-video-play-huge.playing .play-triangle {
+  margin-left: 0;
+  font-size: 1.2rem;
+}
+
+.video-overlay-text {
+  display: flex;
+  flex-direction: column;
+  color: #FFFFFF;
+}
+
+.video-tag-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #FFC078;
+  margin-bottom: 4px;
+}
+
+.video-overlay-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: #FFFFFF;
+}
+
+.video-overlay-sub {
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Bottom Controls */
+.video-bottom-controls {
+  position: relative;
+  z-index: 4;
+  background: rgba(20, 8, 28, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity 0.2s;
+}
+
+.ctrl-btn:hover {
+  opacity: 0.8;
+}
+
+.ctrl-time-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #FFC078;
+  white-space: nowrap;
+}
+
+.ctrl-timeline-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.ctrl-timeline-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #F72F91, #FF9B52);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Chapters Row */
+.video-chapters-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.chapters-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #352B3D;
+}
+
+.chapters-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chapter-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.2s ease;
+}
+
+.chapter-pill:hover,
+.chapter-pill.active {
+  background: #FFF0F7;
+  border-color: #F72F91;
+  color: #D91D78;
+}
+
+.ch-time {
+  font-weight: 800;
+  color: #F72F91;
+}
+
+.ch-text {
+  font-weight: 600;
+  color: #352B3D;
+}
+
+/* ==========================================================================
+   5. AJAKAN UNTUK MENJELAJAHI CHEMBOND (CTA BANNER)
+   ========================================================================= */
+.beranda-cta-section {
+  padding: 72px 0 96px;
+  background: #FFF9FC;
+}
+
+.cta-banner-container {
+  background: linear-gradient(135deg, #F72F91 0%, #FF6B79 50%, #FF9B52 100%);
+  border-radius: 36px;
+  padding: 56px 64px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(247, 47, 145, 0.28);
+}
+
+.cta-banner-content {
+  max-width: 620px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.cta-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 14px;
+  letter-spacing: -0.6px;
+}
+
+.cta-desc {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0 0 32px;
+}
+
+.cta-button-cluster {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-cta-explore-materi,
+.btn-cta-explore-simulasi,
+.btn-cta-explore-kuis {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 24px;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.btn-cta-explore-materi {
+  background: #FFFFFF;
+  color: #D91D78;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.btn-cta-explore-materi:hover {
+  transform: translateY(-2px);
+  background: #FFF0F7;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.btn-cta-explore-simulasi,
+.btn-cta-explore-kuis {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  backdrop-filter: blur(8px);
+}
+
+.btn-cta-explore-simulasi:hover,
+.btn-cta-explore-kuis:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.cta-btn-icon {
+  font-size: 1.1rem;
+}
+
+.cta-art-decor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 45%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.circle-1 {
+  width: 320px;
+  height: 320px;
+  top: -40px;
+  right: -40px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+.circle-2 {
+  width: 220px;
+  height: 220px;
+  bottom: -30px;
+  right: 120px;
+  background: radial-gradient(circle, rgba(255, 192, 120, 0.15) 0%, transparent 70%);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN: Beranda
+   ========================================================================= */
+@media (max-width: 1100px) {
+  .beranda-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .pemantik-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bond-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-primary-brand {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .beranda-hero-section {
+    padding: 36px 0 54px;
+  }
+
+  .hero-primary-brand {
+    font-size: 2.4rem;
+  }
+
+  .hero-tagline-title {
+    font-size: 1.35rem;
+  }
+
+  .pemantik-card-wrapper {
+    padding: 28px 20px;
+    border-radius: 24px;
+  }
+
+  .pemantik-headline {
+    font-size: 1.6rem;
+  }
+
+  .cta-banner-container {
+    padding: 36px 24px;
+    border-radius: 26px;
+  }
+
+  .cta-title {
+    font-size: 1.75rem;
+  }
+
+  .cta-button-cluster {
+    flex-direction: column;
+  }
+
+  .float-badge {
+    display: none; /* prevent collision on small screen */
+  }
+
+  .viewer-tabs-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .meta-headline-row {
+    flex-wrap: wrap;
+  }
+
+  .cpk-legend-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

@@ -1,0 +1,293 @@
+/* ==========================================================================
+   ChemBond — Modern Playful Chemistry
+   AppSidebar.css: Primary Unified Sidebar Navigation
+   ========================================================================== */
+
+.app-primary-sidebar {
+  width: 270px;
+  background: #FFFFFF;
+  border-right: 1.5px solid #F1E3EB;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 18px 20px;
+  position: sticky;
+  top: 72px;
+  height: calc(100vh - 72px);
+  overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(53, 43, 61, 0.02);
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
+}
+
+/* Brand Box in Sidebar */
+.sidebar-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 20px;
+  border-bottom: 1.5px solid #F1E3EB;
+}
+
+.sidebar-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-main-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #352B3D;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+.brand-tag-line {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #D91D78;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.sidebar-close-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #8B7B89;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.sidebar-close-btn:hover {
+  background: #FFF0F7;
+  color: #D91D78;
+}
+
+/* Navigation Section */
+.sidebar-nav-container {
+  flex: 1;
+  padding: 20px 0;
+}
+
+.nav-section-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #8B7B89;
+  padding: 0 12px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.nav-section-label:not(:first-child) {
+  margin-top: 22px;
+}
+
+.sidebar-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-menu-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  background: transparent;
+  border: none;
+  color: #352B3D;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-text {
+  flex: 1;
+}
+
+.sidebar-menu-button:hover {
+  background: #FFF0F7;
+  color: #D91D78;
+}
+
+.sidebar-menu-button.active {
+  background: #FFF0F7;
+  color: #D91D78;
+  box-shadow: 0 2px 8px rgba(247, 47, 145, 0.08);
+}
+
+.active-dot {
+  position: absolute;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F72F91;
+  box-shadow: 0 0 6px rgba(247, 47, 145, 0.6);
+}
+
+.menu-logout:hover {
+  background: #FFF1F2;
+  color: #E11D48;
+}
+
+/* Account Footer */
+.sidebar-account-footer {
+  padding-top: 14px;
+  border-top: 1.5px solid #F1E3EB;
+}
+
+.user-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-badge-card:hover {
+  background: #FFF0F7;
+  border-color: #F72F91;
+  transform: translateY(-1px);
+}
+
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(247, 47, 145, 0.25);
+  flex-shrink: 0;
+}
+
+.user-meta-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-full-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #352B3D;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #8B7B89;
+}
+
+.guest-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+}
+
+.guest-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFF0F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.guest-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.guest-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #352B3D;
+}
+
+.guest-sub {
+  font-size: 0.72rem;
+  color: #8B7B89;
+}
+
+/* Backdrop for Mobile Drawer */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(53, 43, 61, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 900px) {
+  .app-primary-sidebar {
+    position: fixed;
+    top: 0;
+    left: -290px;
+    height: 100vh;
+    z-index: 100;
+    box-shadow: 12px 0 35px rgba(53, 43, 61, 0.18);
+  }
+
+  .app-primary-sidebar.drawer-open {
+    left: 0;
+  }
+
+  .sidebar-close-btn {
+    display: block;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+  }
+}
+

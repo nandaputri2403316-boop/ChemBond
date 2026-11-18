@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './AuthPage.css';
 import { LoginPage } from './LoginPage';
 import { RegisterPage } from './RegisterPage';
+import { MolecularAuthVisual } from './MolecularAuthVisual';
 import type { Page } from '../Navbar';
 
 interface AuthLayoutProps {
@@ -32,114 +33,131 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   };
 
   return (
-    <main id="main-content" className="auth-wrapper" aria-label="Halaman Autentikasi ChemBond">
-      {/* Tombol Navigasi Kembali */}
-      <div className="auth-top-navigation">
+    <main id="main-content" className="auth-master-page" aria-label="Halaman Autentikasi ChemBond">
+      {/* Top Floating Navigation */}
+      <div className="auth-nav-strip">
         <button
           type="button"
-          className="auth-back-btn"
+          className="auth-return-button"
           onClick={handleBackToHome}
           aria-label="Kembali ke Beranda ChemBond"
         >
-          <span aria-hidden="true">←</span>
+          <span className="return-arrow" aria-hidden="true">←</span>
           <span>Kembali ke Beranda</span>
         </button>
+
+        <div className="auth-view-switcher" role="tablist" aria-label="Pilihan Autentikasi">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={currentView === 'login'}
+            className={`view-tab-btn ${currentView === 'login' ? 'active' : ''}`}
+            onClick={() => setCurrentView('login')}
+          >
+            Masuk
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={currentView === 'register'}
+            className={`view-tab-btn ${currentView === 'register' ? 'active' : ''}`}
+            onClick={() => setCurrentView('register')}
+          >
+            Daftar Akun
+          </button>
+        </div>
       </div>
 
-      {/* Kartu Formulir Autentikasi */}
-      <div className="auth-card">
-        {/* Dekorasi Visual Molekul Halus */}
-        <div className="auth-card-decor" aria-hidden="true" />
+      {/* Split-Screen Auth Container */}
+      <div className="auth-splitscreen-container">
+        {/* Panel Kiri: Form Login / Registrasi */}
+        <div className="auth-panel-form">
+          <div className="auth-panel-inner">
+            {currentView === 'login' ? (
+              <LoginPage
+                onSwitchToRegister={() => {
+                  setCurrentView('register');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onSuccess={handleSuccess}
+              />
+            ) : (
+              <RegisterPage
+                onSwitchToLogin={() => {
+                  setCurrentView('login');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                onSuccess={handleSuccess}
+              />
+            )}
+          </div>
+        </div>
 
-        {currentView === 'login' ? (
-          <LoginPage
-            onSwitchToRegister={() => {
-              setCurrentView('register');
-              window.scrollTo({ top: 80, behavior: 'smooth' });
-            }}
-            onSuccess={handleSuccess}
-          />
-        ) : (
-          <RegisterPage
-            onSwitchToLogin={() => {
-              setCurrentView('login');
-              window.scrollTo({ top: 80, behavior: 'smooth' });
-            }}
-            onSuccess={handleSuccess}
-          />
-        )}
+        {/* Panel Kanan: Visual Molekul 3D Glossy & Identitas ChemBond */}
+        <div className="auth-panel-visual">
+          <MolecularAuthVisual />
+        </div>
       </div>
 
-      {/* Informasi Hak Akses Pengguna (Sesuai Konsep Akses ChemBond) */}
-      <section className="auth-permissions-card" aria-label="Informasi Hak Akses ChemBond">
+      {/* Information Drawer: Panduan Hak Akses Pengguna */}
+      <aside className="auth-access-guide-container">
         <button
           type="button"
-          className="permissions-toggle-btn"
+          className="access-guide-toggle"
           onClick={() => setShowPermissionsInfo(!showPermissionsInfo)}
           aria-expanded={showPermissionsInfo}
         >
-          <span>📋 Panduan Hak Akses Pengguna ChemBond</span>
-          <span>{showPermissionsInfo ? '▲ Tutup' : '▼ Lihat'}</span>
+          <span className="guide-icon">📋</span>
+          <span className="guide-title">Panduan Hak Akses & Keamanan ChemBond</span>
+          <span className="guide-arrow">{showPermissionsInfo ? '▲ Tutup' : '▼ Lihat Ringkasan'}</span>
         </button>
 
         {showPermissionsInfo && (
-          <div className="permissions-table-wrap">
-            <table className="permissions-table">
-              <thead>
-                <tr>
-                  <th>Jenis Pengguna</th>
-                  <th>Belajar Lokal</th>
-                  <th>Kirim/Baca Hasil Sendiri</th>
-                  <th>Baca Hasil Kelas</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>Tamu</strong>
-                    <br />
-                    <small>Tanpa akun</small>
-                  </td>
-                  <td><span className="perm-badge-yes">Bisa</span></td>
-                  <td><span className="perm-badge-no">Ditolak</span></td>
-                  <td><span className="perm-badge-no">Ditolak</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Akun di Luar Kelas</strong>
-                    <br />
-                    <small>Belum terverifikasi</small>
-                  </td>
-                  <td><span className="perm-badge-yes">Bisa</span></td>
-                  <td><span className="perm-badge-no">Ditolak</span></td>
-                  <td><span className="perm-badge-no">Ditolak</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Siswa Anggota Kelas</strong>
-                    <br />
-                    <small>Terdaftar resmi</small>
-                  </td>
-                  <td><span className="perm-badge-yes">Bisa</span></td>
-                  <td><span className="perm-badge-yes">Bisa (Sendiri)</span></td>
-                  <td><span className="perm-badge-no">Ditolak</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Guru Berwenang</strong>
-                    <br />
-                    <small>Satu akun resmi</small>
-                  </td>
-                  <td><span className="perm-badge-yes">Bisa</span></td>
-                  <td><span className="perm-badge-yes">Baca Siswa</span></td>
-                  <td><span className="perm-badge-yes">Bisa (Semua)</span></td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="access-guide-dropdown">
+            <div className="guide-table-responsive">
+              <table className="access-matrix-table">
+                <thead>
+                  <tr>
+                    <th>Peran Pengguna</th>
+                    <th>Belajar Mandiri</th>
+                    <th>Kirim/Baca Skor Pribadi</th>
+                    <th>Pantau Hasil Seluruh Kelas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span className="role-chip chip-guest">Tamu</span>
+                      <div className="role-sub">Tanpa login (Local Only)</div>
+                    </td>
+                    <td><span className="status-badge badge-yes">Diizinkan</span></td>
+                    <td><span className="status-badge badge-no">Ditolak</span></td>
+                    <td><span className="status-badge badge-no">Ditolak</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span className="role-chip chip-student">Siswa ChemBond</span>
+                      <div className="role-sub">Akun siswa terdaftar</div>
+                    </td>
+                    <td><span className="status-badge badge-yes">Diizinkan</span></td>
+                    <td><span className="status-badge badge-yes">Diizinkan (Milik Sendiri)</span></td>
+                    <td><span className="status-badge badge-no">Ditolak</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span className="role-chip chip-teacher">Guru Berwenang</span>
+                      <div className="role-sub">Satu akun guru resmi</div>
+                    </td>
+                    <td><span className="status-badge badge-yes">Diizinkan</span></td>
+                    <td><span className="status-badge badge-yes">Baca Hasil Siswa</span></td>
+                    <td><span className="status-badge badge-yes">Diizinkan (Semua Siswa)</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
-      </section>
+      </aside>
     </main>
   );
 };
-

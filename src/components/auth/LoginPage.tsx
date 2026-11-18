@@ -26,7 +26,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
 
   const handleInputChange = (field: keyof LoginFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    // Hapus pesan error kolom terkait saat pengguna mengetik
     if (fieldErrors[field]) {
       setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
     }
@@ -96,26 +95,35 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
   };
 
   return (
-    <div className="login-page-content">
-      {/* Header Halaman */}
-      <div className="auth-header">
-        <div className="auth-brand-badge">
-          <svg width="18" height="18" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <div className="login-form-container">
+      {/* Brand Header */}
+      <div className="auth-brand-row">
+        <div className="auth-brand-logo">
+          <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <circle cx="20" cy="20" r="19" fill="#FFFFFF" stroke="#F72F91" strokeWidth="2.5" />
             <ellipse cx="20" cy="20" rx="14" ry="5.5" stroke="#FF9B52" strokeWidth="2" transform="rotate(30 20 20)" />
             <ellipse cx="20" cy="20" rx="14" ry="5.5" stroke="#D91D78" strokeWidth="2" transform="rotate(-30 20 20)" />
             <circle cx="20" cy="20" r="5.5" fill="#F72F91" />
+            <circle cx="18.5" cy="18.5" r="1.8" fill="#FFFFFF" />
+            <circle cx="9" cy="14" r="2.2" fill="#38E1FF" />
+            <circle cx="31" cy="26" r="2.2" fill="#FFD152" />
           </svg>
-          <span>ChemBond Autentikasi</span>
+          <div className="brand-text-block">
+            <span className="brand-title">ChemBond</span>
+            <span className="brand-badge-tag">SMA Chemistry</span>
+          </div>
         </div>
+      </div>
 
-        <h1 className="auth-title">Selamat Datang di ChemBond</h1>
-        <p className="auth-subtitle">
-          Masuk untuk mengakses pengalaman belajar kimia yang lebih interaktif.
+      {/* Main Headings per requirement */}
+      <div className="auth-heading-block">
+        <h1 className="auth-welcome-title">Welcome Back, Explorer!</h1>
+        <p className="auth-welcome-sub">
+          Lanjutkan petualanganmu menjelajahi dunia ikatan kimia.
         </p>
       </div>
 
-      {/* Pesan Status Operasi / Informasi Firebase */}
+      {/* Status Alerts */}
       {statusMessage && (
         <div
           className={`auth-alert ${
@@ -129,27 +137,27 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
           </span>
           <div className="auth-alert-text">
             {statusMessage.isBackendPending && (
-              <strong>Kesiapan Backend Firebase:</strong>
+              <strong>Kesiapan Backend Firebase: </strong>
             )}
             <span>{statusMessage.error}</span>
           </div>
         </div>
       )}
 
-      {/* Pilihan 1: Masuk dengan Google */}
-      <div className="auth-google-section">
+      {/* Google Login Provider */}
+      <div className="auth-oauth-block">
         <button
           type="button"
-          className="btn-auth-google"
+          className="btn-google-login"
           onClick={handleGoogleLogin}
           disabled={isLoading || isGoogleLoading}
           aria-label="Lanjutkan masuk dengan akun Google"
         >
           {isGoogleLoading ? (
-            <span className="auth-spinner" aria-hidden="true" />
+            <span className="auth-button-spinner" aria-hidden="true" />
           ) : (
             <svg
-              className="google-icon-svg"
+              className="google-svg-icon"
               viewBox="0 0 24 24"
               width="20"
               height="20"
@@ -173,59 +181,58 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
               />
             </svg>
           )}
-          <span>
-            {isGoogleLoading ? 'Menghubungkan Google...' : 'Lanjutkan dengan Google'}
-          </span>
+          <span>{isGoogleLoading ? 'Menghubungkan...' : 'Lanjutkan dengan Google'}</span>
         </button>
       </div>
 
-      {/* Pembatas */}
-      <div className="auth-divider" aria-hidden="true">
+      <div className="auth-separator" aria-hidden="true">
         <span>atau masuk dengan email</span>
       </div>
 
-      {/* Pilihan 2: Formulir Email & Kata Sandi */}
-      <form className="auth-form" onSubmit={handleEmailSubmit} noValidate>
-        {/* Kolom Email */}
-        <div className="form-group">
-          <label htmlFor="login-email" className="form-label">
-            <span>Alamat Email</span>
-            <span className="required-asterisk">*</span>
+      {/* Main Email/Password Form */}
+      <form className="auth-core-form" onSubmit={handleEmailSubmit} noValidate>
+        <div className="auth-field-group">
+          <label htmlFor="login-email" className="auth-field-label">
+            Alamat Email <span className="field-required">*</span>
           </label>
-          <input
-            id="login-email"
-            type="email"
-            name="email"
-            autoComplete="email"
-            className={`form-input ${fieldErrors.email ? 'input-has-error' : ''}`}
-            placeholder="nama@sekolah.sch.id"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            disabled={isLoading || isGoogleLoading}
-            aria-invalid={Boolean(fieldErrors.email)}
-            aria-describedby={fieldErrors.email ? 'login-email-error' : undefined}
-          />
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">✉️</span>
+            <input
+              id="login-email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              className={`auth-text-input ${fieldErrors.email ? 'has-error' : ''}`}
+              placeholder="nama@sekolah.sch.id"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              disabled={isLoading || isGoogleLoading}
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? 'login-email-error' : undefined}
+            />
+          </div>
           {fieldErrors.email && (
-            <span id="login-email-error" className="field-error-text" role="alert">
+            <span id="login-email-error" className="auth-field-error" role="alert">
               {fieldErrors.email}
             </span>
           )}
         </div>
 
-        {/* Kolom Kata Sandi */}
-        <div className="form-group">
-          <label htmlFor="login-password" className="form-label">
-            <span>Kata Sandi</span>
-            <span className="required-asterisk">*</span>
-          </label>
-          <div className="form-input-wrapper">
+        <div className="auth-field-group">
+          <div className="label-with-hint">
+            <label htmlFor="login-password" className="auth-field-label">
+              Kata Sandi <span className="field-required">*</span>
+            </label>
+          </div>
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">🔑</span>
             <input
               id="login-password"
               type={showPassword ? 'text' : 'password'}
               name="password"
               autoComplete="current-password"
-              className={`form-input ${fieldErrors.password ? 'input-has-error' : ''}`}
-              placeholder="Masukkan kata sandi Anda"
+              className={`auth-text-input ${fieldErrors.password ? 'has-error' : ''}`}
+              placeholder="Masukkan kata sandi akun"
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
               disabled={isLoading || isGoogleLoading}
@@ -234,7 +241,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
             />
             <button
               type="button"
-              className="btn-password-toggle"
+              className="password-reveal-btn"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
               title={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
@@ -243,29 +250,30 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
             </button>
           </div>
           {fieldErrors.password && (
-            <span id="login-password-error" className="field-error-text" role="alert">
+            <span id="login-password-error" className="auth-field-error" role="alert">
               {fieldErrors.password}
             </span>
           )}
         </div>
 
-        {/* Tombol Masuk */}
+        {/* Primary Submit Button */}
         <button
           type="submit"
-          className="btn-auth-submit"
+          className="btn-auth-primary-submit"
           disabled={isLoading || isGoogleLoading}
         >
-          {isLoading && <span className="auth-spinner" aria-hidden="true" />}
-          <span>{isLoading ? 'Memeriksa Kredensial...' : 'Masuk ke ChemBond'}</span>
+          {isLoading && <span className="auth-button-spinner" aria-hidden="true" />}
+          <span>{isLoading ? 'Memverifikasi Akun...' : 'Masuk ke ChemBond'}</span>
+          <span className="btn-arrow-icon">→</span>
         </button>
       </form>
 
-      {/* Teks Pindah ke Registrasi */}
-      <div className="auth-switch-footer">
-        <span>Belum memiliki akun?</span>
+      {/* Switch to Register */}
+      <div className="auth-footer-prompt">
+        <span>Belum memiliki akun ChemBond?</span>
         <button
           type="button"
-          className="btn-switch-auth"
+          className="btn-link-switch"
           onClick={onSwitchToRegister}
         >
           Daftar sekarang
@@ -274,4 +282,3 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister, onSucc
     </div>
   );
 };
-
