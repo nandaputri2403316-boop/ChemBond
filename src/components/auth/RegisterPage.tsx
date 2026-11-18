@@ -110,7 +110,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onS
     } catch {
       setStatusMessage({
         success: false,
-        error: 'Terjadi kendala sistem saat proses pendaftaran. Silakan coba kembali.',
+        error: 'Terjadi kegagalan sistem saat mendaftarkan akun. Silakan coba kembali.',
       });
     } finally {
       setIsLoading(false);
@@ -118,26 +118,33 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onS
   };
 
   return (
-    <div className="register-page-content">
-      {/* Header Halaman */}
-      <div className="auth-header">
-        <div className="auth-brand-badge">
-          <svg width="18" height="18" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <div className="login-form-container register-form-container">
+      {/* Brand Header */}
+      <div className="auth-brand-row">
+        <div className="auth-brand-logo">
+          <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <circle cx="20" cy="20" r="19" fill="#FFFFFF" stroke="#F72F91" strokeWidth="2.5" />
             <ellipse cx="20" cy="20" rx="14" ry="5.5" stroke="#FF9B52" strokeWidth="2" transform="rotate(30 20 20)" />
             <ellipse cx="20" cy="20" rx="14" ry="5.5" stroke="#D91D78" strokeWidth="2" transform="rotate(-30 20 20)" />
             <circle cx="20" cy="20" r="5.5" fill="#F72F91" />
+            <circle cx="18.5" cy="18.5" r="1.8" fill="#FFFFFF" />
+            <circle cx="9" cy="14" r="2.2" fill="#38E1FF" />
+            <circle cx="31" cy="26" r="2.2" fill="#FFD152" />
           </svg>
-          <span>Pendaftaran Akun Baru</span>
+          <div className="brand-text-block">
+            <span className="brand-title">ChemBond</span>
+            <span className="brand-badge-tag">Pendaftaran Siswa</span>
+          </div>
         </div>
+      </div>
 
-        <h1 className="auth-title">Daftar Akun Siswa ChemBond</h1>
-        <p className="auth-subtitle">
-          Lengkapi data identitas belajar Anda untuk memantau progres dan evaluasi kuis kimia.
+      <div className="auth-heading-block">
+        <h1 className="auth-welcome-title">Bergabung ke ChemBond</h1>
+        <p className="auth-welcome-sub">
+          Daftarkan akun siswamu untuk mencatat seluruh progres dan evaluasi belajar.
         </p>
       </div>
 
-      {/* Pesan Status Operasi / Informasi Firebase */}
       {statusMessage && (
         <div
           className={`auth-alert ${
@@ -151,139 +158,144 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onS
           </span>
           <div className="auth-alert-text">
             {statusMessage.isBackendPending && (
-              <strong>Kesiapan Backend Firebase:</strong>
+              <strong>Kesiapan Backend Firebase: </strong>
             )}
             <span>{statusMessage.error}</span>
           </div>
         </div>
       )}
 
-      {/* Formulir Pendaftaran */}
-      <form className="auth-form" onSubmit={handleSubmit} noValidate>
-        {/* Kolom 1: Nama Lengkap */}
-        <div className="form-group">
-          <label htmlFor="reg-nama" className="form-label">
-            <span>Nama Lengkap Siswa</span>
-            <span className="required-asterisk">*</span>
+      <form className="auth-core-form" onSubmit={handleSubmit} noValidate>
+        {/* Nama Lengkap */}
+        <div className="auth-field-group">
+          <label htmlFor="reg-nama" className="auth-field-label">
+            Nama Lengkap <span className="field-required">*</span>
           </label>
-          <input
-            id="reg-nama"
-            type="text"
-            name="namaLengkap"
-            autoComplete="name"
-            className={`form-input ${fieldErrors.namaLengkap ? 'input-has-error' : ''}`}
-            placeholder="Masukkan nama lengkap sesuai presensi"
-            value={formData.namaLengkap}
-            onChange={(e) => handleInputChange('namaLengkap', e.target.value)}
-            disabled={isLoading}
-            aria-invalid={Boolean(fieldErrors.namaLengkap)}
-            aria-describedby={fieldErrors.namaLengkap ? 'reg-nama-error' : undefined}
-          />
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">👤</span>
+            <input
+              id="reg-nama"
+              type="text"
+              name="namaLengkap"
+              autoComplete="name"
+              className={`auth-text-input ${fieldErrors.namaLengkap ? 'has-error' : ''}`}
+              placeholder="Contoh: Farrel Athariq"
+              value={formData.namaLengkap}
+              onChange={(e) => handleInputChange('namaLengkap', e.target.value)}
+              disabled={isLoading}
+              aria-invalid={Boolean(fieldErrors.namaLengkap)}
+              aria-describedby={fieldErrors.namaLengkap ? 'reg-nama-error' : undefined}
+            />
+          </div>
           {fieldErrors.namaLengkap && (
-            <span id="reg-nama-error" className="field-error-text" role="alert">
+            <span id="reg-nama-error" className="auth-field-error" role="alert">
               {fieldErrors.namaLengkap}
             </span>
           )}
         </div>
 
-        {/* Baris 2 Kolom: Kelas & Nomor Presensi */}
-        <div className="form-row-2col">
-          {/* Kolom 2: Kelas */}
-          <div className="form-group">
-            <label htmlFor="reg-kelas" className="form-label">
-              <span>Kelas</span>
-              <span className="required-asterisk">*</span>
+        {/* Row: Kelas & Nomor Presensi */}
+        <div className="auth-field-row">
+          <div className="auth-field-group">
+            <label htmlFor="reg-kelas" className="auth-field-label">
+              Kelas <span className="field-required">*</span>
             </label>
-            <select
-              id="reg-kelas"
-              name="kelas"
-              className={`form-select ${fieldErrors.kelas ? 'input-has-error' : ''}`}
-              value={formData.kelas}
-              onChange={(e) => handleInputChange('kelas', e.target.value)}
-              disabled={isLoading}
-              aria-invalid={Boolean(fieldErrors.kelas)}
-              aria-describedby={fieldErrors.kelas ? 'reg-kelas-error' : undefined}
-            >
-              {AVAILABLE_CLASSES.map((cls) => (
-                <option key={cls.value} value={cls.value}>
-                  {cls.label}
-                </option>
-              ))}
-            </select>
+            <div className="input-affix-wrapper">
+              <span className="input-leading-icon" aria-hidden="true">🏫</span>
+              <select
+                id="reg-kelas"
+                name="kelas"
+                className={`auth-select-input ${fieldErrors.kelas ? 'has-error' : ''}`}
+                value={formData.kelas}
+                onChange={(e) => handleInputChange('kelas', e.target.value)}
+                disabled={isLoading}
+                aria-invalid={Boolean(fieldErrors.kelas)}
+                aria-describedby={fieldErrors.kelas ? 'reg-kelas-error' : undefined}
+              >
+                {AVAILABLE_CLASSES.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </div>
             {fieldErrors.kelas && (
-              <span id="reg-kelas-error" className="field-error-text" role="alert">
+              <span id="reg-kelas-error" className="auth-field-error" role="alert">
                 {fieldErrors.kelas}
               </span>
             )}
           </div>
 
-          {/* Kolom 3: Nomor Presensi */}
-          <div className="form-group">
-            <label htmlFor="reg-presensi" className="form-label">
-              <span>Nomor Presensi</span>
-              <span className="required-asterisk">*</span>
+          <div className="auth-field-group">
+            <label htmlFor="reg-presensi" className="auth-field-label">
+              No. Presensi <span className="field-required">*</span>
             </label>
-            <input
-              id="reg-presensi"
-              type="number"
-              name="nomorPresensi"
-              min="1"
-              max="99"
-              className={`form-input ${fieldErrors.nomorPresensi ? 'input-has-error' : ''}`}
-              placeholder="Contoh: 14"
-              value={formData.nomorPresensi}
-              onChange={(e) => handleInputChange('nomorPresensi', e.target.value)}
-              disabled={isLoading}
-              aria-invalid={Boolean(fieldErrors.nomorPresensi)}
-              aria-describedby={fieldErrors.nomorPresensi ? 'reg-presensi-error' : undefined}
-            />
+            <div className="input-affix-wrapper">
+              <span className="input-leading-icon" aria-hidden="true">🔢</span>
+              <input
+                id="reg-presensi"
+                type="number"
+                min="1"
+                max="99"
+                name="nomorPresensi"
+                className={`auth-text-input ${fieldErrors.nomorPresensi ? 'has-error' : ''}`}
+                placeholder="1–99"
+                value={formData.nomorPresensi}
+                onChange={(e) => handleInputChange('nomorPresensi', e.target.value)}
+                disabled={isLoading}
+                aria-invalid={Boolean(fieldErrors.nomorPresensi)}
+                aria-describedby={fieldErrors.nomorPresensi ? 'reg-presensi-error' : undefined}
+              />
+            </div>
             {fieldErrors.nomorPresensi && (
-              <span id="reg-presensi-error" className="field-error-text" role="alert">
+              <span id="reg-presensi-error" className="auth-field-error" role="alert">
                 {fieldErrors.nomorPresensi}
               </span>
             )}
           </div>
         </div>
 
-        {/* Kolom 4: Alamat Email */}
-        <div className="form-group">
-          <label htmlFor="reg-email" className="form-label">
-            <span>Alamat Email Aktif</span>
-            <span className="required-asterisk">*</span>
+        {/* Email */}
+        <div className="auth-field-group">
+          <label htmlFor="reg-email" className="auth-field-label">
+            Alamat Email Aktif <span className="field-required">*</span>
           </label>
-          <input
-            id="reg-email"
-            type="email"
-            name="email"
-            autoComplete="email"
-            className={`form-input ${fieldErrors.email ? 'input-has-error' : ''}`}
-            placeholder="siswa@sekolah.sch.id"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            disabled={isLoading}
-            aria-invalid={Boolean(fieldErrors.email)}
-            aria-describedby={fieldErrors.email ? 'reg-email-error' : undefined}
-          />
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">✉️</span>
+            <input
+              id="reg-email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              className={`auth-text-input ${fieldErrors.email ? 'has-error' : ''}`}
+              placeholder="siswa@sekolah.sch.id"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              disabled={isLoading}
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? 'reg-email-error' : undefined}
+            />
+          </div>
           {fieldErrors.email && (
-            <span id="reg-email-error" className="field-error-text" role="alert">
+            <span id="reg-email-error" className="auth-field-error" role="alert">
               {fieldErrors.email}
             </span>
           )}
         </div>
 
-        {/* Kolom 5: Kata Sandi */}
-        <div className="form-group">
-          <label htmlFor="reg-password" className="form-label">
-            <span>Kata Sandi</span>
-            <span className="required-asterisk">*</span>
+        {/* Kata Sandi */}
+        <div className="auth-field-group">
+          <label htmlFor="reg-password" className="auth-field-label">
+            Kata Sandi <span className="field-required">*</span>
           </label>
-          <div className="form-input-wrapper">
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">🔑</span>
             <input
               id="reg-password"
               type={showPassword ? 'text' : 'password'}
               name="password"
               autoComplete="new-password"
-              className={`form-input ${fieldErrors.password ? 'input-has-error' : ''}`}
+              className={`auth-text-input ${fieldErrors.password ? 'has-error' : ''}`}
               placeholder="Minimal 6 karakter"
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
@@ -293,37 +305,34 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onS
             />
             <button
               type="button"
-              className="btn-password-toggle"
+              className="password-reveal-btn"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
-              title={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
             >
               {showPassword ? '👁️' : '🔒'}
             </button>
           </div>
-          {fieldErrors.password ? (
-            <span id="reg-password-error" className="field-error-text" role="alert">
+          {fieldErrors.password && (
+            <span id="reg-password-error" className="auth-field-error" role="alert">
               {fieldErrors.password}
             </span>
-          ) : (
-            <span className="field-hint-text">Gunakan minimal 6 karakter.</span>
           )}
         </div>
 
-        {/* Kolom 6: Konfirmasi Kata Sandi */}
-        <div className="form-group">
-          <label htmlFor="reg-confirm-password" className="form-label">
-            <span>Konfirmasi Kata Sandi</span>
-            <span className="required-asterisk">*</span>
+        {/* Konfirmasi Kata Sandi */}
+        <div className="auth-field-group">
+          <label htmlFor="reg-confirm-password" className="auth-field-label">
+            Konfirmasi Kata Sandi <span className="field-required">*</span>
           </label>
-          <div className="form-input-wrapper">
+          <div className="input-affix-wrapper">
+            <span className="input-leading-icon" aria-hidden="true">🛡️</span>
             <input
               id="reg-confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
               name="confirmPassword"
               autoComplete="new-password"
-              className={`form-input ${fieldErrors.confirmPassword ? 'input-has-error' : ''}`}
-              placeholder="Ulangi kata sandi Anda"
+              className={`auth-text-input ${fieldErrors.confirmPassword ? 'has-error' : ''}`}
+              placeholder="Ulangi kata sandi"
               value={formData.confirmPassword}
               onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
               disabled={isLoading}
@@ -332,53 +341,41 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSwitchToLogin, onS
             />
             <button
               type="button"
-              className="btn-password-toggle"
+              className="password-reveal-btn"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              aria-label={showConfirmPassword ? 'Sembunyikan konfirmasi kata sandi' : 'Tampilkan konfirmasi kata sandi'}
-              title={showConfirmPassword ? 'Sembunyikan konfirmasi kata sandi' : 'Tampilkan konfirmasi kata sandi'}
+              aria-label={showConfirmPassword ? 'Sembunyikan konfirmasi' : 'Tampilkan konfirmasi'}
             >
               {showConfirmPassword ? '👁️' : '🔒'}
             </button>
           </div>
           {fieldErrors.confirmPassword && (
-            <span id="reg-confirm-error" className="field-error-text" role="alert">
+            <span id="reg-confirm-error" className="auth-field-error" role="alert">
               {fieldErrors.confirmPassword}
             </span>
           )}
         </div>
 
-        {/* Catatan Keamanan Enkripsi */}
-        <div className="auth-security-notice" role="note">
-          <span className="notice-icon">🛡️</span>
-          <span>
-            <strong>Keamanan Data Siswa:</strong> Kata sandi Anda dikelola langsung oleh
-            Firebase Authentication secara terenkripsi dan tidak pernah disimpan dalam bentuk teks biasa.
-          </span>
-        </div>
-
-        {/* Tombol Submit Pendaftaran */}
         <button
           type="submit"
-          className="btn-auth-submit"
+          className="btn-auth-primary-submit"
           disabled={isLoading}
         >
-          {isLoading && <span className="auth-spinner" aria-hidden="true" />}
-          <span>{isLoading ? 'Memvalidasi Data...' : 'Daftar Akun Siswa'}</span>
+          {isLoading && <span className="auth-button-spinner" aria-hidden="true" />}
+          <span>{isLoading ? 'Mendaftarkan Akun...' : 'Daftar Akun Siswa'}</span>
+          <span className="btn-arrow-icon">→</span>
         </button>
       </form>
 
-      {/* Teks Pindah ke Login */}
-      <div className="auth-switch-footer">
-        <span>Sudah memiliki akun?</span>
+      <div className="auth-footer-prompt">
+        <span>Sudah memiliki akun ChemBond?</span>
         <button
           type="button"
-          className="btn-switch-auth"
+          className="btn-link-switch"
           onClick={onSwitchToLogin}
         >
-          Masuk ke akun Anda
+          Masuk di sini
         </button>
       </div>
     </div>
   );
 };
-

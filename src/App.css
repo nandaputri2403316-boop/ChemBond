@@ -283,6 +283,79 @@
   height: 78px;
 }
 
+.navbar-left-cluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sidebar-toggle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.04);
+}
+
+.toggle-bar {
+  width: 20px;
+  height: 2.2px;
+  background: #FFFFFF;
+  border-radius: 9999px;
+  transition: all 0.25s ease;
+}
+
+.sidebar-toggle-btn.active .toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.sidebar-toggle-btn.active .toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.sidebar-toggle-btn.active .toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.navbar-guest-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-nav-dashboard-shortcut {
+  background: linear-gradient(135deg, #FF9B52, #FF6B79) !important;
+}
+
+.btn-nav-beranda-shortcut {
+  background: linear-gradient(135deg, #F72F91, #FF9B52) !important;
+}
+
+/* App Core Layout with Unified Sidebar */
+.app-core-layout {
+  display: flex;
+  min-height: calc(100vh - 78px);
+  position: relative;
+  background: #FFF9FC;
+}
+
+.app-content-viewport {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -416,10 +489,25 @@
   backdrop-filter: blur(8px);
 }
 
-.navbar-user-name {
+.navbar-user-name,
+.navbar-user-name-btn {
   color: #FFFFFF;
   font-weight: 800;
   font-size: 13.5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.navbar-user-name-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .btn-nav-logout {

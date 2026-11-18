@@ -336,6 +336,20 @@ export async function logoutUser(): Promise<void> {
 }
 
 /**
+ * Memperbarui data profil pengguna di Cloud Firestore
+ */
+export async function updateUserProfileDoc(
+  uid: string,
+  updates: Partial<UserProfile>
+): Promise<void> {
+  const activeDb = db;
+  if (activeDb && isFirebaseConfigured) {
+    const userDocRef = doc(activeDb, 'users', uid);
+    await setDoc(userDocRef, updates, { merge: true });
+  }
+}
+
+/**
  * Mengamati perubahan status autentikasi pengguna secara realtime (Realtime Auth Listener)
  * Menjaga sesi login tetap aktif saat halaman di-refresh
  */
