@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 import { MoleculeDecorations } from './components/MoleculeDecorations';
 import { InteractiveDetailModal } from './components/InteractiveDetailModal';
 import { MateriPage } from './components/MateriPage';
+import { SimulasiPage } from './components/SimulasiPage';
 import { QuizSection } from './components/QuizSection';
 import { AuthLayout } from './components/auth/AuthLayout';
 import type { UserProfile } from './types/auth';
@@ -114,27 +115,26 @@ export function App() {
         />
       )}
 
-      {/* Page Content: Simulasi dan Progres */}
-      {(currentPage === 'Simulasi' || currentPage === 'Progres') && (
+      {/* Page Content: Simulasi */}
+      {currentPage === 'Simulasi' && (
+        <SimulasiPage onNavigate={handleNavigate} />
+      )}
+
+      {/* Page Content: Progres */}
+      {currentPage === 'Progres' && (
         <main id="main-content" className="page-placeholder-section">
           <div className="container">
             <div className="placeholder-panel">
               <div className="placeholder-badge-pill">
-                <span>🔬 Halaman {currentPage} • ChemBond SMA</span>
+                <span>🔬 Halaman Progres • ChemBond SMA</span>
               </div>
 
               <h1 className="placeholder-heading">
-                {currentPage === 'Simulasi' &&
-                  'Simulasi Interaktif Ikatan Kimia'}
-                {currentPage === 'Progres' &&
-                  'Progres dan Riwayat Belajar'}
+                Progres dan Riwayat Belajar
               </h1>
 
               <p className="placeholder-subheading">
-                {currentPage === 'Simulasi' &&
-                  'Visualisasi interaktif perpindahan elektron pada ikatan ion dan pemakaian bersama pasangan elektron pada ikatan kovalen.'}
-                {currentPage === 'Progres' &&
-                  'Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.'}
+                Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.
               </p>
 
               <div className="placeholder-status-card">
@@ -143,7 +143,7 @@ export function App() {
                 <div className="placeholder-status-info">
                   <h4>Fondasi Navigasi Aktif</h4>
                   <p>
-                    Navigasi halaman {currentPage} telah terhubung dengan
+                    Navigasi halaman Progres telah terhubung dengan
                     state aplikasi. Komponen dan fitur halaman ini sedang
                     disiapkan untuk tahap implementasi berikutnya.
                   </p>
