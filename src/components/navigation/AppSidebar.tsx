@@ -48,9 +48,9 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     },
     {
       page: 'Simulasi',
-      label: 'Simulasi Atom',
+      label: 'Simulasi & Lab Virtual',
       icon: '🧪',
-      hint: 'Visualisasi perpindahan dan pemakaian bersama elektron',
+      hint: 'Simulasi 3D PhET, bentuk geometri VSEPR, & ion builder',
     },
     {
       page: 'Kuis',

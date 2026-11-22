@@ -1,10 +1,15 @@
 
 import { useState } from 'react';
+import type { Page } from './Navbar';
 import { materiList } from '../data/materi';
 import type { ModuleData, SubModule } from '../data/types';
 import './MateriPage.css';
 
-export function MateriPage() {
+interface MateriPageProps {
+    onNavigate?: (page: Page) => void;
+}
+
+export function MateriPage({ onNavigate }: MateriPageProps = {}) {
     const [selectedModule, setSelectedModule] = useState<ModuleData | null>(null);
     const [selectedSubmodule, setSelectedSubmodule] = useState<SubModule | null>(null);
 
@@ -29,23 +34,51 @@ export function MateriPage() {
                 </header>
 
                 {!selectedModule && (
-                    <section className="materi-module-grid">
-                        {materiList.map((module) => (
-                            <article className="materi-module-card" key={module.id}>
-                                <span className="materi-module-number">
-                                    MODUL {module.order}
-                                </span>
-                                <h2>{module.title}</h2>
-                                <p>{module.description}</p>
-                                <button
-                                    type="button"
-                                    onClick={() => setSelectedModule(module)}
-                                >
-                                    Jelajahi Modul →
-                                </button>
-                            </article>
-                        ))}
-                    </section>
+                    <>
+                        {onNavigate && (
+                            <section className="materi-simulasi-callout">
+                                <div className="materi-simulasi-header-row">
+                                    <span className="materi-simulasi-pill">🧪 LABORATORIUM VIRTUAL INTERAKTIF</span>
+                                    <span className="materi-simulasi-meta">PhET Colorado & Visualisasi 3D</span>
+                                </div>
+                                <div className="materi-simulasi-body">
+                                    <div className="materi-simulasi-info">
+                                        <h3>Eksplorasi Molekul & Ikatan Kimia Secara Nyata</h3>
+                                        <p>
+                                            Ingin langsung melihat visualisasi bentuk geometri molekul secara 3D atau menguji pembentukan ikatan ionik NaCl? 
+                                            Kunjungi Lab Simulasi Interaktif ChemBond lengkap dengan simulasi resmi PhET!
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        className="btn-buka-simulasi"
+                                        onClick={() => onNavigate('Simulasi')}
+                                    >
+                                        <span>Buka Lab Simulasi PhET</span>
+                                        <span>→</span>
+                                    </button>
+                                </div>
+                            </section>
+                        )}
+
+                        <section className="materi-module-grid">
+                            {materiList.map((module) => (
+                                <article className="materi-module-card" key={module.id}>
+                                    <span className="materi-module-number">
+                                        MODUL {module.order}
+                                    </span>
+                                    <h2>{module.title}</h2>
+                                    <p>{module.description}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedModule(module)}
+                                    >
+                                        Jelajahi Modul →
+                                    </button>
+                                </article>
+                            ))}
+                        </section>
+                    </>
                 )}
 
                 {selectedModule && !selectedSubmodule && (
@@ -115,6 +148,24 @@ export function MateriPage() {
                                     ))}
                                 </ul>
                             </>
+                        )}
+
+                        {onNavigate && (
+                            <div className="materi-reading-simulasi-box">
+                                <div className="reading-simulasi-badge">🔬 PRAKTIKUM VIRTUAL</div>
+                                <h4>Ingin Mengamati Interaksi Molekul Secara Langsung?</h4>
+                                <p>
+                                    Kombinasikan pemahaman konsep di modul ini dengan simulasi 3D PhET Colorado,
+                                    visualisasi bentuk molekul VSEPR, dan simulasi transfer elektron NaCl!
+                                </p>
+                                <button
+                                    type="button"
+                                    className="btn-buka-simulasi"
+                                    onClick={() => onNavigate('Simulasi')}
+                                >
+                                    Buka Laboratorium Virtual ChemBond →
+                                </button>
+                            </div>
                         )}
                     </article>
                 )}

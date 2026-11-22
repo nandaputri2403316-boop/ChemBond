@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 import { Navbar, type Page } from './components/Navbar';
@@ -8,6 +8,7 @@ import { StudentDashboard } from './components/student/StudentDashboard';
 import { TeacherDashboard } from './components/teacher/TeacherDashboard';
 import StudentProfile from './components/student/StudentProfile';
 import { MateriPage } from './components/MateriPage';
+import { SimulasiPage } from './components/SimulasiPage';
 import { QuizSection } from './components/QuizSection';
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Footer } from './components/Footer';
@@ -209,39 +210,38 @@ export function App() {
                 )}
 
                 {/* 3. HALAMAN MATERI KIMIA */}
-                {currentPage === 'Materi' && <MateriPage />}
+                {currentPage === 'Materi' && <MateriPage onNavigate={handleNavigate} />}
 
                 {/* 4. HALAMAN KUIS & LATIHAN */}
                 {currentPage === 'Kuis' && <QuizSection onNavigate={handleNavigate} />}
 
-                {/* 5. HALAMAN SIMULASI DAN PROGRES */}
-                {(currentPage === 'Simulasi' || currentPage === 'Progres') && (
+                {/* 5. HALAMAN SIMULASI */}
+                {currentPage === 'Simulasi' && <SimulasiPage onNavigate={handleNavigate} />}
+
+                {/* 6. HALAMAN PROGRES */}
+                {currentPage === 'Progres' && (
                   <main id="main-content" className="page-placeholder-section">
                     <div className="container">
                       <div className="placeholder-panel">
                         <div className="placeholder-badge-pill">
-                          <span>≡ƒö¼ Halaman {currentPage} ΓÇó ChemBond SMA</span>
+                          <span>🔬 Halaman Progres • ChemBond SMA</span>
                         </div>
 
                         <h1 className="placeholder-heading">
-                          {currentPage === 'Simulasi' && 'Simulasi Interaktif Ikatan Kimia'}
-                          {currentPage === 'Progres' && 'Progres dan Riwayat Belajar'}
+                          Progres dan Riwayat Belajar
                         </h1>
 
                         <p className="placeholder-subheading">
-                          {currentPage === 'Simulasi' &&
-                            'Visualisasi interaktif perpindahan elektron pada ikatan ion dan pemakaian bersama pasangan elektron pada ikatan kovalen.'}
-                          {currentPage === 'Progres' &&
-                            'Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.'}
+                          Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.
                         </p>
 
                         <div className="placeholder-status-card">
-                          <div className="placeholder-status-icon">≡ƒÜÇ</div>
+                          <div className="placeholder-status-icon">🚀</div>
 
                           <div className="placeholder-status-info">
                             <h4>Fondasi Navigasi Aktif</h4>
                             <p>
-                              Navigasi halaman {currentPage} telah terhubung dengan state aplikasi.
+                              Navigasi halaman Progres telah terhubung dengan state aplikasi.
                               Komponen dan fitur halaman ini sedang disiapkan untuk tahap implementasi berikutnya.
                             </p>
                           </div>
@@ -253,7 +253,7 @@ export function App() {
                             className="btn btn-capsule-cta-main"
                             onClick={() => handleNavigate('Beranda')}
                           >
-                            ΓåÉ Kembali ke Beranda
+                            ← Kembali ke Beranda
                           </button>
                         </div>
                       </div>

@@ -128,6 +128,34 @@
   transform: translateY(-2px);
 }
 
+.btn-hero-simulasi {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #FFF0F7, #FFF8E7);
+  color: #B81565;
+  border: 1.5px solid #F8B4D9;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 14px rgba(247, 47, 145, 0.12);
+}
+
+.btn-hero-simulasi:hover {
+  background: #FFE4F1;
+  border-color: #F72F91;
+  color: #D91D78;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(247, 47, 145, 0.22);
+}
+
+.btn-hero-simulasi:hover .btn-icon-move {
+  transform: translate(2px, -2px);
+}
+
 .btn-icon-move {
   font-size: 1.15rem;
   transition: transform 0.2s ease;
@@ -1321,4 +1349,134 @@
     align-items: flex-start;
   }
 }
+
+/* ==========================================================================
+   Featured Virtual Lab & PhET Simulation Banner (Beranda)
+   ========================================================================== */
+.beranda-lab-banner-section {
+  padding: 40px 0 80px;
+}
+
+.beranda-lab-card {
+  background: linear-gradient(135deg, #2D1432 0%, #4A1A3C 50%, #681538 100%);
+  border-radius: 28px;
+  padding: 42px 46px;
+  color: #FFFFFF;
+  box-shadow: 0 16px 40px rgba(45, 20, 50, 0.28);
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 175, 204, 0.22);
+}
+
+.beranda-lab-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(247, 47, 145, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.lab-card-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.lab-badge-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #FFE1ED;
+  background: rgba(247, 47, 145, 0.35);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(247, 47, 145, 0.5);
+}
+
+.lab-badge-source {
+  font-size: 0.85rem;
+  color: #FFD2E3;
+  font-weight: 600;
+}
+
+.lab-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.lab-card-title {
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+
+.lab-card-desc {
+  font-size: 1.02rem;
+  color: #F1D4E5;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 680px;
+}
+
+.lab-card-actions {
+  flex-shrink: 0;
+}
+
+.btn-open-lab {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  color: #FFFFFF;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(247, 47, 145, 0.4);
+  transition: all 0.25s ease;
+}
+
+.btn-open-lab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(247, 47, 145, 0.55);
+  filter: brightness(1.08);
+}
+
+.btn-open-lab .btn-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-open-lab:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .beranda-lab-card {
+    padding: 30px 22px;
+  }
+
+  .lab-card-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-open-lab {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 

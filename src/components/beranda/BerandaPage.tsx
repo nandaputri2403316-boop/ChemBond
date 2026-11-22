@@ -65,6 +65,15 @@ export const BerandaPage: React.FC<BerandaPageProps> = ({
                 <span>Mulai Belajar</span>
                 <span className="btn-icon-move">→</span>
               </button>
+
+              <button
+                type="button"
+                className="btn-hero-simulasi"
+                onClick={() => onNavigate('Simulasi')}
+              >
+                <span>🧪 Lab Simulasi PhET 3D</span>
+                <span className="btn-icon-move">↗</span>
+              </button>
             </div>
 
             {/* Quick trust metrics */}
@@ -299,6 +308,43 @@ export const BerandaPage: React.FC<BerandaPageProps> = ({
                     </div>
                   )}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          3. FEATURED VIRTUAL LAB & PHET SIMULATION BANNER
+          ========================================================================= */}
+      <section className="beranda-lab-banner-section" aria-label="Laboratorium Virtual ChemBond">
+        <div className="container">
+          <div className="beranda-lab-card">
+            <div className="lab-card-badge-row">
+              <span className="lab-badge-pill">🧪 LABORATORIUM VIRTUAL INTERAKTIF</span>
+              <span className="lab-badge-source">Simulasi Resmi PhET Interactive Colorado</span>
+            </div>
+
+            <div className="lab-card-content">
+              <div className="lab-card-text">
+                <h2 className="lab-card-title">
+                  Lihat Bentuk Molekul & Ikatan Kimia Secara Tiga Dimensi!
+                </h2>
+                <p className="lab-card-desc">
+                  Uji pemahamanmu dengan simulasi 3D real-time: amati gaya tolak pasangan elektron bebas (VSEPR), 
+                  putarkan molekul secara bebas, dan bangun senyawa ionik langsung di laboratorium virtual ChemBond.
+                </p>
+              </div>
+
+              <div className="lab-card-actions">
+                <button
+                  type="button"
+                  className="btn-open-lab"
+                  onClick={() => onNavigate('Simulasi')}
+                >
+                  <span>Buka Simulasi PhET Sekarang</span>
+                  <span className="btn-arrow">→</span>
+                </button>
               </div>
             </div>
           </div>
