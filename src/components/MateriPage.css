@@ -284,3 +284,171 @@
     max-width: 580px;
     line-height: 1.6;
 }
+
+/* =========================================
+   TUJUAN PEMBELAJARAN INTERAKTIF
+   ========================================= */
+
+.materi-objectives {
+    margin: 25px 0 32px;
+    padding: 18px 22px;
+    border: 1.5px solid #f8b4d9;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fff0f7, #fff8f2);
+}
+
+.materi-objectives>button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    background: transparent;
+    color: #c21870;
+    font-size: 1rem;
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+}
+
+.materi-objectives>button span {
+    font-size: 1.4rem;
+    color: #f72f91;
+}
+
+.materi-objectives ul {
+    margin: 18px 0 0;
+    padding-left: 24px;
+}
+
+/* =========================================
+   DAFTAR BAB PEMBELAJARAN
+   ========================================= */
+
+.materi-chapter-list {
+    display: grid;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.materi-chapter {
+    overflow: hidden;
+    border: 1.5px solid #ffd2e3;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(194, 24, 110, 0.06);
+    transition: all 0.25s ease;
+}
+
+.materi-chapter:hover {
+    border-color: #f28abb;
+    box-shadow: 0 10px 24px rgba(194, 24, 110, 0.11);
+}
+
+.materi-chapter-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 22px;
+    border: none;
+    background: linear-gradient(110deg, #fff0f7, #fff8f2);
+    color: #c21870;
+    text-align: left;
+    cursor: pointer;
+}
+
+.materi-chapter-toggle>span:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.materi-chapter-toggle strong {
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.materi-chapter-toggle small {
+    color: #967487;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.materi-chapter-toggle>span:last-child {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #ffe1ed;
+    color: #d91d78;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.materi-chapter .materi-submodule-list {
+    padding: 16px;
+    margin: 0;
+    background: #fffafd;
+}
+
+.materi-chapter .materi-submodule-card {
+    width: 100%;
+    min-height: 58px;
+    padding: 15px 18px;
+    border: 1px solid #f8c4dc;
+    border-radius: 14px;
+    background: #fff;
+    color: #755568;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+}
+
+.materi-chapter .materi-submodule-card:hover {
+    transform: translateX(4px);
+    border-color: #ed4b99;
+    background: #fff0f7;
+    color: #c21870;
+    filter: none;
+}
+
+.materi-chapter .materi-submodule-card span:first-child {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #ffe1ed;
+    color: #d91d78;
+    font-weight: 900;
+}
+
+.materi-chapter .materi-submodule-card span:last-child {
+    color: #ed4b99;
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+@media (max-width: 768px) {
+    .materi-objectives {
+        padding: 16px;
+    }
+
+    .materi-chapter-toggle {
+        padding: 17px;
+    }
+
+    .materi-chapter .materi-submodule-list {
+        padding: 12px;
+    }
+
+    .materi-chapter .materi-submodule-card {
+        padding: 13px;
+        font-size: 0.85rem;
+    }
+}

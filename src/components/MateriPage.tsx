@@ -12,6 +12,8 @@ interface MateriPageProps {
 export function MateriPage({ onNavigate }: MateriPageProps = {}) {
     const [selectedModule, setSelectedModule] = useState<ModuleData | null>(null);
     const [selectedSubmodule, setSelectedSubmodule] = useState<SubModule | null>(null);
+    const [showObjectives, setShowObjectives] = useState(false);
+    const [expandedChapter, setExpandedChapter] = useState<string | null>(null);
 
     const handleBack = () => {
         if (selectedSubmodule) {
@@ -20,6 +22,18 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
             setSelectedModule(null);
         }
     };
+    const chapterGroups = selectedModule?.submodules.reduce<
+        Record<string, SubModule[]>
+    >((groups, submodule) => {
+        const chapter = submodule.title.split(' · ')[0];
+
+        if (!groups[chapter]) {
+            groups[chapter] = [];
+        }
+
+        groups[chapter].push(submodule);
+        return groups;
+    }, {});
 
     return (
         <main className="materi-page">
@@ -45,7 +59,7 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                     <div className="materi-simulasi-info">
                                         <h3>Eksplorasi Molekul & Ikatan Kimia Secara Nyata</h3>
                                         <p>
-                                            Ingin langsung melihat visualisasi bentuk geometri molekul secara 3D atau menguji pembentukan ikatan ionik NaCl? 
+                                            Ingin langsung melihat visualisasi bentuk geometri molekul secara 3D atau menguji pembentukan ikatan ionik NaCl?
                                             Kunjungi Lab Simulasi Interaktif ChemBond lengkap dengan simulasi resmi PhET!
                                         </p>
                                     </div>
@@ -90,26 +104,66 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                         <h2>{selectedModule.title}</h2>
                         <p>{selectedModule.subtitle}</p>
 
-                        <h3>Tujuan Pembelajaran</h3>
-                        <ul>
-                            {selectedModule.learningObjectives.map((objective, index) => (
-                                <li key={index}>{objective}</li>
-                            ))}
-                        </ul>
 
-                        <h3>Pilih Submateri</h3>
-                        <div className="materi-submodule-list">
-                            {selectedModule.submodules.map((submodule, index) => (
-                                <button
-                                    type="button"
-                                    className="materi-submodule-card"
-                                    key={submodule.id}
-                                    onClick={() => setSelectedSubmodule(submodule)}
-                                >
-                                    <span>{index + 1}</span>
-                                    {submodule.title}
-                                    <span>→</span>
-                                </button>
+                        <div className="materi-objectives">
+                            <button
+                                type="button"
+                                onClick={() => setShowObjectives(!showObjectives)}
+                            >
+                                🎯 Tujuan Pembelajaran
+                                <span>{showObjectives ? '−' : '+'}</span>
+                            </button>
+
+                            {showObjectives && (
+                                <ul>
+                                    {selectedModule.learningObjectives.map((objective, index) => (
+                                        <li key={index}>{objective}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+
+                        <h3>📚 Jelajahi Bab Pembelajaran</h3>
+
+                        <div className="materi-chapter-list">
+                            {Object.entries(chapterGroups ?? {}).map(([chapter, submodules]) => (
+                                <section className="materi-chapter" key={chapter}>
+                                    <button
+                                        type="button"
+                                        className="materi-chapter-toggle"
+                                        onClick={() =>
+                                            setExpandedChapter(
+                                                expandedChapter === chapter ? null : chapter
+                                            )
+                                        }
+                                    >
+                                        <span>
+                                            <strong>{chapter}</strong>
+                                            <small>{submodules.length} submateri</small>
+                                        </span>
+
+                                        <span>
+                                            {expandedChapter === chapter ? '−' : '+'}
+                                        </span>
+                                    </button>
+
+                                    {expandedChapter === chapter && (
+                                        <div className="materi-submodule-list">
+                                            {submodules.map((submodule, index) => (
+                                                <button
+                                                    type="button"
+                                                    className="materi-submodule-card"
+                                                    key={submodule.id}
+                                                    onClick={() => setSelectedSubmodule(submodule)}
+                                                >
+                                                    <span>{index + 1}</span>
+                                                    {submodule.title.split(' · ')[1] ?? submodule.title}
+                                                    <span>→</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </section>
                             ))}
                         </div>
                     </section>
