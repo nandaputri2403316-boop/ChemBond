@@ -452,3 +452,96 @@
         font-size: 0.85rem;
     }
 }
+
+/* =========================================
+   KARTU PENJELASAN MATERI
+   ========================================= */
+
+.materi-content-list {
+    display: grid;
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.materi-content-card {
+    position: relative;
+    padding: 24px 26px;
+    border: 1px solid #ffd2e3;
+    border-left: 5px solid #f72f91;
+    border-radius: 18px;
+    background: linear-gradient(120deg, #fff5fa, #ffffff);
+    box-shadow: 0 6px 18px rgba(194, 24, 110, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.materi-content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(194, 24, 110, 0.11);
+}
+
+.materi-content-number {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #ffe1ed;
+    color: #d91d78;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.materi-content-card p {
+    margin: 0;
+    color: #634b5b;
+    font-size: 0.96rem;
+    line-height: 1.9;
+    text-align: justify;
+}
+
+/* =========================================
+   BAGIAN POIN PENTING DAN CONTOH
+   ========================================= */
+
+.materi-reading-section {
+    margin-top: 30px;
+    padding: 24px 26px;
+    border: 1px solid #f8c4dc;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fff0f7, #fff9f2);
+}
+
+.materi-reading-section h3 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: #c21870;
+    font-size: 1.1rem;
+}
+
+.materi-reading-section ul {
+    margin-bottom: 0;
+    padding-left: 22px;
+}
+
+.materi-reading-section li {
+    margin-bottom: 12px;
+    color: #634b5b;
+    line-height: 1.8;
+}
+
+.materi-reading-section li:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+
+    .materi-content-card,
+    .materi-reading-section {
+        padding: 18px;
+    }
+
+    .materi-content-card p {
+        font-size: 0.9rem;
+        text-align: left;
+    }
+}
