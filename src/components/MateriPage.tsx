@@ -25,7 +25,12 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
     const chapterGroups = selectedModule?.submodules.reduce<
         Record<string, SubModule[]>
     >((groups, submodule) => {
-        const chapter = submodule.title.split(' · ')[0];
+        // Jika judul menggunakan format "Bab · Submateri", gunakan bagian pertama sebagai chapter.
+        // Jika tidak, kelompokkan semua submateri di bawah judul modul (satu chapter utama).
+        const hasBabFormat = submodule.title.includes(' · ');
+        const chapter = hasBabFormat
+            ? submodule.title.split(' · ')[0]
+            : (selectedModule?.title ?? 'Submateri');
 
         if (!groups[chapter]) {
             groups[chapter] = [];
@@ -137,7 +142,7 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                             )
                                         }
                                     >
-                                        <span>
+                                    <span>
                                             <strong>{chapter}</strong>
                                             <small>{submodules.length} submateri</small>
                                         </span>
@@ -157,7 +162,9 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                                     onClick={() => setSelectedSubmodule(submodule)}
                                                 >
                                                     <span>{index + 1}</span>
-                                                    {submodule.title.split(' · ')[1] ?? submodule.title}
+                                                    {submodule.title.includes(' · ')
+                                                        ? submodule.title.split(' · ')[1]
+                                                        : submodule.title}
                                                     <span>→</span>
                                                 </button>
                                             ))}
