@@ -1,5 +1,7 @@
 import type { QuizQuestion } from './types';
 
+export const MODUL1_QUESTION_VERSION = 'v1';
+
 export const modul1Quiz: QuizQuestion[] = [
   {
     id: 'm1-q1',
@@ -34,7 +36,7 @@ export const modul1Quiz: QuizQuestion[] = [
     jawabanBenar: 'D',
     pembahasan:
       'Magnesium melepaskan dua elektron menjadi Mg²⁺, sedangkan oksigen menerima dua elektron menjadi O²⁻. Keduanya memperoleh konfigurasi elektron yang stabil seperti gas mulia.',
-  },
+    },
   {
     id: 'm1-q3',
     questionVersion: 'v1',

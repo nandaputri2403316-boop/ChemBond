@@ -16,13 +16,43 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
   onNavigate,
   onOpenProfile,
 }) => {
-  // Load real history
-  const [history] = useState<QuizAttemptRecord[]>(() => loadQuizHistory());
+  // Load real history terikat pada UID siswa yang sedang aktif
+  const [history] = useState<QuizAttemptRecord[]>(() => loadQuizHistory(user.uid));
   const [activeTab, setActiveTab] = useState<'all' | 'weekly'>('all');
 
   const firstName = useMemo(() => {
     return user.namaLengkap?.trim().split(' ')[0] || 'Siswa';
   }, [user.namaLengkap]);
+
+  // Aktivitas mingguan nyata dihitung dari timestamp pengerjaan (tanpa data fiktif)
+  const weeklyData = useMemo(() => {
+    const days = [
+      { day: 'Sen', label: 'Sen', count: 0 },
+      { day: 'Sel', label: 'Sel', count: 0 },
+      { day: 'Rab', label: 'Rab', count: 0 },
+      { day: 'Kam', label: 'Kam', count: 0 },
+      { day: 'Jum', label: 'Jum', count: 0 },
+      { day: 'Sab', label: 'Sab', count: 0 },
+      { day: 'Min', label: 'Min', count: 0 },
+    ];
+
+    history.forEach((rec) => {
+      if (rec.completedAt) {
+        const date = new Date(rec.completedAt);
+        const dayIdx = date.getDay(); // 0: Sun, 1: Mon ... 6: Sat
+        const mappedIdx = dayIdx === 0 ? 6 : dayIdx - 1; // 0: Sen ... 6: Min
+        if (days[mappedIdx]) {
+          days[mappedIdx].count += 1;
+        }
+      }
+    });
+
+    const maxCount = Math.max(...days.map((d) => d.count), 1);
+    return days.map((d) => ({
+      ...d,
+      val: d.count > 0 ? Math.round((d.count / maxCount) * 100) : 0,
+    }));
+  }, [history]);
 
   // Real statistics computation
   const stats = useMemo(() => {
@@ -461,20 +491,13 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
               <p className="widget-subtitle">Aktivitas belajar mingguan.</p>
 
               <div className="weekly-bars-container">
-                {[
-                  { day: 'Sen', val: history.length > 0 ? 60 : 10, label: 'Sen' },
-                  { day: 'Sel', val: history.length > 1 ? 80 : 15, label: 'Sel' },
-                  { day: 'Rab', val: 35, label: 'Rab' },
-                  { day: 'Kam', val: history.length > 2 ? 90 : 20, label: 'Kam' },
-                  { day: 'Jum', val: 50, label: 'Jum' },
-                  { day: 'Sab', val: 40, label: 'Sab' },
-                  { day: 'Min', val: 25, label: 'Min' },
-                ].map((item, idx) => (
+                {weeklyData.map((item, idx) => (
                   <div key={item.day} className="weekly-bar-column">
                     <div className="bar-track">
                       <div
                         className={`bar-fill bar-shade-${(idx % 3) + 1}`}
                         style={{ height: `${item.val}%` }}
+                        title={`${item.count} pengerjaan pada hari ${item.label}`}
                       />
                     </div>
                     <span className="bar-day-label">{item.label}</span>

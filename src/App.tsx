@@ -10,6 +10,7 @@ import StudentProfile from './components/student/StudentProfile';
 import { MateriPage } from './components/MateriPage';
 import { SimulasiPage } from './components/SimulasiPage';
 import { QuizSection } from './components/QuizSection';
+import { ProgresPage } from './components/ProgresPage';
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Footer } from './components/Footer';
 import { MoleculeDecorations } from './components/MoleculeDecorations';
@@ -233,52 +234,23 @@ export function App() {
                 {currentPage === 'Materi' && <MateriPage onNavigate={handleNavigate} />}
 
                 {/* 4. HALAMAN KUIS & LATIHAN */}
-                {currentPage === 'Kuis' && <QuizSection onNavigate={handleNavigate} />}
+                {currentPage === 'Kuis' && (
+                  <QuizSection
+                    key={currentUser?.uid || 'guest'}
+                    onNavigate={handleNavigate}
+                    currentUser={currentUser}
+                  />
+                )}
 
                 {/* 5. HALAMAN SIMULASI */}
                 {currentPage === 'Simulasi' && <SimulasiPage onNavigate={handleNavigate} />}
 
                 {/* 6. HALAMAN PROGRES */}
                 {currentPage === 'Progres' && (
-                  <main id="main-content" className="page-placeholder-section">
-                    <div className="container">
-                      <div className="placeholder-panel">
-                        <div className="placeholder-badge-pill">
-                          <span>🔬 Halaman Progres • ChemBond SMA</span>
-                        </div>
-
-                        <h1 className="placeholder-heading">
-                          Progres dan Riwayat Belajar
-                        </h1>
-
-                        <p className="placeholder-subheading">
-                          Pemantauan status penyelesaian materi dan pencatatan riwayat skor kuis berbasis Local Storage tanpa perlu login.
-                        </p>
-
-                        <div className="placeholder-status-card">
-                          <div className="placeholder-status-icon">🚀</div>
-
-                          <div className="placeholder-status-info">
-                            <h4>Fondasi Navigasi Aktif</h4>
-                            <p>
-                              Navigasi halaman Progres telah terhubung dengan state aplikasi.
-                              Komponen dan fitur halaman ini sedang disiapkan untuk tahap implementasi berikutnya.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="placeholder-actions">
-                          <button
-                            type="button"
-                            className="btn btn-capsule-cta-main"
-                            onClick={() => handleNavigate('Beranda')}
-                          >
-                            ← Kembali ke Beranda
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </main>
+                  <ProgresPage
+                    onNavigate={handleNavigate}
+                    currentUser={currentUser}
+                  />
                 )}
               </>
             )}

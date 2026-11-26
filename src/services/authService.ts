@@ -344,8 +344,29 @@ export async function updateUserProfileDoc(
 ): Promise<void> {
   const activeDb = db;
   if (activeDb && isFirebaseConfigured) {
-    const userDocRef = doc(activeDb, 'users', uid);
-    await setDoc(userDocRef, updates, { merge: true });
+    // Sanitasi keamanan klien:
+    // Cegah modifikasi role dan uid dari sisi klien (AGENTS.md Aturan 7 & Ketentuan Tahap 2)
+    // Saring hanya field yang diizinkan untuk diperbarui oleh pengguna
+    const allowedKeys: (keyof UserProfile)[] = [
+      'namaLengkap',
+      'kelas',
+      'nomorPresensi',
+      'profileCompleted',
+      'isClassMember',
+    ];
+
+    const safeUpdates: Partial<UserProfile> = {};
+    for (const key of allowedKeys) {
+      if (key in updates && updates[key] !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (safeUpdates as any)[key] = updates[key];
+      }
+    }
+
+    if (Object.keys(safeUpdates).length > 0) {
+      const userDocRef = doc(activeDb, 'users', uid);
+      await setDoc(userDocRef, safeUpdates, { merge: true });
+    }
   }
 }
 

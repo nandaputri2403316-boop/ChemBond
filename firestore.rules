@@ -1,0 +1,153 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =========================================================================
+    // FUNGSI BANTUAN AUTENTIKASI DAN OTORISASI CHEMBOND (TAHAP 2C)
+    // =========================================================================
+
+    // 1. Memeriksa apakah pengguna telah terautentikasi (login)
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // 2. Memeriksa apakah pengguna mengakses dokumen miliknya sendiri
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 3. Memeriksa apakah pengguna adalah Guru Kimia ChemBond yang sah (Validasi Ketat):
+    // - Wajib terautentikasi
+    // - Wajib memiliki UID guru yang telah ditetapkan: 'XBkANOSz1TdoKNVwgRlQxqjzBhm1'
+    // - Wajib memiliki email token resmi: 'guru@chembond.sch.id'
+    // - Dokumen profil Firestore pada users/{uid} wajib ada dan memiliki field role == 'teacher'
+    // - Menolak akses guru jika hanya email yang cocok tanpa UID sah
+    // - Menolak akun lain yang mencoba memanipulasi field role sendiri
+    function isTeacher() {
+      return isAuthenticated() &&
+        request.auth.uid == 'XBkANOSz1TdoKNVwgRlQxqjzBhm1' &&
+        request.auth.token.email == 'guru@chembond.sch.id' &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
+    }
+
+    // =========================================================================
+    // KOLEKSI: users (Profil Siswa dan Guru)
+    // =========================================================================
+    match /users/{userId} {
+      // Membaca data profil:
+      // - Guru yang sah dapat membaca seluruh profil siswa untuk pemantauan, rekap nilai, dan pengelolaan kelas
+      // - Siswa hanya dapat membaca data profil miliknya sendiri
+      // - Tamu / pengguna yang belum login ditolak secara total
+      allow read: if isOwner(userId) || isTeacher();
+
+      // Pendaftaran mandiri siswa (Create):
+      // - Siswa hanya dapat mendaftarkan dokumen dengan UID miliknya sendiri (isOwner)
+      // - Role WAJIB 'student' (DILARANG mendaftar sebagai 'teacher')
+      // - Field uid di dalam dokumen harus cocok dengan userId
+      // - Akun guru telah dibuat dan dikelola secara terpisah oleh pengembang di Firebase Console
+      allow create: if isOwner(userId) &&
+        request.resource.data.role == 'student' &&
+        request.resource.data.uid == userId;
+
+      // Pembaruan data profil siswa (Update - Tahap 2C):
+      // - Hanya pemilik dokumen yang dapat memperbarui datanya sendiri
+      // - Siswa HANYA dapat memperbarui 5 field: namaLengkap, kelas, nomorPresensi, profileCompleted, isClassMember
+      // - Dilarang keras mengubah uid, role, email, provider, createdAt, maupun field sistem lainnya
+      // - Menggunakan diff().affectedKeys().hasOnly() untuk penegakan ketat di tingkat database
+      allow update: if isOwner(userId) &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['namaLengkap', 'kelas', 'nomorPresensi', 'profileCompleted', 'isClassMember']);
+
+      // Penghapusan dokumen akun dilarang dari sisi klien
+      allow delete: if false;
+
+      // Sub-koleksi riwayat kuis per siswa (opsi subkoleksi jika digunakan di kemudian hari)
+      match /quiz_attempts/{attemptId} {
+        allow read: if isOwner(userId) || isTeacher();
+        allow create: if isOwner(userId) &&
+          exists(/databases/$(database)/documents/users/$(userId)) &&
+          get(/databases/$(database)/documents/users/$(userId)).data.role == 'student' &&
+          request.resource.data.studentUid == userId &&
+          request.resource.data.attemptId == attemptId &&
+          request.resource.data.score is number &&
+          request.resource.data.score >= 0 &&
+          request.resource.data.score <= 100 &&
+          request.resource.data.studentName is string &&
+          request.resource.data.studentName.size() > 0 &&
+          (
+            !('namaLengkap' in get(/databases/$(database)/documents/users/$(userId)).data) ||
+            request.resource.data.studentName == get(/databases/$(database)/documents/users/$(userId)).data.namaLengkap
+          ) &&
+          (
+            !('kelas' in get(/databases/$(database)/documents/users/$(userId)).data) ||
+            request.resource.data.kelas == get(/databases/$(database)/documents/users/$(userId)).data.kelas
+          ) &&
+          (
+            !('nomorPresensi' in get(/databases/$(database)/documents/users/$(userId)).data) ||
+            request.resource.data.nomorPresensi == get(/databases/$(database)/documents/users/$(userId)).data.nomorPresensi ||
+            string(request.resource.data.nomorPresensi) == string(get(/databases/$(database)/documents/users/$(userId)).data.nomorPresensi)
+          );
+        allow update, delete: if false; // Riwayat kuis bersifat immutable
+      }
+    }
+
+    // =========================================================================
+    // KOLEKSI UTAMA: quiz_attempts (Hasil & Percobaan Kuis Terpusat - Tahap 2C)
+    // =========================================================================
+    match /quiz_attempts/{attemptId} {
+      // Pembacaan hasil kuis:
+      // - Guru yang sah dapat membaca hasil kuis seluruh siswa lintas kelas
+      // - Siswa hanya dapat membaca hasil kuis miliknya sendiri (studentUid == request.auth.uid)
+      // - Siswa A tidak dapat membaca hasil kuis Siswa B
+      allow read: if isTeacher() || (
+        isAuthenticated() && resource.data.studentUid == request.auth.uid
+      );
+
+      // Penyimpanan hasil kuis baru (Create - Validasi Ketat & Aman):
+      // 1. Pengguna wajib terautentikasi (login)
+      // 2. Dokumen profil siswa users/{uid} wajib tersedia di Firestore
+      // 3. Role pada dokumen profil wajib 'student'
+      // 4. studentUid pada dokumen kuis WAJIB sama dengan UID pengguna yang sedang login
+      // 5. attemptId pada payload dokumen WAJIB sama dengan {attemptId} pada path dokumen
+      // 6. score kuis wajib berupa angka antara 0 dan 100
+      // 7. studentName wajib berupa teks tidak kosong
+      // 8. Pemeriksaan namaLengkap, kelas, nomorPresensi menggunakan validasi aman (aman terhadap NoSuchKey jika field belum diisi)
+      allow create: if isAuthenticated() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'student' &&
+        request.resource.data.studentUid == request.auth.uid &&
+        request.resource.data.attemptId == attemptId &&
+        request.resource.data.score is number &&
+        request.resource.data.score >= 0 &&
+        request.resource.data.score <= 100 &&
+        request.resource.data.studentName is string &&
+        request.resource.data.studentName.size() > 0 &&
+        (
+          !('namaLengkap' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) ||
+          request.resource.data.studentName == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.namaLengkap
+        ) &&
+        (
+          !('kelas' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) ||
+          request.resource.data.kelas == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.kelas
+        ) &&
+        (
+          !('nomorPresensi' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) ||
+          request.resource.data.nomorPresensi == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.nomorPresensi ||
+          string(request.resource.data.nomorPresensi) == string(get(/databases/$(database)/documents/users/$(request.auth.uid)).data.nomorPresensi)
+        );
+
+      // Larangan modifikasi dan penghapusan (AGENTS.md Aturan 6):
+      // Percobaan kuis memiliki ID unik dan bersifat tetap (immutable); riwayat tidak boleh ditimpa atau dihapus
+      allow update, delete: if false;
+    }
+
+    // =========================================================================
+    // ATURAN DEFAULT PENOLAKAN (DENY ALL UNREGISTERED PATHS)
+    // =========================================================================
+    // Menolak akses tamu atau rute koleksi lain yang tidak terdaftar secara eksplisit
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

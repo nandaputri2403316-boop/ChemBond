@@ -1,32 +1,38 @@
 import React, { useState, useCallback, useId } from 'react';
 import './QuizSection.css';
-import { modul1Quiz } from '../data/kuis/modul1Quiz';
+import { modul1Quiz, MODUL1_QUESTION_VERSION } from '../data/kuis/modul1Quiz';
 import type { QuizQuestion, QuizOption } from '../data/kuis/types';
 import {
   generateAttemptId,
   saveQuizDraft,
   loadQuizDraft,
   clearQuizDraft,
-  saveQuizAttempt,
   loadQuizHistory,
   isLocalStorageAvailable,
   type QuizDraft,
   type QuizAttemptRecord,
 } from '../services/localStore';
+import { submitQuizAttempt } from '../services/quizService';
+import type { UserProfile } from '../types/auth';
 import type { Page } from './Navbar';
 
 interface QuizSectionProps {
   onNavigate?: (page: Page) => void;
+  currentUser?: UserProfile | null;
 }
 
 type QuizPhase = 'intro' | 'in_progress' | 'completed';
 
-export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
-  // Inisialisasi state secara lazy dari LocalStorage untuk menghindari cascading render
-  const [history, setHistory] = useState<QuizAttemptRecord[]>(() => loadQuizHistory());
+export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate, currentUser }) => {
+  const currentOwnerId = currentUser?.uid || 'guest';
+
+  // Inisialisasi state riwayat kuis sesuai pemilik akun
+  const [history, setHistory] = useState<QuizAttemptRecord[]>(() =>
+    loadQuizHistory(currentOwnerId)
+  );
 
   const [draftInfo, setDraftInfo] = useState<QuizDraft | null>(() => {
-    const existingDraft = loadQuizDraft();
+    const existingDraft = loadQuizDraft(currentOwnerId, MODUL1_QUESTION_VERSION);
     if (existingDraft && Object.keys(existingDraft.answers).length > 0) {
       return existingDraft;
     }
@@ -34,7 +40,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
   });
 
   const [hasExistingDraft, setHasExistingDraft] = useState<boolean>(() => {
-    const existingDraft = loadQuizDraft();
+    const existingDraft = loadQuizDraft(currentOwnerId, MODUL1_QUESTION_VERSION);
     return Boolean(existingDraft && Object.keys(existingDraft.answers).length > 0);
   });
 
@@ -49,6 +55,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
   const [attemptId, setAttemptId] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Status notifikasi dan error handling
   const [storageStatusMessage, setStorageStatusMessage] = useState<string | null>(null);
@@ -62,7 +69,7 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
   // Mulai kuis baru
   const handleStartNewQuiz = useCallback(() => {
     const newAttemptId = generateAttemptId();
-    clearQuizDraft();
+    clearQuizDraft(currentOwnerId);
     setAttemptId(newAttemptId);
     setCurrentIndex(0);
     setAnswers({});
@@ -73,14 +80,16 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
     setCompletedRecord(null);
     setPhase('in_progress');
 
-    // Buat dan simpan draf awal
+    // Buat dan simpan draf awal dengan isolasi UID
     const initialDraft: QuizDraft = {
       attemptId: newAttemptId,
+      ownerId: currentOwnerId,
+      questionVersion: MODUL1_QUESTION_VERSION,
       currentIndex: 0,
       answers: {},
     };
-    saveQuizDraft(initialDraft);
-  }, []);
+    saveQuizDraft(initialDraft, currentOwnerId);
+  }, [currentOwnerId]);
 
   // Lanjutkan kuis dari draf
   const handleResumeDraft = useCallback(() => {
@@ -110,13 +119,15 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
     };
     setAnswers(updatedAnswers);
 
-    // Simpan otomatis ke draf
+    // Simpan otomatis ke draf terikat UID pemilik
     const draft: QuizDraft = {
       attemptId,
+      ownerId: currentOwnerId,
+      questionVersion: MODUL1_QUESTION_VERSION,
       currentIndex,
       answers: updatedAnswers,
     };
-    const res = saveQuizDraft(draft);
+    const res = saveQuizDraft(draft, currentOwnerId);
     if (!res.success) {
       setStorageWarning('Gagal menyimpan draf ke penyimpanan lokal.');
     } else {
@@ -130,18 +141,22 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
     setCurrentIndex(newIndex);
     setValidationError(null);
 
-    // Perbarui nomor soal terakhir di draf
+    // Perbarui nomor soal terakhir di draf terikat UID
     const draft: QuizDraft = {
       attemptId,
+      ownerId: currentOwnerId,
+      questionVersion: MODUL1_QUESTION_VERSION,
       currentIndex: newIndex,
       answers,
     };
-    saveQuizDraft(draft);
+    saveQuizDraft(draft, currentOwnerId);
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
   // Selesaikan kuis (Submit)
-  const handleSubmitQuiz = () => {
+  const handleSubmitQuiz = async () => {
+    if (isSubmitting) return;
+
     // 1. Validasi kelengkapan jawaban
     const unansweredIndexes: number[] = [];
     modul1Quiz.forEach((q, idx) => {
@@ -171,45 +186,71 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
     const totalIncorrect = totalQuestions - totalCorrect;
     const score = Math.round((totalCorrect / totalQuestions) * 100);
 
-    // 3. Simpan jawaban awal sebelum pembahasan dibuka (AGENTS.md Rule 6)
-    const newRecord: QuizAttemptRecord = {
-      attemptId,
-      ownerId: 'guest',
-      moduleId: 'materi-1',
-      activityId: 'kuis-diagnostik-m1',
-      questionVersion: 'v1',
-      initialAnswers: { ...answers },
-      score,
-      totalCorrect,
-      totalIncorrect,
-      totalQuestions,
-    };
+    setIsSubmitting(true);
 
-    const saveResult = saveQuizAttempt(newRecord);
-    const persistedRecord = saveResult.data || newRecord;
-
-    if (!saveResult.success) {
-      setStorageWarning(
-        'Pemberitahuan: Hasil pengerjaan tidak dapat disimpan permanen ke LocalStorage (kemungkinan kuota penuh atau dibatasi). Namun, pembahasan tetap dapat Anda pelajari saat ini.'
+    try {
+      // 3. Simpan hasil kuis via quizService (Firestore + LocalStorage fallback)
+      const submissionResult = await submitQuizAttempt(
+        {
+          attemptId,
+          studentUid: currentOwnerId,
+          moduleId: 'materi-1',
+          activityId: 'kuis-diagnostik-m1',
+          questionVersion: MODUL1_QUESTION_VERSION,
+          initialAnswers: { ...answers },
+          score,
+          totalCorrect,
+          totalIncorrect,
+          totalQuestions,
+        },
+        currentUser
       );
-    } else {
-      setStorageWarning(null);
+
+      const persistedRecord: QuizAttemptRecord = submissionResult.data || {
+        attemptId,
+        ownerId: currentOwnerId,
+        studentName: currentUser?.namaLengkap || 'Siswa Mandiri (Tamu)',
+        kelas: currentUser?.kelas || 'Tamu',
+        nomorPresensi: currentUser?.nomorPresensi || 0,
+        moduleId: 'materi-1',
+        activityId: 'kuis-diagnostik-m1',
+        questionVersion: MODUL1_QUESTION_VERSION,
+        initialAnswers: { ...answers },
+        score,
+        totalCorrect,
+        totalIncorrect,
+        totalQuestions,
+        completedAt: new Date().toISOString(),
+        savedToCloud: submissionResult.savedToCloud,
+      };
+
+      if (!submissionResult.savedToCloud && currentUser?.role === 'student') {
+        setStorageWarning(
+          submissionResult.error ||
+            'Hasil kuis tersimpan secara lokal pada peramban. Penyimpanan ke server cloud belum berhasil.'
+        );
+      } else {
+        setStorageWarning(null);
+      }
+
+      // 4. Bersihkan draf akun ini karena sudah selesai
+      clearQuizDraft(currentOwnerId);
+      setHasExistingDraft(false);
+      setDraftInfo(null);
+
+      // 5. Perbarui riwayat di state
+      setHistory(loadQuizHistory(currentOwnerId));
+      setCompletedRecord(persistedRecord);
+      setPhase('completed');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    // 4. Bersihkan draf karena sudah selesai
-    clearQuizDraft();
-    setHasExistingDraft(false);
-    setDraftInfo(null);
-
-    // 5. Perbarui riwayat di state
-    setHistory(loadQuizHistory());
-    setCompletedRecord(persistedRecord);
-    setPhase('completed');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Ulangi kuis dari awal
   const handleRestartQuiz = () => {
+    setCompletedRecord(null);
     handleStartNewQuiz();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -559,9 +600,10 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
                     type="button"
                     className="btn btn-capsule-cta-main btn-submit-quiz"
                     onClick={handleSubmitQuiz}
+                    disabled={isSubmitting}
                     aria-label="Selesaikan Kuis dan Lihat Hasil"
                   >
-                    ✓ Selesaikan Kuis
+                    {isSubmitting ? 'Menyimpan Hasil...' : '✓ Selesaikan Kuis'}
                   </button>
                 )}
               </footer>
@@ -590,6 +632,25 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate }) => {
               <div className="result-badge-pill">
                 <span>🎉 Hasil Kuis Diagnostik Selesai</span>
               </div>
+
+              {/* Status Penyimpanan Cloud / Lokal (Tahap 3) */}
+              {completedRecord.savedToCloud ? (
+                <div className="quiz-alert-banner alert-info" style={{ marginTop: '16px', marginBottom: '16px' }} role="status">
+                  <span className="alert-icon">☁️</span>
+                  <p className="alert-text">
+                    Hasil evaluasi tersimpan permanen di Cloud Firestore atas nama <strong>{completedRecord.studentName || currentUser?.namaLengkap}</strong> (Kelas {completedRecord.kelas || currentUser?.kelas}).
+                  </p>
+                </div>
+              ) : (
+                <div className="quiz-alert-banner alert-warning" style={{ marginTop: '16px', marginBottom: '16px' }} role="status">
+                  <span className="alert-icon">💾</span>
+                  <p className="alert-text">
+                    {currentUser?.role === 'student'
+                      ? `Hasil kuis tersimpan secara lokal di perangkat ini. ${completedRecord.cloudError || 'Penyimpanan server cloud sedang tertunda.'}`
+                      : 'Mode Mandiri / Tamu: Hasil kuis tersimpan secara lokal pada peramban perangkat Anda.'}
+                  </p>
+                </div>
+              )}
 
               <h1 className="result-heading">Evaluasi Pemahaman Ikatan Kimia</h1>
 
