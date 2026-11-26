@@ -169,73 +169,60 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                     </section>
                 )}
 
+                {selectedModule && selectedSubmodule && (
+                    <article className="materi-reading">
+                        <button type="button" className="materi-back" onClick={handleBack}>
+                            ← Kembali ke daftar submateri
+                        </button>
 
-                <article className="materi-reading">
-                    <button
-                        type="button"
-                        className="materi-back"
-                        onClick={handleBack}
-                    >
-                        ← Kembali ke daftar submateri
-                    </button>
+                        <span className="materi-badge">{selectedModule.title}</span>
+                        <h2>{selectedSubmodule.title}</h2>
 
-                    <span className="materi-badge">{selectedModule.title}</span>
-                    <h2>{selectedSubmodule.title}</h2>
-
-                    <div className="materi-content-list">
                         {selectedSubmodule.content.map((paragraph, index) => (
-                            <section className="materi-content-card" key={index}>
-                                <span className="materi-content-number">
-                                    {index === 0 ? 'PENGANTAR' : `KONSEP ${index}`}
-                                </span>
-                                <p>{paragraph}</p>
-                            </section>
+                            <p key={index}>{paragraph}</p>
                         ))}
-                    </div>
 
-                    {selectedSubmodule.keyPoints && (
-                        <section className="materi-reading-section">
-                            <h3>💡 Hal Penting yang Perlu Diingat</h3>
-                            <ul>
-                                {selectedSubmodule.keyPoints.map((point, index) => (
-                                    <li key={index}>{point}</li>
-                                ))}
-                            </ul>
-                        </section>
-                    )}
+                        {selectedSubmodule.keyPoints && (
+                            <>
+                                <h3>Hal Penting yang Perlu Diingat</h3>
+                                <ul>
+                                    {selectedSubmodule.keyPoints.map((point, index) => (
+                                        <li key={index}>{point}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
 
-                    {selectedSubmodule.examples && (
-                        <section className="materi-reading-section">
-                            <h3>🌍 Contoh dalam Kehidupan Sehari-hari</h3>
-                            <ul>
-                                {selectedSubmodule.examples.map((example, index) => (
-                                    <li key={index}>{example}</li>
-                                ))}
-                            </ul>
-                        </section>
-                    )}
+                        {selectedSubmodule.examples && (
+                            <>
+                                <h3>Contoh dalam Kehidupan Sehari-hari</h3>
+                                <ul>
+                                    {selectedSubmodule.examples.map((example, index) => (
+                                        <li key={index}>{example}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        )}
 
-                    {onNavigate && (
-                        <div className="materi-reading-simulasi-box">
-                            <div className="reading-simulasi-badge">
-                                🔬 PRAKTIKUM VIRTUAL
+                        {onNavigate && (
+                            <div className="materi-reading-simulasi-box">
+                                <div className="reading-simulasi-badge">🔬 PRAKTIKUM VIRTUAL</div>
+                                <h4>Ingin Mengamati Interaksi Molekul Secara Langsung?</h4>
+                                <p>
+                                    Kombinasikan pemahaman konsep di modul ini dengan simulasi 3D PhET Colorado,
+                                    visualisasi bentuk molekul VSEPR, dan simulasi transfer elektron NaCl!
+                                </p>
+                                <button
+                                    type="button"
+                                    className="btn-buka-simulasi"
+                                    onClick={() => onNavigate('Simulasi')}
+                                >
+                                    Buka Laboratorium Virtual ChemBond →
+                                </button>
                             </div>
-                            <h4>Ingin Mengamati Interaksi Molekul Secara Langsung?</h4>
-                            <p>
-                                Kombinasikan pemahaman konsep di modul ini dengan simulasi
-                                3D PhET Colorado, visualisasi bentuk molekul VSEPR,
-                                dan simulasi transfer elektron NaCl!
-                            </p>
-                            <button
-                                type="button"
-                                className="btn-buka-simulasi"
-                                onClick={() => onNavigate('Simulasi')}
-                            >
-                                Buka Laboratorium Virtual ChemBond →
-                            </button>
-                        </div>
-                    )}
-                </article>
+                        )}
+                    </article>
+                )}
             </div>
         </main>
     );
