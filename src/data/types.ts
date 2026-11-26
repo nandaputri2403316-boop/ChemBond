@@ -26,6 +26,16 @@ export const GUEST_OWNER_ID = 'guest' as const;
 // 2. Kontrak Data Materi Pembelajaran
 // ============================================================================
 
+/** Media pemantik opsional di awal submodul (video YouTube atau gambar). */
+export interface SubModuleHook {
+  type: 'video' | 'image';
+  url: string;
+  caption?: string;
+  credit?: string;
+  /** Teks fallback bila embed diblokir atau gagal dimuat. */
+  fallbackText?: string;
+}
+
 export interface SubModule {
   id: string;                       // e.g. 'sub-1-1', 'sub-1-2'
   title: string;                    // Judul submateri
@@ -33,6 +43,7 @@ export interface SubModule {
   keyPoints?: string[];             // Poin ringkasan / rumus penting
   examples?: string[];              // Contoh senyawa atau fenomena kehidupan sehari-hari
   illustrationType?: 'atom' | 'lewis' | 'molecule' | 'crystal' | 'reaction';
+  hook?: SubModuleHook;             // Media pemantik opsional (video/gambar)
 }
 
 export interface ModuleData {
