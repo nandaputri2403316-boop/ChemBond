@@ -1,0 +1,218 @@
+/* ==========================================================================
+   HookMedia — Media Pemantik (Video & Gambar)
+   ========================================================================== */
+
+/* ── Wrapper video + thumbnail ───────────────────────────────────────────── */
+.hook-video-wrapper,
+.hook-thumbnail-wrapper {
+    margin-bottom: 28px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+/* iframe 16:9 responsif */
+.hook-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    background: #000;
+}
+
+.hook-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ── Thumbnail klik-untuk-putar ──────────────────────────────────────────── */
+.hook-thumbnail-btn {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background: #000;
+    border-radius: 0;
+    line-height: 0;
+}
+
+.hook-thumbnail-img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: opacity 0.2s ease;
+}
+
+.hook-thumbnail-btn:hover .hook-thumbnail-img {
+    opacity: 0.85;
+}
+
+.hook-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    pointer-events: none;
+    transition: transform 0.2s ease;
+}
+
+.hook-thumbnail-btn:hover .hook-play-btn {
+    transform: scale(1.1);
+}
+
+.hook-video-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    flex-wrap: wrap;
+}
+
+/* ── Gambar ──────────────────────────────────────────────────────────────── */
+.hook-image-wrapper {
+    margin-bottom: 28px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.hook-image {
+    width: 100%;
+    display: block;
+    max-height: 380px;
+    object-fit: cover;
+}
+
+.hook-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 160px;
+    padding: 28px;
+    font-size: 2.5rem;
+    color: var(--text-dark-secondary);
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.hook-image-placeholder p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ── Caption & credit ────────────────────────────────────────────────────── */
+.hook-caption {
+    margin: 0;
+    padding: 10px 16px;
+    font-size: 0.84rem;
+    color: #634b5b;
+    background: #fff;
+    line-height: 1.5;
+}
+
+.hook-credit {
+    font-style: italic;
+    opacity: 0.75;
+}
+
+/* ── Fallback kartu ──────────────────────────────────────────────────────── */
+.hook-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+    border-radius: var(--radius-md);
+    background: #fff8e1;
+    border-left: 4px solid #f59e0b;
+}
+
+.hook-fallback-icon {
+    font-size: 1.8rem;
+}
+
+.hook-fallback p {
+    margin: 0;
+    font-size: 0.93rem;
+    color: #4a3200;
+    line-height: 1.6;
+}
+
+.hook-fallback-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 28px;
+    min-height: 120px;
+    text-align: center;
+}
+
+/* ── Tombol buka YouTube ─────────────────────────────────────────────────── */
+.hook-yt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    background: #ff0000;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: filter 0.2s ease;
+    flex-shrink: 0;
+}
+
+.hook-yt-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* ── Aksen warna per submodul (border-left pada wrapper gambar) ──────────── */
+.hook-accent-blue .hook-video-footer,
+.hook-accent-blue figcaption { border-top: 3px solid #3b82f6; }
+
+.hook-accent-orange .hook-video-footer,
+.hook-accent-orange figcaption { border-top: 3px solid #f97316; }
+
+.hook-accent-purple .hook-video-footer,
+.hook-accent-purple figcaption { border-top: 3px solid #8b5cf6; }
+
+.hook-accent-teal .hook-video-footer,
+.hook-accent-teal figcaption { border-top: 3px solid #14b8a6; }
+
+.hook-accent-pink .hook-video-footer,
+.hook-accent-pink figcaption { border-top: 3px solid #ec4899; }
+
+.hook-accent-green .hook-video-footer,
+.hook-accent-green figcaption { border-top: 3px solid #22c55e; }
+
+/* ── prefers-reduced-motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .hook-thumbnail-img,
+    .hook-play-btn,
+    .hook-yt-btn { transition: none; }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .hook-video-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

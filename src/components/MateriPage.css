@@ -410,9 +410,6 @@
 
 .materi-chapter .materi-submodule-card:hover {
     transform: translateX(4px);
-    border-color: #ed4b99;
-    background: #fff0f7;
-    color: #c21870;
     filter: none;
 }
 
@@ -434,6 +431,26 @@
     font-weight: 900;
 }
 
+.submodule-icon-sm {
+    font-size: 1.1rem;
+}
+
+.submodule-num {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 0.88rem;
+}
+
+.submodule-arrow {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
 @media (max-width: 768px) {
     .materi-objectives {
         padding: 16px;
@@ -450,5 +467,286 @@
     .materi-chapter .materi-submodule-card {
         padding: 13px;
         font-size: 0.85rem;
+    }
+}
+
+/* ==========================================================================
+   WARNA AKSEN PER SUBMODUL
+   Token warna: setiap submodul punya --sub-accent & --sub-accent-soft
+   ========================================================================== */
+
+/* Biru — sub-2-1 */
+.accent-blue {
+    --sub-accent:      #3b82f6;
+    --sub-accent-soft: #eff6ff;
+    --sub-accent-mid:  #bfdbfe;
+    --sub-text-on:     #1e3a8a;
+}
+/* Oranye — sub-2-2 */
+.accent-orange {
+    --sub-accent:      #f97316;
+    --sub-accent-soft: #fff7ed;
+    --sub-accent-mid:  #fed7aa;
+    --sub-text-on:     #7c2d12;
+}
+/* Ungu — sub-2-3 */
+.accent-purple {
+    --sub-accent:      #8b5cf6;
+    --sub-accent-soft: #f5f3ff;
+    --sub-accent-mid:  #ddd6fe;
+    --sub-text-on:     #3b0764;
+}
+/* Teal — sub-2-4 */
+.accent-teal {
+    --sub-accent:      #14b8a6;
+    --sub-accent-soft: #f0fdfa;
+    --sub-accent-mid:  #99f6e4;
+    --sub-text-on:     #134e4a;
+}
+/* Merah muda — sub-2-5 */
+.accent-pink {
+    --sub-accent:      #ec4899;
+    --sub-accent-soft: #fdf2f8;
+    --sub-accent-mid:  #f9a8d4;
+    --sub-text-on:     #701a75;
+}
+/* Hijau — sub-2-6 */
+.accent-green {
+    --sub-accent:      #22c55e;
+    --sub-accent-soft: #f0fdf4;
+    --sub-accent-mid:  #bbf7d0;
+    --sub-text-on:     #14532d;
+}
+
+/* =========================================
+   HERO HEADER SUBMODUL BERWARNA
+   ========================================= */
+
+.submodule-hero {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 24px;
+    margin-bottom: 28px;
+    border-radius: var(--radius-md, 18px);
+    background: var(--sub-accent-soft, #f9fafb);
+    border-left: 5px solid var(--sub-accent, #c21870);
+}
+
+.submodule-hero-icon {
+    font-size: 2.4rem;
+    flex-shrink: 0;
+}
+
+.submodule-modul-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--sub-accent, #c21870);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.submodule-title {
+    margin: 0 !important;
+    color: var(--sub-text-on, #2a0e1f) !important;
+    font-size: clamp(1.2rem, 3vw, 1.65rem) !important;
+}
+
+/* Kartu submodul di daftar: warna aksen pada nomor */
+.materi-submodule-card.accent-blue  .submodule-num { background: #dbeafe; color: #1d4ed8; }
+.materi-submodule-card.accent-orange .submodule-num { background: #ffedd5; color: #c2410c; }
+.materi-submodule-card.accent-purple .submodule-num { background: #ede9fe; color: #6d28d9; }
+.materi-submodule-card.accent-teal  .submodule-num { background: #ccfbf1; color: #0f766e; }
+.materi-submodule-card.accent-pink  .submodule-num { background: #fce7f3; color: #9d174d; }
+.materi-submodule-card.accent-green .submodule-num { background: #dcfce7; color: #15803d; }
+
+.materi-submodule-card.accent-blue:hover  { border-color: #3b82f6; background: #eff6ff; color: #1e3a8a; }
+.materi-submodule-card.accent-orange:hover { border-color: #f97316; background: #fff7ed; color: #7c2d12; }
+.materi-submodule-card.accent-purple:hover { border-color: #8b5cf6; background: #f5f3ff; color: #3b0764; }
+.materi-submodule-card.accent-teal:hover  { border-color: #14b8a6; background: #f0fdfa; color: #134e4a; }
+.materi-submodule-card.accent-pink:hover  { border-color: #ec4899; background: #fdf2f8; color: #701a75; }
+.materi-submodule-card.accent-green:hover { border-color: #22c55e; background: #f0fdf4; color: #14532d; }
+
+/* ==========================================================================
+   WARNA SEMANTIK BLOK KONTEN
+   ========================================================================== */
+
+.submodule-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.blok {
+    margin: 0 0 14px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    line-height: 1.8;
+    position: relative;
+}
+
+/* Heading bagian (1. Judul, 2. Judul…) */
+.blok-heading {
+    padding: 10px 16px 10px 20px;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    background: var(--sub-accent-soft, #f9fafb);
+    border-left: 4px solid var(--sub-accent, #c21870);
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.03rem;
+    color: var(--sub-text-on, #2a0e1f);
+}
+
+/* Paragraf intro/pemantik */
+.blok-intro {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    color: #451a03;
+}
+
+/* Soal latihan */
+.blok-soal {
+    background: #eef2ff;
+    border-left: 4px solid #6366f1;
+    color: #1e1b4b;
+    font-weight: 600;
+}
+
+/* Kesalahan konsep */
+.blok-kesalahan {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+    color: #450a0a;
+}
+
+/* Kesimpulan */
+.blok-kesimpulan {
+    background: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    color: #14532d;
+    font-weight: 600;
+}
+
+/* Normal */
+.blok-normal {
+    background: transparent;
+    padding: 4px 0;
+    color: #634b5b;
+    border-radius: 0;
+}
+
+/* Ikon di dalam blok */
+.blok-icon {
+    margin-right: 8px;
+    font-style: normal;
+}
+
+/* ── Pembahasan collapsible ─────────────────────────────────────────────── */
+.blok-pembahasan-wrapper {
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #bbf7d0;
+}
+
+.blok-pembahasan-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f0fdf4;
+    color: #14532d;
+    font-weight: 700;
+    font-size: 0.93rem;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    transition: background 0.18s ease;
+}
+
+.blok-pembahasan-toggle:hover {
+    background: #dcfce7;
+}
+
+.blok-pembahasan-body {
+    padding: 14px 18px;
+    background: #fff;
+    color: #166534;
+    line-height: 1.8;
+    margin: 0;
+    border-top: 1px solid #bbf7d0;
+}
+
+/* ==========================================================================
+   KEYPOINTS & EXAMPLES
+   ========================================================================== */
+
+.submodule-keypoints {
+    margin-top: 32px;
+    padding: 20px 24px;
+    border-radius: var(--radius-md, 18px);
+    background: var(--sub-accent-soft, #f0fdf4);
+    border: 1.5px solid var(--sub-accent-mid, #bbf7d0);
+}
+
+.submodule-keypoints h3 {
+    margin: 0 0 14px;
+    color: var(--sub-text-on, #14532d);
+    font-size: 1rem;
+}
+
+.submodule-keypoints ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.submodule-keypoints li {
+    margin-bottom: 8px;
+    color: var(--sub-text-on, #14532d);
+    line-height: 1.65;
+}
+
+.submodule-examples {
+    margin-top: 24px;
+    padding: 20px 24px;
+    border-radius: var(--radius-md, 18px);
+    background: #f5f3ff;
+    border: 1.5px solid #ddd6fe;
+}
+
+.submodule-examples h3 {
+    margin: 0 0 14px;
+    color: #3b0764;
+    font-size: 1rem;
+}
+
+.submodule-examples ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.submodule-examples li {
+    margin-bottom: 8px;
+    color: #4c1d95;
+    line-height: 1.65;
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .materi-module-card,
+    .materi-chapter,
+    .materi-chapter .materi-submodule-card,
+    .btn-buka-simulasi,
+    .blok-pembahasan-toggle {
+        transition: none;
     }
 }
