@@ -24,7 +24,13 @@ import {
 export function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Beranda');
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  // Default terbuka di desktop (>900px), dan tertutup di mobile (<=900px)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 900;
+    }
+    return true;
+  });
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [modalTopic, setModalTopic] = useState<string | null>(null);
@@ -35,6 +41,20 @@ export function App() {
       setCurrentUser(user);
     });
     return () => unsubscribe();
+  }, []);
+
+  // Adaptasi state sidebar ketika menyeberangi breakpoint desktop/mobile
+  useEffect(() => {
+    let lastIsMobile = typeof window !== 'undefined' ? window.innerWidth <= 900 : false;
+    const handleResize = () => {
+      const isMobile = window.innerWidth <= 900;
+      if (isMobile !== lastIsMobile) {
+        lastIsMobile = isMobile;
+        setIsSidebarOpen(!isMobile);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const showToast = (message: string) => {

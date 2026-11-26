@@ -58,19 +58,23 @@
 }
 
 .sidebar-close-btn {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: #8B7B89;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .sidebar-close-btn:hover {
   background: #FFF0F7;
   color: #D91D78;
+  transform: scale(1.08);
 }
 
 /* Navigation Section */
@@ -256,15 +260,34 @@
   color: #8B7B89;
 }
 
+/* Desktop Sidebar Responsive Toggle */
+@media (min-width: 901px) {
+  .app-primary-sidebar {
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: margin-left 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.25s ease,
+                visibility 0.32s ease;
+  }
+
+  .app-primary-sidebar.sidebar-closed {
+    margin-left: -270px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
 /* Backdrop for Mobile Drawer */
 .sidebar-backdrop {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(53, 43, 61, 0.4);
+  background: rgba(53, 43, 61, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  z-index: 99;
+  z-index: 999;
 }
 
 /* Mobile & Tablet Responsiveness */
@@ -272,18 +295,19 @@
   .app-primary-sidebar {
     position: fixed;
     top: 0;
-    left: -290px;
+    left: -300px;
+    width: 280px;
     height: 100vh;
-    z-index: 100;
-    box-shadow: 12px 0 35px rgba(53, 43, 61, 0.18);
+    z-index: 1000;
+    box-shadow: 12px 0 35px rgba(53, 43, 61, 0.22);
+    transition: left 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    visibility: visible;
+    margin-left: 0 !important;
+    opacity: 1 !important;
   }
 
   .app-primary-sidebar.drawer-open {
     left: 0;
-  }
-
-  .sidebar-close-btn {
-    display: block;
   }
 
   .sidebar-backdrop {

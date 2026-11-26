@@ -78,7 +78,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       )}
 
       <aside
-        className={`app-primary-sidebar ${isOpen ? 'drawer-open' : ''}`}
+        className={`app-primary-sidebar ${isOpen ? 'drawer-open' : 'sidebar-closed'}`}
         aria-label="Navigasi Utama ChemBond"
       >
         {/* Brand Header */}

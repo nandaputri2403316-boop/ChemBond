@@ -298,6 +298,8 @@
   align-items: center;
   justify-content: center;
   min-height: 290px;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
 }
 
 .viewer-svg-graphic {
@@ -305,35 +307,132 @@
   height: auto;
   max-height: 280px;
   filter: drop-shadow(0 14px 28px rgba(53, 43, 61, 0.12));
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
 }
 
 .viewer-svg-graphic.viewer-hovered {
-  transform: scale(1.02);
+  transform: scale(1.03) translateZ(10px);
 }
 
-/* Floating Molecule Animation */
-.mol-group-float {
-  animation: heroMolFloat 7s ease-in-out infinite;
-  transform-origin: 230px 170px;
+/* Ambient Orbital Ring 3D Rotation */
+.ambient-orbit {
+  transform-origin: 230px 165px;
+  animation: orbitSpin3D 24s linear infinite;
+  will-change: transform;
+}
+
+@keyframes orbitSpin3D {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Base Molecule 3D Render Group */
+.mol-render-group {
+  transform-origin: 230px 165px;
+  will-change: transform;
+}
+
+/* 1. H2O (Air): Bent Geometry (104.5°) Dynamic 3D Floating & Sway */
+.mol-3d-h2o {
+  animation: animH2O3D 4.8s ease-in-out infinite;
+}
+
+@keyframes animH2O3D {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-9px) rotate(-3.5deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(1px) rotate(2.5deg) scale(0.99);
+  }
+  75% {
+    transform: translateY(8px) rotate(-1.5deg) scale(1.015);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* 2. CH4 (Metana): Tetrahedral 3D Spatial Tumbling Motion */
+.mol-3d-ch4 {
+  animation: animCH43D 5.6s ease-in-out infinite;
+}
+
+@keyframes animCH43D {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-11px) rotate(4deg) scale(1.03);
+  }
+  50% {
+    transform: translateY(1px) rotate(-3.5deg) scale(0.985);
+  }
+  75% {
+    transform: translateY(9px) rotate(3deg) scale(1.015);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* 3. NH3 (Amonia): Trigonal Piramida (107°) 3D Wobble & Axial Rotation */
+.mol-3d-nh3 {
+  animation: animNH33D 5.2s ease-in-out infinite;
+}
+
+@keyframes animNH33D {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  30% {
+    transform: translateY(-10px) rotate(3.5deg) scale(1.025);
+  }
+  65% {
+    transform: translateY(8px) rotate(-3deg) scale(0.985);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* 4. CO2 (Karbon Dioksida): Linear 180° Rolling & Floating 3D Oscillation */
+.mol-3d-co2 {
+  animation: animCO23D 4.6s ease-in-out infinite;
+}
+
+@keyframes animCO23D {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-4.5deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(2px) rotate(3deg) scale(0.99);
+  }
+  75% {
+    transform: translateY(8px) rotate(4deg) scale(1.015);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
 }
 
 .atom-node {
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease, filter 0.25s ease;
   cursor: pointer;
 }
 
 .atom-node:hover {
-  filter: brightness(1.1);
-}
-
-@keyframes heroMolFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(1.2deg);
-  }
+  filter: brightness(1.15) drop-shadow(0 0 6px rgba(247, 47, 145, 0.3));
 }
 
 /* Metadata Card */

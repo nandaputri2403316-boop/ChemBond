@@ -172,7 +172,7 @@ export const Molecular3DHeroViewer: React.FC = () => {
               1. H2O — AIR: Bent Geometry (104.5°)
               ================================================================= */}
           {selectedMolecule === 'H2O' && (
-            <g className="mol-render-group anim-subtle-sway">
+            <g className="mol-render-group mol-3d-h2o">
               {/* Single Covalent Metallic Bonds */}
               {/* O -> Left H */}
               <line x1="230" y1="125" x2="135" y2="235" stroke="url(#bondMetallic)" strokeWidth="11" strokeLinecap="round" />
@@ -219,7 +219,7 @@ export const Molecular3DHeroViewer: React.FC = () => {
               2. CH4 — METANA: 3D Tetrahedral Geometry (109.5°)
               ================================================================= */}
           {selectedMolecule === 'CH4' && (
-            <g className="mol-render-group anim-subtle-sway">
+            <g className="mol-render-group mol-3d-ch4">
               {/* Back Hydrogen Bond (Projected backwards into screen - with perspective) */}
               <line x1="230" y1="165" x2="310" y2="120" stroke="#475569" strokeWidth="8" strokeDasharray="4 4" opacity="0.75" />
               {/* Back H Atom */}
@@ -264,7 +264,7 @@ export const Molecular3DHeroViewer: React.FC = () => {
               3. NH3 — AMONIA: Trigonal Pyramidal (107°)
               ================================================================= */}
           {selectedMolecule === 'NH3' && (
-            <g className="mol-render-group anim-subtle-sway">
+            <g className="mol-render-group mol-3d-nh3">
               {/* Back Lone Pair Lobe above Apex */}
               <ellipse cx="230" cy="60" rx="12" ry="18" fill="#FFC078" opacity="0.65" />
               <circle cx="225" cy="58" r="3" fill="#FFF" />
@@ -320,7 +320,7 @@ export const Molecular3DHeroViewer: React.FC = () => {
               4. CO2 — KARBON DIOKSIDA: Linear 180° with Double Bonds (O=C=O)
               ================================================================= */}
           {selectedMolecule === 'CO2' && (
-            <g className="mol-render-group anim-subtle-sway">
+            <g className="mol-render-group mol-3d-co2">
               {/* Double Metallic Bonds Left (O=C): 2 parallel cylinders */}
               <line x1="120" y1="157" x2="230" y2="157" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />
               <line x1="120" y1="173" x2="230" y2="173" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />

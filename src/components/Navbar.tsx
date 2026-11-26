@@ -40,8 +40,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="button"
               className={`sidebar-toggle-btn ${isSidebarOpen ? 'active' : ''}`}
               onClick={onToggleSidebar}
-              aria-label="Toggle navigasi utama"
-              title="Buka Navigasi ChemBond"
+              aria-label={isSidebarOpen ? 'Tutup navigasi sidebar ChemBond' : 'Buka navigasi sidebar ChemBond'}
+              title={isSidebarOpen ? 'Tutup Navigasi ChemBond' : 'Buka Navigasi ChemBond'}
             >
               <span className="toggle-bar" />
               <span className="toggle-bar" />
