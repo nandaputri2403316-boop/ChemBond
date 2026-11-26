@@ -80,137 +80,160 @@ export const Molecular3DHeroViewer: React.FC = () => {
         ))}
       </div>
 
-      {/* 3D Ball-and-Stick Canvas */}
+      {/* 3D Ball-and-Stick Canvas with Cyber-Chemical Glow */}
       <div className="viewer-canvas-stage">
+        {/* Dynamic ambient backdrop lighting */}
+        <div className="viewer-ambient-glow glow-stage-pink" />
+        <div className="viewer-ambient-glow glow-stage-purple" />
+        <div className="viewer-ambient-glow glow-stage-cyan" />
+
         <svg
           viewBox="0 0 460 340"
           className={`viewer-svg-graphic ${isHovered ? 'viewer-hovered' : ''}`}
           aria-label={`Model 3D Molekul ${current.name} (${current.formula})`}
         >
           <defs>
-            {/* CPK Color Standards Gradients */}
-            {/* Hydrogen (H) - White / Very Pale Gray with 3D Depth */}
-            <radialGradient id="cpkHydrogen" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="45%" stopColor="#F8FAFC" />
-              <stop offset="75%" stopColor="#E2E8F0" />
-              <stop offset="100%" stopColor="#CBD5E1" />
+            {/* GLOSSY 3D SPHERE GRADIENTS (Referensial Halaman Login ChemBond) */}
+            
+            {/* 1. Pearl White Glossy Sphere (Hidrogen - H) */}
+            <radialGradient id="glossHydrogen" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
+              <stop offset="35%" stopColor="#F8FAFC" />
+              <stop offset="70%" stopColor="#E2E8F0" />
+              <stop offset="100%" stopColor="#94A3B8" />
             </radialGradient>
 
-            {/* Oxygen (O) - Radiant Vivid Red */}
-            <radialGradient id="cpkOxygen" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#FFA6A6" />
-              <stop offset="25%" stopColor="#EF4444" />
-              <stop offset="70%" stopColor="#DC2626" />
-              <stop offset="100%" stopColor="#991B1B" />
+            {/* 2. Radiant Crimson / Red-Magenta Glossy Sphere (Oksigen - O) */}
+            <radialGradient id="glossOxygen" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+              <stop offset="25%" stopColor="#FFA6A6" />
+              <stop offset="65%" stopColor="#EF4444" />
+              <stop offset="85%" stopColor="#B91C1C" />
+              <stop offset="100%" stopColor="#660020" />
             </radialGradient>
 
-            {/* Nitrogen (N) - Radiant Vibrant Blue */}
-            <radialGradient id="cpkNitrogen" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#93C5FD" />
-              <stop offset="25%" stopColor="#3B82F6" />
-              <stop offset="70%" stopColor="#1D4ED8" />
-              <stop offset="100%" stopColor="#1E3A8A" />
+            {/* 3. Radiant Vibrant Cyan/Blue Sphere (Nitrogen - N) */}
+            <radialGradient id="glossNitrogen" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+              <stop offset="25%" stopColor="#7DEBFF" />
+              <stop offset="65%" stopColor="#18A5DB" />
+              <stop offset="90%" stopColor="#0B5678" />
+              <stop offset="100%" stopColor="#042C3E" />
             </radialGradient>
 
-            {/* Carbon (C) - Dark Slate Charcoal / Black */}
-            <radialGradient id="cpkCarbon" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stopColor="#64748B" />
-              <stop offset="25%" stopColor="#334155" />
-              <stop offset="70%" stopColor="#1E293B" />
-              <stop offset="100%" stopColor="#0F172A" />
+            {/* 4. Deep Charcoal / Plum-Slate Glossy Sphere (Karbon - C) */}
+            <radialGradient id="glossCarbon" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#CBD5E1" stopOpacity="0.95" />
+              <stop offset="25%" stopColor="#64748B" />
+              <stop offset="65%" stopColor="#33243B" />
+              <stop offset="90%" stopColor="#1A0D22" />
+              <stop offset="100%" stopColor="#0A030F" />
             </radialGradient>
 
-            {/* Metallic Neutral Cylindrical Bond Gradients */}
-            <linearGradient id="bondMetallic" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#475569" />
-              <stop offset="35%" stopColor="#64748B" />
-              <stop offset="70%" stopColor="#94A3B8" />
-              <stop offset="100%" stopColor="#334155" />
+            {/* 5. Primary Pink-Magenta Sphere */}
+            <radialGradient id="glossPinkPrimary" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+              <stop offset="25%" stopColor="#FF6B79" />
+              <stop offset="70%" stopColor="#F72F91" />
+              <stop offset="100%" stopColor="#A80757" />
+            </radialGradient>
+
+            {/* DIMENSIONAL CYLINDRICAL GLOSSY BOND GRADIENTS */}
+            <linearGradient id="bondGradPinkCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#F72F91" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#C4B5FD" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#38E1FF" stopOpacity="0.9" />
             </linearGradient>
 
-            <linearGradient id="bondMetallicDbl" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#334155" />
-              <stop offset="30%" stopColor="#64748B" />
-              <stop offset="70%" stopColor="#94A3B8" />
-              <stop offset="100%" stopColor="#334155" />
+            <linearGradient id="bondGradRedWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#EF4444" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#FBCFE8" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#E2E8F0" stopOpacity="0.9" />
             </linearGradient>
 
-            {/* Soft Glow */}
-            <filter id="molGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
+            <linearGradient id="bondGradPlumWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#64748B" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#CBD5E1" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#F8FAFC" stopOpacity="0.9" />
+            </linearGradient>
+
+            <linearGradient id="bondGradBlueWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#18A5DB" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#BAE6FD" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#F8FAFC" stopOpacity="0.9" />
+            </linearGradient>
+
+            <linearGradient id="bondGradDoubleCO2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#EF4444" stopOpacity="0.95" />
+              <stop offset="50%" stopColor="#FF6B79" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#EF4444" stopOpacity="0.95" />
+            </linearGradient>
+
+            {/* GLOW AND NEON FILTERS */}
+            <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+
+            <filter id="intenseGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="12" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+
+            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
-
-          {/* Ambient Orbital Rings (Bentuk Orbital Abu-abu Elegan di Belakang Atom) */}
-          <g className="ambient-orbit">
-            <ellipse
-              cx="230"
-              cy="165"
-              rx="190"
-              ry="70"
-              stroke="#94A3B8"
-              strokeWidth="1.8"
-              strokeDasharray="6 8"
-              transform="rotate(-15 230 165)"
-              opacity="0.5"
-            />
-            <ellipse
-              cx="230"
-              cy="165"
-              rx="180"
-              ry="60"
-              stroke="#CBD5E1"
-              strokeWidth="1.8"
-              transform="rotate(25 230 165)"
-              opacity="0.55"
-            />
-          </g>
 
           {/* =================================================================
               1. H2O — AIR: Bent Geometry (104.5°)
               ================================================================= */}
           {selectedMolecule === 'H2O' && (
-            <g className="mol-render-group mol-3d-h2o">
-              {/* Single Covalent Metallic Bonds */}
+            <g className="mol-render-group anim-float-gentle mol-3d-h2o">
+              {/* Double-layered Cylindrical Glossy Bonds */}
               {/* O -> Left H */}
-              <line x1="230" y1="125" x2="135" y2="235" stroke="url(#bondMetallic)" strokeWidth="11" strokeLinecap="round" />
+              <line x1="230" y1="125" x2="135" y2="235" stroke="url(#bondGradRedWhite)" strokeWidth="14" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="125" x2="135" y2="235" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
 
               {/* O -> Right H */}
-              <line x1="230" y1="125" x2="325" y2="235" stroke="url(#bondMetallic)" strokeWidth="11" strokeLinecap="round" />
+              <line x1="230" y1="125" x2="325" y2="235" stroke="url(#bondGradRedWhite)" strokeWidth="14" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="125" x2="325" y2="235" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
 
               {/* Angle Arc Indicator (104.5°) */}
-              <path d="M 185,175 A 65 65 0 0 1 275,175" fill="none" stroke="#F72F91" strokeWidth="2" strokeDasharray="3 3" />
-              <rect x="206" y="185" width="48" height="20" rx="6" fill="#FFF0F7" stroke="#F1E3EB" />
-              <text x="230" y="199" textAnchor="middle" fill="#D91D78" fontSize="11" fontWeight="800">104,5°</text>
+              <path d="M 185,175 A 65 65 0 0 1 275,175" fill="none" stroke="#F72F91" strokeWidth="2.5" strokeDasharray="4 4" filter="url(#neonGlow)" />
+              <rect x="206" y="185" width="48" height="20" rx="6" fill="#2D1138" stroke="rgba(247, 47, 145, 0.6)" />
+              <text x="230" y="199" textAnchor="middle" fill="#FF6B79" fontSize="11" fontWeight="800">104,5°</text>
 
-              {/* Left Hydrogen Atom (White CPK) */}
+              {/* Left Hydrogen Atom (Glossy Pearl White) */}
               <g className="atom-node atom-h-left">
-                <circle cx="135" cy="235" r="32" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-                <ellipse cx="125" cy="225" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 125 225)" />
-                <text x="135" y="241" textAnchor="middle" fill="#1E293B" fontSize="17" fontWeight="900">H</text>
+                <circle cx="135" cy="235" r="34" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+                <ellipse cx="123" cy="223" rx="12" ry="7" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 123 223)" />
+                <circle cx="118" cy="217" r="3.5" fill="#FFFFFF" fillOpacity="0.95" />
+                <text x="135" y="242" textAnchor="middle" fill="#0F172A" fontSize="18" fontWeight="900" filter="drop-shadow(0 1px 2px rgba(255,255,255,0.4))">H</text>
               </g>
 
-              {/* Right Hydrogen Atom (White CPK) */}
+              {/* Right Hydrogen Atom (Glossy Pearl White) */}
               <g className="atom-node atom-h-right">
-                <circle cx="325" cy="235" r="32" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-                <ellipse cx="315" cy="225" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 315 225)" />
-                <text x="325" y="241" textAnchor="middle" fill="#1E293B" fontSize="17" fontWeight="900">H</text>
+                <circle cx="325" cy="235" r="34" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+                <ellipse cx="313" cy="223" rx="12" ry="7" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 313 223)" />
+                <circle cx="308" cy="217" r="3.5" fill="#FFFFFF" fillOpacity="0.95" />
+                <text x="325" y="242" textAnchor="middle" fill="#0F172A" fontSize="18" fontWeight="900" filter="drop-shadow(0 1px 2px rgba(255,255,255,0.4))">H</text>
               </g>
 
-              {/* Central Oxygen Atom (Vivid Red - CPK) */}
+              {/* Central Oxygen Atom (Radiant Red-Magenta Glossy Sphere) */}
               <g className="atom-node atom-center-o">
-                <circle cx="230" cy="125" r="54" fill="url(#cpkOxygen)" filter="url(#molGlow)" />
-                <ellipse cx="212" cy="105" rx="18" ry="10" fill="#FFFFFF" fillOpacity="0.8" transform="rotate(-30 212 105)" />
-                <circle cx="204" cy="98" r="4" fill="#FFFFFF" fillOpacity="0.95" />
-                <text x="230" y="133" textAnchor="middle" fill="#FFFFFF" fontSize="24" fontWeight="900">O</text>
+                <circle cx="230" cy="125" r="56" fill="url(#glossOxygen)" filter="url(#intenseGlow)" />
+                <ellipse cx="210" cy="103" rx="20" ry="11" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 210 103)" />
+                <circle cx="201" cy="95" r="5" fill="#FFFFFF" fillOpacity="0.95" />
+                <circle cx="255" cy="150" r="4" fill="#FFFFFF" fillOpacity="0.3" />
+                <text x="230" y="134" textAnchor="middle" fill="#FFFFFF" fontSize="26" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.6))">O</text>
               </g>
 
-              {/* 2 Lone Pairs (PEB) subtle visual lobes */}
-              <g opacity="0.6">
-                <ellipse cx="205" cy="65" rx="9" ry="14" fill="#FFC078" transform="rotate(-35 205 65)" />
-                <ellipse cx="255" cy="65" rx="9" ry="14" fill="#FFC078" transform="rotate(35 255 65)" />
+              {/* 2 Lone Pairs (PEB) visual lobes */}
+              <g opacity="0.65">
+                <ellipse cx="205" cy="62" rx="10" ry="16" fill="#FFC078" filter="url(#softGlow)" transform="rotate(-35 205 62)" />
+                <ellipse cx="255" cy="62" rx="10" ry="16" fill="#FFC078" filter="url(#softGlow)" transform="rotate(35 255 62)" />
               </g>
             </g>
           )}
@@ -219,44 +242,50 @@ export const Molecular3DHeroViewer: React.FC = () => {
               2. CH4 — METANA: 3D Tetrahedral Geometry (109.5°)
               ================================================================= */}
           {selectedMolecule === 'CH4' && (
-            <g className="mol-render-group mol-3d-ch4">
+            <g className="mol-render-group anim-float-gentle mol-3d-ch4">
               {/* Back Hydrogen Bond (Projected backwards into screen - with perspective) */}
-              <line x1="230" y1="165" x2="310" y2="120" stroke="#475569" strokeWidth="8" strokeDasharray="4 4" opacity="0.75" />
+              <line x1="230" y1="165" x2="310" y2="120" stroke="rgba(168, 85, 247, 0.7)" strokeWidth="9" strokeDasharray="5 5" />
               {/* Back H Atom */}
-              <circle cx="310" cy="120" r="22" fill="url(#cpkHydrogen)" opacity="0.9" />
-              <text x="310" y="126" textAnchor="middle" fill="#1E293B" fontSize="13" fontWeight="900">H</text>
+              <circle cx="310" cy="120" r="23" fill="url(#glossHydrogen)" opacity="0.85" filter="url(#softGlow)" />
+              <text x="310" y="126" textAnchor="middle" fill="#0F172A" fontSize="13" fontWeight="900">H</text>
 
               {/* Top Hydrogen Bond */}
-              <line x1="230" y1="165" x2="230" y2="55" stroke="url(#bondMetallic)" strokeWidth="11" strokeLinecap="round" />
+              <line x1="230" y1="165" x2="230" y2="55" stroke="url(#bondGradPlumWhite)" strokeWidth="13" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="165" x2="230" y2="55" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.75" />
               {/* Top H Atom */}
-              <circle cx="230" cy="55" r="28" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-              <ellipse cx="222" cy="46" rx="8" ry="5" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 222 46)" />
-              <text x="230" y="60" textAnchor="middle" fill="#1E293B" fontSize="15" fontWeight="900">H</text>
+              <circle cx="230" cy="55" r="30" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+              <ellipse cx="221" cy="45" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 221 45)" />
+              <text x="230" y="61" textAnchor="middle" fill="#0F172A" fontSize="16" fontWeight="900">H</text>
 
               {/* Left Front Hydrogen Bond (Projected forward) */}
-              <line x1="230" y1="165" x2="120" y2="245" stroke="url(#bondMetallic)" strokeWidth="12" strokeLinecap="round" />
+              <line x1="230" y1="165" x2="120" y2="245" stroke="url(#bondGradPlumWhite)" strokeWidth="15" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="165" x2="120" y2="245" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
               {/* Left Front H Atom */}
-              <circle cx="120" cy="245" r="32" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-              <ellipse cx="110" cy="235" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 110 235)" />
-              <text x="120" y="251" textAnchor="middle" fill="#1E293B" fontSize="17" fontWeight="900">H</text>
+              <circle cx="120" cy="245" r="35" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+              <ellipse cx="108" cy="233" rx="12" ry="7" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 108 233)" />
+              <circle cx="103" cy="227" r="3.5" fill="#FFFFFF" fillOpacity="0.95" />
+              <text x="120" y="252" textAnchor="middle" fill="#0F172A" fontSize="18" fontWeight="900">H</text>
 
               {/* Right Front Hydrogen Bond (Projected forward) */}
-              <line x1="230" y1="165" x2="330" y2="255" stroke="url(#bondMetallic)" strokeWidth="12" strokeLinecap="round" />
+              <line x1="230" y1="165" x2="330" y2="255" stroke="url(#bondGradPlumWhite)" strokeWidth="15" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="165" x2="330" y2="255" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
               {/* Right Front H Atom */}
-              <circle cx="330" cy="255" r="32" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-              <ellipse cx="320" cy="245" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 320 245)" />
-              <text x="330" y="261" textAnchor="middle" fill="#1E293B" fontSize="17" fontWeight="900">H</text>
+              <circle cx="330" cy="255" r="35" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+              <ellipse cx="318" cy="243" rx="12" ry="7" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 318 243)" />
+              <circle cx="313" cy="237" r="3.5" fill="#FFFFFF" fillOpacity="0.95" />
+              <text x="330" y="262" textAnchor="middle" fill="#0F172A" fontSize="18" fontWeight="900">H</text>
 
               {/* Angle Arc Indicator (109.5°) */}
-              <path d="M 230,115 A 50 50 0 0 0 175,190" fill="none" stroke="#F72F91" strokeWidth="2" strokeDasharray="3 3" />
-              <rect x="156" y="130" width="48" height="20" rx="6" fill="#FFF0F7" stroke="#F1E3EB" />
-              <text x="180" y="144" textAnchor="middle" fill="#D91D78" fontSize="11" fontWeight="800">109,5°</text>
+              <path d="M 230,115 A 50 50 0 0 0 175,190" fill="none" stroke="#F72F91" strokeWidth="2.5" strokeDasharray="3 3" filter="url(#neonGlow)" />
+              <rect x="156" y="130" width="48" height="20" rx="6" fill="#2D1138" stroke="rgba(247, 47, 145, 0.6)" />
+              <text x="180" y="144" textAnchor="middle" fill="#FF6B79" fontSize="11" fontWeight="800">109,5°</text>
 
-              {/* Central Carbon Atom (Dark Slate Charcoal / Black - CPK) */}
-              <circle cx="230" cy="165" r="50" fill="url(#cpkCarbon)" filter="url(#molGlow)" />
-              <ellipse cx="214" cy="148" rx="17" ry="9" fill="#FFFFFF" fillOpacity="0.6" transform="rotate(-30 214 148)" />
-              <circle cx="206" cy="140" r="4" fill="#FFFFFF" fillOpacity="0.8" />
-              <text x="230" y="173" textAnchor="middle" fill="#FFFFFF" fontSize="24" fontWeight="900">C</text>
+              {/* Central Carbon Atom (Deep Slate Charcoal Glossy Sphere) */}
+              <circle cx="230" cy="165" r="52" fill="url(#glossCarbon)" filter="url(#intenseGlow)" />
+              <ellipse cx="212" cy="146" rx="19" ry="11" fill="#FFFFFF" fillOpacity="0.75" transform="rotate(-30 212 146)" />
+              <circle cx="203" cy="138" r="4.5" fill="#FFFFFF" fillOpacity="0.9" />
+              <circle cx="252" cy="188" r="3.5" fill="#FFFFFF" fillOpacity="0.25" />
+              <text x="230" y="174" textAnchor="middle" fill="#FFFFFF" fontSize="26" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.7))">C</text>
             </g>
           )}
 
@@ -264,54 +293,60 @@ export const Molecular3DHeroViewer: React.FC = () => {
               3. NH3 — AMONIA: Trigonal Pyramidal (107°)
               ================================================================= */}
           {selectedMolecule === 'NH3' && (
-            <g className="mol-render-group mol-3d-nh3">
+            <g className="mol-render-group anim-float-gentle mol-3d-nh3">
               {/* Back Lone Pair Lobe above Apex */}
-              <ellipse cx="230" cy="60" rx="12" ry="18" fill="#FFC078" opacity="0.65" />
-              <circle cx="225" cy="58" r="3" fill="#FFF" />
-              <circle cx="235" cy="58" r="3" fill="#FFF" />
+              <ellipse cx="230" cy="58" rx="14" ry="20" fill="#FFC078" opacity="0.75" filter="url(#softGlow)" />
+              <circle cx="225" cy="56" r="3.5" fill="#FFF" />
+              <circle cx="235" cy="56" r="3.5" fill="#FFF" />
 
               {/* 3 Single Covalent Metallic Bonds down to the 3-Legged Base */}
               {/* N -> Left H */}
-              <line x1="230" y1="125" x2="125" y2="235" stroke="url(#bondMetallic)" strokeWidth="11" strokeLinecap="round" />
+              <line x1="230" y1="125" x2="125" y2="235" stroke="url(#bondGradBlueWhite)" strokeWidth="14" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="125" x2="125" y2="235" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.8" />
 
               {/* N -> Back-Right H */}
-              <line x1="230" y1="125" x2="315" y2="195" stroke="url(#bondMetallic)" strokeWidth="9" strokeLinecap="round" />
+              <line x1="230" y1="125" x2="315" y2="195" stroke="url(#bondGradBlueWhite)" strokeWidth="10" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="125" x2="315" y2="195" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.7" />
 
               {/* N -> Front H */}
-              <line x1="230" y1="125" x2="245" y2="265" stroke="url(#bondMetallic)" strokeWidth="12" strokeLinecap="round" />
+              <line x1="230" y1="125" x2="245" y2="265" stroke="url(#bondGradBlueWhite)" strokeWidth="15" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="125" x2="245" y2="265" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
 
               {/* Angle Arc Indicator (107°) */}
-              <path d="M 180,175 A 60 60 0 0 1 240,200" fill="none" stroke="#F72F91" strokeWidth="2" strokeDasharray="3 3" />
-              <rect x="195" y="195" width="44" height="20" rx="6" fill="#FFF0F7" stroke="#F1E3EB" />
-              <text x="217" y="209" textAnchor="middle" fill="#D91D78" fontSize="11" fontWeight="800">107°</text>
+              <path d="M 180,175 A 60 60 0 0 1 240,200" fill="none" stroke="#F72F91" strokeWidth="2.5" strokeDasharray="3 3" filter="url(#neonGlow)" />
+              <rect x="195" y="195" width="44" height="20" rx="6" fill="#2D1138" stroke="rgba(247, 47, 145, 0.6)" />
+              <text x="217" y="209" textAnchor="middle" fill="#FF6B79" fontSize="11" fontWeight="800">107°</text>
 
               {/* Back-Right H */}
               <g className="atom-node">
-                <circle cx="315" cy="195" r="26" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-                <ellipse cx="308" cy="188" rx="8" ry="5" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 308 188)" />
-                <text x="315" y="200" textAnchor="middle" fill="#1E293B" fontSize="14" fontWeight="900">H</text>
+                <circle cx="315" cy="195" r="28" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+                <ellipse cx="307" cy="187" rx="9" ry="5" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 307 187)" />
+                <text x="315" y="201" textAnchor="middle" fill="#0F172A" fontSize="15" fontWeight="900">H</text>
               </g>
 
               {/* Left H */}
               <g className="atom-node">
-                <circle cx="125" cy="235" r="30" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-                <ellipse cx="116" cy="225" rx="9" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 116 225)" />
-                <text x="125" y="241" textAnchor="middle" fill="#1E293B" fontSize="16" fontWeight="900">H</text>
+                <circle cx="125" cy="235" r="33" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+                <ellipse cx="114" cy="224" rx="11" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 114 224)" />
+                <circle cx="109" cy="219" r="3" fill="#FFFFFF" fillOpacity="0.9" />
+                <text x="125" y="242" textAnchor="middle" fill="#0F172A" fontSize="17" fontWeight="900">H</text>
               </g>
 
               {/* Front H (Slightly larger for 3D depth) */}
               <g className="atom-node">
-                <circle cx="245" cy="265" r="33" fill="url(#cpkHydrogen)" filter="url(#molGlow)" />
-                <ellipse cx="235" cy="254" rx="10" ry="6" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 235 254)" />
-                <text x="245" y="271" textAnchor="middle" fill="#1E293B" fontSize="17" fontWeight="900">H</text>
+                <circle cx="245" cy="265" r="36" fill="url(#glossHydrogen)" filter="url(#softGlow)" />
+                <ellipse cx="233" cy="253" rx="12" ry="7" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-25 233 253)" />
+                <circle cx="227" cy="247" r="3.5" fill="#FFFFFF" fillOpacity="0.95" />
+                <text x="245" y="272" textAnchor="middle" fill="#0F172A" fontSize="18" fontWeight="900">H</text>
               </g>
 
-              {/* Nitrogen Atom at Apex (Vibrant Blue - CPK) */}
+              {/* Nitrogen Atom at Apex (Radiant Vibrant Cyan/Blue Sphere) */}
               <g className="atom-node atom-center-n">
-                <circle cx="230" cy="125" r="50" fill="url(#cpkNitrogen)" filter="url(#molGlow)" />
-                <ellipse cx="214" cy="108" rx="17" ry="10" fill="#FFFFFF" fillOpacity="0.8" transform="rotate(-30 214 108)" />
-                <circle cx="206" cy="100" r="4" fill="#FFFFFF" fillOpacity="0.95" />
-                <text x="230" y="133" textAnchor="middle" fill="#FFFFFF" fontSize="24" fontWeight="900">N</text>
+                <circle cx="230" cy="125" r="54" fill="url(#glossNitrogen)" filter="url(#intenseGlow)" />
+                <ellipse cx="212" cy="106" rx="18" ry="11" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 212 106)" />
+                <circle cx="203" cy="98" r="5" fill="#FFFFFF" fillOpacity="0.95" />
+                <circle cx="252" cy="148" r="4" fill="#FFFFFF" fillOpacity="0.3" />
+                <text x="230" y="134" textAnchor="middle" fill="#FFFFFF" fontSize="26" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.6))">N</text>
               </g>
             </g>
           )}
@@ -320,40 +355,49 @@ export const Molecular3DHeroViewer: React.FC = () => {
               4. CO2 — KARBON DIOKSIDA: Linear 180° with Double Bonds (O=C=O)
               ================================================================= */}
           {selectedMolecule === 'CO2' && (
-            <g className="mol-render-group mol-3d-co2">
-              {/* Double Metallic Bonds Left (O=C): 2 parallel cylinders */}
-              <line x1="120" y1="157" x2="230" y2="157" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />
-              <line x1="120" y1="173" x2="230" y2="173" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />
+            <g className="mol-render-group anim-float-gentle mol-3d-co2">
+              {/* Double Metallic Bonds Left (O=C): 2 parallel neon cylinders */}
+              <line x1="120" y1="156" x2="230" y2="156" stroke="url(#bondGradDoubleCO2)" strokeWidth="8" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="120" y1="156" x2="230" y2="156" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.8" />
 
-              {/* Double Metallic Bonds Right (C=O): 2 parallel cylinders */}
-              <line x1="230" y1="157" x2="340" y2="157" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />
-              <line x1="230" y1="173" x2="340" y2="173" stroke="url(#bondMetallicDbl)" strokeWidth="7" strokeLinecap="round" />
+              <line x1="120" y1="174" x2="230" y2="174" stroke="url(#bondGradDoubleCO2)" strokeWidth="8" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="120" y1="174" x2="230" y2="174" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.8" />
+
+              {/* Double Metallic Bonds Right (C=O): 2 parallel neon cylinders */}
+              <line x1="230" y1="156" x2="340" y2="156" stroke="url(#bondGradDoubleCO2)" strokeWidth="8" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="156" x2="340" y2="156" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.8" />
+
+              <line x1="230" y1="174" x2="340" y2="174" stroke="url(#bondGradDoubleCO2)" strokeWidth="8" strokeLinecap="round" filter="url(#neonGlow)" />
+              <line x1="230" y1="174" x2="340" y2="174" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeOpacity="0.8" />
 
               {/* Linear Angle Arc Indicator (180°) */}
-              <path d="M 170,140 A 60 60 0 0 1 290,140" fill="none" stroke="#F72F91" strokeWidth="2" strokeDasharray="3 3" />
-              <rect x="208" y="105" width="44" height="20" rx="6" fill="#FFF0F7" stroke="#F1E3EB" />
-              <text x="230" y="119" textAnchor="middle" fill="#D91D78" fontSize="11" fontWeight="800">180°</text>
+              <path d="M 170,140 A 60 60 0 0 1 290,140" fill="none" stroke="#F72F91" strokeWidth="2.5" strokeDasharray="4 4" filter="url(#neonGlow)" />
+              <rect x="208" y="105" width="44" height="20" rx="6" fill="#2D1138" stroke="rgba(247, 47, 145, 0.6)" />
+              <text x="230" y="119" textAnchor="middle" fill="#FF6B79" fontSize="11" fontWeight="800">180°</text>
 
-              {/* Left Oxygen Atom (Red - CPK) */}
+              {/* Left Oxygen Atom (Red-Magenta Glossy Sphere) */}
               <g className="atom-node atom-o-left">
-                <circle cx="120" cy="165" r="46" fill="url(#cpkOxygen)" filter="url(#molGlow)" />
-                <ellipse cx="106" cy="148" rx="15" ry="9" fill="#FFFFFF" fillOpacity="0.8" transform="rotate(-30 106 148)" />
-                <text x="120" y="173" textAnchor="middle" fill="#FFFFFF" fontSize="20" fontWeight="900">O</text>
+                <circle cx="120" cy="165" r="48" fill="url(#glossOxygen)" filter="url(#intenseGlow)" />
+                <ellipse cx="104" cy="147" rx="16" ry="10" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 104 147)" />
+                <circle cx="97" cy="140" r="4.5" fill="#FFFFFF" fillOpacity="0.95" />
+                <text x="120" y="174" textAnchor="middle" fill="#FFFFFF" fontSize="22" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.6))">O</text>
               </g>
 
-              {/* Right Oxygen Atom (Red - CPK) */}
+              {/* Right Oxygen Atom (Red-Magenta Glossy Sphere) */}
               <g className="atom-node atom-o-right">
-                <circle cx="340" cy="165" r="46" fill="url(#cpkOxygen)" filter="url(#molGlow)" />
-                <ellipse cx="326" cy="148" rx="15" ry="9" fill="#FFFFFF" fillOpacity="0.8" transform="rotate(-30 326 148)" />
-                <text x="340" y="173" textAnchor="middle" fill="#FFFFFF" fontSize="20" fontWeight="900">O</text>
+                <circle cx="340" cy="165" r="48" fill="url(#glossOxygen)" filter="url(#intenseGlow)" />
+                <ellipse cx="324" cy="147" rx="16" ry="10" fill="#FFFFFF" fillOpacity="0.85" transform="rotate(-30 324 147)" />
+                <circle cx="317" cy="140" r="4.5" fill="#FFFFFF" fillOpacity="0.95" />
+                <text x="340" y="174" textAnchor="middle" fill="#FFFFFF" fontSize="22" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.6))">O</text>
               </g>
 
-              {/* Central Carbon Atom (Dark Slate Charcoal - CPK) */}
+              {/* Central Carbon Atom (Deep Slate Charcoal Glossy Sphere) */}
               <g className="atom-node atom-center-c">
-                <circle cx="230" cy="165" r="50" fill="url(#cpkCarbon)" filter="url(#molGlow)" />
-                <ellipse cx="214" cy="148" rx="17" ry="10" fill="#FFFFFF" fillOpacity="0.6" transform="rotate(-30 214 148)" />
-                <circle cx="206" cy="140" r="4" fill="#FFFFFF" fillOpacity="0.8" />
-                <text x="230" y="173" textAnchor="middle" fill="#FFFFFF" fontSize="24" fontWeight="900">C</text>
+                <circle cx="230" cy="165" r="52" fill="url(#glossCarbon)" filter="url(#intenseGlow)" />
+                <ellipse cx="212" cy="146" rx="19" ry="11" fill="#FFFFFF" fillOpacity="0.75" transform="rotate(-30 212 146)" />
+                <circle cx="203" cy="138" r="4.5" fill="#FFFFFF" fillOpacity="0.9" />
+                <circle cx="252" cy="188" r="3.5" fill="#FFFFFF" fillOpacity="0.25" />
+                <text x="230" y="174" textAnchor="middle" fill="#FFFFFF" fontSize="26" fontWeight="900" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.7))">C</text>
               </g>
             </g>
           )}
