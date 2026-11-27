@@ -122,12 +122,14 @@
   background: linear-gradient(135deg, #FFF6F9 0%, #FFF9F5 100%);
   border: 1px solid #FFE4EE;
   border-radius: 18px;
-  padding: 16px 12px;
+  padding: 20px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: 6px;
+  height: 100%;
+  box-sizing: border-box;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -137,21 +139,40 @@
 }
 
 .meta-icon {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  line-height: 1;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meta-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  width: 100%;
 }
 
 .meta-label {
-  font-size: 0.78rem;
+  display: block;
+  font-size: 0.74rem;
   color: #8E4971;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  line-height: 1.3;
 }
 
 .meta-value {
-  font-size: 0.98rem;
+  display: block;
+  font-size: 0.95rem;
   color: #2A0E1F;
   font-weight: 800;
+  line-height: 1.35;
+  word-break: break-word;
 }
 
 /* Cakupan Materi Box */
@@ -1261,6 +1282,11 @@
 
   .quiz-meta-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .quiz-meta-item {
+    padding: 16px 10px;
   }
 
   .result-stats-grid {
@@ -1308,5 +1334,37 @@
   .quiz-resume-banner {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .quiz-meta-item {
+    padding: 14px 8px;
+    border-radius: 14px;
+  }
+
+  .meta-icon {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+
+  .meta-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3px;
+  }
+
+  .meta-value {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .quiz-meta-grid {
+    grid-template-columns: 1fr;
   }
 }
