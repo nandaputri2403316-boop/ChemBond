@@ -95,6 +95,25 @@
   border: 1.5px solid #F1E3EB;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(53, 43, 61, 0.04);
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-align: left;
+  line-height: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+}
+
+.teacher-profile-chip:hover {
+  border-color: #D91D78;
+  box-shadow: 0 4px 14px rgba(217, 29, 120, 0.12);
+  transform: translateY(-1px);
+}
+
+.teacher-profile-chip:focus-visible {
+  outline: 2.5px solid #D91D78;
+  outline-offset: 2px;
 }
 
 .teacher-chip-avatar {
@@ -337,10 +356,34 @@
   color: #352B3D;
 }
 
+.t-student-sub-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.t-student-class-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #FFF0F7;
+  color: #D91D78;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #FFE4EE;
+}
+
+.t-student-presensi {
+  font-size: 0.7rem;
+  color: #8B7B89;
+  font-weight: 700;
+}
+
 .t-student-id {
   display: block;
-  font-size: 0.72rem;
-  color: #8B7B89;
+  font-size: 0.7rem;
+  color: #A396A1;
 }
 
 .t-module-tag {
@@ -612,6 +655,20 @@
 
 .t-act-icon {
   font-size: 1rem;
+}
+
+.t-act-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F72F91, #FF9B52);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  flex-shrink: 0;
 }
 
 .t-act-content {

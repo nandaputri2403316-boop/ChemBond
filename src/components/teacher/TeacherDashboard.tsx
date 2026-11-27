@@ -54,16 +54,64 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
     };
   }, [attempts]);
 
-  // Filtered student attempts for table
-  const filteredAttempts = useMemo(() => {
-    return attempts.filter((att) => {
-      const matchQuery =
-        att.ownerId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        att.attemptId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        att.moduleId.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchQuery;
+  // Helper identitas siswa: memprioritaskan nama lengkap terverifikasi
+  const getStudentDisplayName = (att: QuizAttemptRecord): string => {
+    if (att.studentName && att.studentName.trim()) {
+      return att.studentName.trim();
+    }
+    if (att.ownerId === 'guest') {
+      return 'Siswa Mandiri (Tamu)';
+    }
+    return att.ownerId;
+  };
+
+  const getStudentInitial = (nameOrId: string): string => {
+    const clean = nameOrId.trim();
+    return clean ? clean.charAt(0).toUpperCase() : 'S';
+  };
+
+  // Daftar kelas unik murni dinamis dari riwayat pengerjaan aktual siswa
+  const availableClasses = useMemo(() => {
+    const classes = new Set<string>();
+    attempts.forEach((att) => {
+      const trimmedClass = att.kelas?.trim();
+      // Mengabaikan nilai kosong, null, undefined, dan penanda role non-siswa (Tamu/Guru)
+      if (trimmedClass && trimmedClass !== 'Tamu' && trimmedClass !== 'Guru') {
+        classes.add(trimmedClass);
+      }
     });
-  }, [attempts, searchQuery]);
+    return Array.from(classes).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  }, [attempts]);
+
+  // Pastikan filter kelas aman jika kelas yang dipilih sudah tidak ada di data
+  const effectiveClass =
+    selectedClass === 'all' || availableClasses.includes(selectedClass)
+      ? selectedClass
+      : 'all';
+
+  // Filtered student attempts for table (Pencarian multi-field & Filter Kelas)
+  const filteredAttempts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return attempts.filter((att) => {
+      // 1. Pencarian komprehensif: nama lengkap, UID, attemptId, modul, kelas, presensi
+      const matchSearch =
+        !query ||
+        (Boolean(att.studentName) && att.studentName!.toLowerCase().includes(query)) ||
+        att.ownerId.toLowerCase().includes(query) ||
+        att.attemptId.toLowerCase().includes(query) ||
+        att.moduleId.toLowerCase().includes(query) ||
+        (Boolean(att.kelas) && att.kelas!.toLowerCase().includes(query)) ||
+        (att.nomorPresensi !== undefined && String(att.nomorPresensi).includes(query));
+
+      // 2. Filter kelas aktual murni berbasis data
+      const matchClass =
+        effectiveClass === 'all' ||
+        (Boolean(att.kelas) && att.kelas!.trim().toLowerCase() === effectiveClass.trim().toLowerCase());
+
+      return matchSearch && matchClass;
+    });
+  }, [attempts, searchQuery, effectiveClass]);
 
   return (
     <div className="teacher-workspace-layout">
@@ -84,7 +132,12 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
           </div>
 
           <div className="teacher-header-profile">
-            <div className="teacher-profile-chip" onClick={onOpenProfile} role="button" tabIndex={0}>
+            <button
+              type="button"
+              className="teacher-profile-chip"
+              onClick={onOpenProfile}
+              aria-label="Buka profil guru"
+            >
               <div className="chip-avatar teacher-chip-avatar">
                 {user.namaLengkap ? user.namaLengkap.charAt(0).toUpperCase() : 'G'}
               </div>
@@ -92,7 +145,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 <span className="chip-name">{user.namaLengkap || 'Guru'}</span>
                 <span className="chip-role">Guru Berwenang</span>
               </div>
-            </div>
+            </button>
           </div>
         </header>
 
@@ -177,13 +230,16 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
                   <select
                     className="t-select-filter"
-                    value={selectedClass}
+                    value={effectiveClass}
                     onChange={(e) => setSelectedClass(e.target.value)}
+                    aria-label="Filter berdasarkan kelas siswa"
                   >
                     <option value="all">Semua Kelas</option>
-                    <option value="X-1">Kelas X - 1</option>
-                    <option value="X-2">Kelas X - 2</option>
-                    <option value="X-3">Kelas X - 3</option>
+                    {availableClasses.map((cls) => (
+                      <option key={cls} value={cls}>
+                        Kelas {cls}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -204,18 +260,28 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                     <tbody>
                       {filteredAttempts.slice(-8).reverse().map((att) => {
                         const isPass = att.score >= 70;
+                        const displayName = getStudentDisplayName(att);
+                        const initial = getStudentInitial(displayName);
                         return (
                           <tr key={att.attemptId}>
                             <td>
                               <div className="t-student-cell">
-                                <div className="t-student-avatar">
-                                  {att.ownerId.charAt(0).toUpperCase()}
+                                <div className="t-student-avatar" aria-hidden="true">
+                                  {initial}
                                 </div>
                                 <div>
                                   <span className="t-student-name">
-                                    {att.ownerId === 'guest' ? 'Siswa Mandiri (Tamu)' : att.ownerId}
+                                    {displayName}
                                   </span>
-                                  <span className="t-student-id">ID: {att.attemptId.slice(0, 16)}...</span>
+                                  <div className="t-student-sub-info">
+                                    {att.kelas && att.kelas !== 'Tamu' && att.kelas !== 'Guru' && (
+                                      <span className="t-student-class-badge">Kelas {att.kelas}</span>
+                                    )}
+                                    {att.nomorPresensi !== undefined && att.nomorPresensi !== 0 && (
+                                      <span className="t-student-presensi">No. {att.nomorPresensi}</span>
+                                    )}
+                                    <span className="t-student-id">ID: {att.attemptId.slice(0, 16)}...</span>
+                                  </div>
                                 </div>
                               </div>
                             </td>
@@ -406,19 +472,23 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
               {attempts.length > 0 ? (
                 <div className="t-activity-stream">
-                  {attempts.slice(-4).reverse().map((rec) => (
-                    <div key={rec.attemptId} className="t-activity-item">
-                      <div className="t-act-icon">📝</div>
-                      <div className="t-act-content">
-                        <span className="t-act-title">
-                          {rec.ownerId === 'guest' ? 'Siswa Tamu' : rec.ownerId} submit kuis
-                        </span>
-                        <span className="t-act-meta">
-                          Skor {rec.score}% • {rec.totalCorrect}/{rec.totalQuestions} Benar
-                        </span>
+                  {attempts.slice(-4).reverse().map((rec) => {
+                    const displayName = getStudentDisplayName(rec);
+                    const initial = getStudentInitial(displayName);
+                    return (
+                      <div key={rec.attemptId} className="t-activity-item">
+                        <div className="t-act-avatar" aria-hidden="true">{initial}</div>
+                        <div className="t-act-content">
+                          <span className="t-act-title">
+                            <strong>{displayName}</strong> submit kuis
+                          </span>
+                          <span className="t-act-meta">
+                            Skor {rec.score}% • {rec.totalCorrect}/{rec.totalQuestions} Benar
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="t-empty-stream">
