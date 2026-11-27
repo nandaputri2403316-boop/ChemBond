@@ -383,7 +383,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                             </td>
                             <td>
                               <span className="t-module-tag">
-                                {att.moduleId === 'materi-1' ? 'Modul 1: Pengenalan' : att.moduleId}
+                                {att.moduleId === 'materi-1' ? 'Quiz' : att.moduleId}
                               </span>
                             </td>
                             <td>
