@@ -17,18 +17,16 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // 3. Memeriksa apakah pengguna adalah Guru Kimia ChemBond yang sah (Validasi Ketat):
+    // 3. Memeriksa apakah pengguna adalah Guru Kimia ChemBond yang sah:
     // - Wajib terautentikasi
-    // - Wajib memiliki UID guru yang telah ditetapkan: 'XBkANOSz1TdoKNVwgRlQxqjzBhm1'
-    // - Wajib memiliki email token resmi: 'guru@chembond.sch.id'
-    // - Dokumen profil Firestore pada users/{uid} wajib ada dan memiliki field role == 'teacher'
-    // - Menolak akses guru jika hanya email yang cocok tanpa UID sah
-    // - Menolak akun lain yang mencoba memanipulasi field role sendiri
+    // - Dokumen profil Firestore pada users/{uid} wajib ada
+    // - UID pada dokumen profil harus sesuai dengan UID akun Firebase Authentication
+    // - Role pada dokumen profil wajib 'teacher'
+    // - Akun siswa tidak mendapatkan akses guru hanya karena berhasil login
     function isTeacher() {
       return isAuthenticated() &&
-        request.auth.uid == 'XBkANOSz1TdoKNVwgRlQxqjzBhm1' &&
-        request.auth.token.email == 'guru@chembond.sch.id' &&
         exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.uid == request.auth.uid &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
     }
 

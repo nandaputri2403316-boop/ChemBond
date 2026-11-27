@@ -409,6 +409,7 @@ export async function syncUnsyncedAttempts(
  *    tanpa duplikasi berdasarkan attemptId unik.
  * 5. Jika offline / gagal jaringan, otomatis fallback membaca LocalStorage.
  */
+
 export async function fetchTeacherQuizAttempts(
   currentUser: UserProfile
 ): Promise<FetchTeacherAttemptsResult> {
@@ -436,15 +437,15 @@ export async function fetchTeacherQuizAttempts(
     };
   }
 
-  // Verifikasi sesi login aktif
+  // Verifikasi sesi login aktif dan kesesuaian UID
   const currentAuthUser = activeAuth.currentUser;
-  if (!currentAuthUser) {
+  if (!currentAuthUser || currentAuthUser.uid !== currentUser.uid) {
     const localFallback = loadQuizHistory();
     return {
       success: true,
       attempts: localFallback,
       fromCloud: false,
-      error: 'Sesi login autentikasi guru belum aktif. Menampilkan data cadangan lokal.',
+      error: 'Sesi login autentikasi guru tidak sesuai dengan profil pengguna aktif. Menampilkan data cadangan lokal.',
     };
   }
 
@@ -453,16 +454,31 @@ export async function fetchTeacherQuizAttempts(
     const querySnapshot = await getDocs(attemptsCollectionRef);
 
     const cloudAttempts: QuizAttemptRecord[] = [];
+
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
+
       const mappedRecord: QuizAttemptRecord = {
         attemptId: data.attemptId || docSnap.id,
         ownerId: data.studentUid || data.ownerId || 'unknown',
-        studentName: (data.studentName || data.namaSiswa || data.namaLengkap || '').trim() || 'Siswa',
-        kelas: (data.kelas || data.studentKelas || '').trim() || '-',
-        nomorPresensi: data.nomorPresensi !== undefined
-          ? data.nomorPresensi
-          : (data.studentNomorPresensi !== undefined ? data.studentNomorPresensi : undefined),
+        studentName:
+          typeof data.studentName === 'string' && data.studentName.trim()
+            ? data.studentName.trim()
+            : typeof data.namaSiswa === 'string' && data.namaSiswa.trim()
+              ? data.namaSiswa.trim()
+              : typeof data.namaLengkap === 'string' && data.namaLengkap.trim()
+                ? data.namaLengkap.trim()
+                : 'Nama siswa belum tersedia',
+        kelas:
+          typeof data.kelas === 'string' && data.kelas.trim()
+            ? data.kelas.trim()
+            : typeof data.studentKelas === 'string' && data.studentKelas.trim()
+              ? data.studentKelas.trim()
+              : '-',
+        nomorPresensi:
+          data.nomorPresensi !== undefined
+            ? data.nomorPresensi
+            : data.studentNomorPresensi,
         moduleId: data.moduleId || 'materi-1',
         activityId: data.activityId || 'kuis-diagnostik-m1',
         questionVersion: data.questionVersion || 'v1',
@@ -474,37 +490,50 @@ export async function fetchTeacherQuizAttempts(
         completedAt: data.completedAt || new Date().toISOString(),
         savedToCloud: true,
       };
+
       cloudAttempts.push(mappedRecord);
     });
 
-    // Ambil data lokal untuk mendeteksi rekaman lokal yang belum tersinkronisasi ke cloud
+    // Ambil data lokal untuk mendeteksi rekaman yang belum tersinkronisasi
     const localAttempts = loadQuizHistory();
-    const cloudAttemptIds = new Set(cloudAttempts.map((a) => a.attemptId));
+    const cloudAttemptIds = new Set(
+      cloudAttempts.map((attempt) => attempt.attemptId)
+    );
 
-    // Masukkan attempt lokal yang belum ada di cloud (menghindari duplikasi)
+    // Gabungkan data lokal yang belum ada di Cloud Firestore
     const mergedAttempts = [...cloudAttempts];
+
     for (const localAtt of localAttempts) {
       if (!cloudAttemptIds.has(localAtt.attemptId)) {
         mergedAttempts.push(localAtt);
       }
     }
 
-    // Urutkan secara kronologis (waktu paling lama ke paling baru)
-    // agar .slice(-8).reverse() di UI TeacherDashboard menampilkan yang terbaru di atas
-    mergedAttempts.sort((a, b) => {
-      const timeA = a.completedAt ? new Date(a.completedAt).getTime() : 0;
-      const timeB = b.completedAt ? new Date(b.completedAt).getTime() : 0;
+    // Urutkan dari waktu paling lama ke paling baru
+    const mergedAttemptsSorted = mergedAttempts.sort((a, b) => {
+      const timeA = a.completedAt
+        ? new Date(a.completedAt).getTime()
+        : 0;
+      const timeB = b.completedAt
+        ? new Date(b.completedAt).getTime()
+        : 0;
+
       return timeA - timeB;
     });
 
     return {
       success: true,
-      attempts: mergedAttempts,
+      attempts: mergedAttemptsSorted,
       fromCloud: true,
     };
   } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : 'Gagal memuat data dari Cloud Firestore.';
+    const errorMsg =
+      err instanceof Error
+        ? err.message
+        : 'Gagal memuat data dari Cloud Firestore.';
+
     const localFallback = loadQuizHistory();
+
     return {
       success: false,
       attempts: localFallback,
