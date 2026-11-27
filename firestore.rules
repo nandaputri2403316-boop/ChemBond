@@ -1,3 +1,4 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -35,6 +36,7 @@ service cloud.firestore {
     // KOLEKSI: users (Profil Siswa dan Guru)
     // =========================================================================
     match /users/{userId} {
+
       // Membaca data profil:
       // - Guru yang sah dapat membaca seluruh profil siswa untuk pemantauan, rekap nilai, dan pengelolaan kelas
       // - Siswa hanya dapat membaca data profil miliknya sendiri
@@ -45,19 +47,21 @@ service cloud.firestore {
       // - Siswa hanya dapat mendaftarkan dokumen dengan UID miliknya sendiri (isOwner)
       // - Role WAJIB 'student' (DILARANG mendaftar sebagai 'teacher')
       // - Field uid di dalam dokumen harus cocok dengan userId
+      // - Status keanggotaan kelas harus false saat pendaftaran
       // - Akun guru telah dibuat dan dikelola secara terpisah oleh pengembang di Firebase Console
       allow create: if isOwner(userId) &&
         request.resource.data.role == 'student' &&
-        request.resource.data.uid == userId;
+        request.resource.data.uid == userId &&
+        request.resource.data.isClassMember == false;
 
       // Pembaruan data profil siswa (Update - Tahap 2C):
       // - Hanya pemilik dokumen yang dapat memperbarui datanya sendiri
-      // - Siswa HANYA dapat memperbarui 5 field: namaLengkap, kelas, nomorPresensi, profileCompleted, isClassMember
-      // - Dilarang keras mengubah uid, role, email, provider, createdAt, maupun field sistem lainnya
+      // - Siswa HANYA dapat memperbarui 4 field: namaLengkap, kelas, nomorPresensi, profileCompleted
+      // - Siswa tidak dapat mengubah uid, role, email, provider, createdAt, maupun isClassMember
       // - Menggunakan diff().affectedKeys().hasOnly() untuk penegakan ketat di tingkat database
       allow update: if isOwner(userId) &&
         request.resource.data.diff(resource.data).affectedKeys()
-          .hasOnly(['namaLengkap', 'kelas', 'nomorPresensi', 'profileCompleted', 'isClassMember']);
+          .hasOnly(['namaLengkap', 'kelas', 'nomorPresensi', 'profileCompleted']);
 
       // Penghapusan dokumen akun dilarang dari sisi klien
       allow delete: if false;
@@ -65,6 +69,7 @@ service cloud.firestore {
       // Sub-koleksi riwayat kuis per siswa (opsi subkoleksi jika digunakan di kemudian hari)
       match /quiz_attempts/{attemptId} {
         allow read: if isOwner(userId) || isTeacher();
+
         allow create: if isOwner(userId) &&
           exists(/databases/$(database)/documents/users/$(userId)) &&
           get(/databases/$(database)/documents/users/$(userId)).data.role == 'student' &&
@@ -88,6 +93,7 @@ service cloud.firestore {
             request.resource.data.nomorPresensi == get(/databases/$(database)/documents/users/$(userId)).data.nomorPresensi ||
             string(request.resource.data.nomorPresensi) == string(get(/databases/$(database)/documents/users/$(userId)).data.nomorPresensi)
           );
+
         allow update, delete: if false; // Riwayat kuis bersifat immutable
       }
     }
@@ -96,6 +102,7 @@ service cloud.firestore {
     // KOLEKSI UTAMA: quiz_attempts (Hasil & Percobaan Kuis Terpusat - Tahap 2C)
     // =========================================================================
     match /quiz_attempts/{attemptId} {
+
       // Pembacaan hasil kuis:
       // - Guru yang sah dapat membaca hasil kuis seluruh siswa lintas kelas
       // - Siswa hanya dapat membaca hasil kuis miliknya sendiri (studentUid == request.auth.uid)
