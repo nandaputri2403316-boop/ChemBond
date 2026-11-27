@@ -187,7 +187,7 @@ export function App() {
                         <div className="container">
                           <div className="placeholder-panel">
                             <div className="placeholder-badge-pill">
-                              <span>≡ƒöÆ Akses Personal Dashboard ΓÇó ChemBond</span>
+                              <span>Akses Personal Dashboard ChemBond</span>
                             </div>
 
                             <h1 className="placeholder-heading">
@@ -205,14 +205,14 @@ export function App() {
                                 className="btn btn-capsule-cta-main"
                                 onClick={() => handleNavigate('Masuk')}
                               >
-                                ≡ƒöæ Masuk ke Akun ChemBond
+                              Masuk ke Akun ChemBond
                               </button>
                               <button
                                 type="button"
                                 className="btn btn-capsule-secondary"
                                 onClick={() => handleNavigate('Beranda')}
                               >
-                                ≡ƒîƒ Kembali ke Beranda
+                                Kembali ke Beranda
                               </button>
                             </div>
                           </div>
