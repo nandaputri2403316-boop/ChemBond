@@ -12,7 +12,7 @@
  * 6. Jika Firestore gagal (offline/error), data diamankan ke LocalStorage dengan status savedToCloud: false.
  */
 
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, getDocs, collection } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from './firebase';
 import { saveQuizAttempt, loadQuizHistory, updateQuizAttemptStatus, type QuizAttemptRecord } from './localStore';
 import type { UserProfile } from '../types/auth';
@@ -45,6 +45,13 @@ export interface SyncResults {
   alreadySynced: number;
   failed: number;
   errors: string[];
+}
+
+export interface FetchTeacherAttemptsResult {
+  success: boolean;
+  attempts: QuizAttemptRecord[];
+  fromCloud: boolean;
+  error?: string;
 }
 
 /**
@@ -384,4 +391,125 @@ export async function syncUnsyncedAttempts(
   }
 
   return result;
+}
+
+/**
+ * Mengambil seluruh data hasil kuis siswa dari Cloud Firestore (koleksi quiz_attempts)
+ * khusus untuk akun dengan peran Guru (teacher).
+ * 
+ * Ketentuan Keamanan & Sinkronisasi (TB-01):
+ * 1. Hanya akun dengan role 'teacher' yang berwenang memanggil fungsi ini.
+ * 2. Mengambil seluruh dokumen dari Firestore collection 'quiz_attempts'.
+ * 3. Memetakan struktur dokumen Firestore ke QuizAttemptRecord secara akurat:
+ *    - studentName, namaSiswa, namaLengkap -> studentName
+ *    - kelas, studentKelas -> kelas
+ *    - nomorPresensi, studentNomorPresensi -> nomorPresensi
+ *    - studentUid, ownerId -> ownerId
+ * 4. Menggunakan Firestore sebagai sumber utama dan menggabungkan dengan LocalStorage
+ *    tanpa duplikasi berdasarkan attemptId unik.
+ * 5. Jika offline / gagal jaringan, otomatis fallback membaca LocalStorage.
+ */
+export async function fetchTeacherQuizAttempts(
+  currentUser: UserProfile
+): Promise<FetchTeacherAttemptsResult> {
+  // 1. Otorisasi peran: Hanya guru yang berwenang
+  if (!currentUser || currentUser.role !== 'teacher') {
+    return {
+      success: false,
+      attempts: [],
+      fromCloud: false,
+      error: 'Hanya akun dengan peran Guru yang berwenang mengakses data hasil evaluasi seluruh siswa.',
+    };
+  }
+
+  const activeDb = db;
+  const activeAuth = auth;
+
+  // Jika koneksi Firebase belum terkonfigurasi
+  if (!isFirebaseConfigured || !activeDb || !activeAuth) {
+    const localFallback = loadQuizHistory();
+    return {
+      success: true,
+      attempts: localFallback,
+      fromCloud: false,
+      error: 'Koneksi database Cloud belum aktif. Menampilkan data cadangan lokal.',
+    };
+  }
+
+  // Verifikasi sesi login aktif
+  const currentAuthUser = activeAuth.currentUser;
+  if (!currentAuthUser) {
+    const localFallback = loadQuizHistory();
+    return {
+      success: true,
+      attempts: localFallback,
+      fromCloud: false,
+      error: 'Sesi login autentikasi guru belum aktif. Menampilkan data cadangan lokal.',
+    };
+  }
+
+  try {
+    const attemptsCollectionRef = collection(activeDb, 'quiz_attempts');
+    const querySnapshot = await getDocs(attemptsCollectionRef);
+
+    const cloudAttempts: QuizAttemptRecord[] = [];
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const mappedRecord: QuizAttemptRecord = {
+        attemptId: data.attemptId || docSnap.id,
+        ownerId: data.studentUid || data.ownerId || 'unknown',
+        studentName: (data.studentName || data.namaSiswa || data.namaLengkap || '').trim() || 'Siswa',
+        kelas: (data.kelas || data.studentKelas || '').trim() || '-',
+        nomorPresensi: data.nomorPresensi !== undefined
+          ? data.nomorPresensi
+          : (data.studentNomorPresensi !== undefined ? data.studentNomorPresensi : undefined),
+        moduleId: data.moduleId || 'materi-1',
+        activityId: data.activityId || 'kuis-diagnostik-m1',
+        questionVersion: data.questionVersion || 'v1',
+        initialAnswers: data.initialAnswers || {},
+        score: typeof data.score === 'number' ? data.score : 0,
+        totalCorrect: typeof data.totalCorrect === 'number' ? data.totalCorrect : 0,
+        totalIncorrect: typeof data.totalIncorrect === 'number' ? data.totalIncorrect : 0,
+        totalQuestions: typeof data.totalQuestions === 'number' ? data.totalQuestions : 6,
+        completedAt: data.completedAt || new Date().toISOString(),
+        savedToCloud: true,
+      };
+      cloudAttempts.push(mappedRecord);
+    });
+
+    // Ambil data lokal untuk mendeteksi rekaman lokal yang belum tersinkronisasi ke cloud
+    const localAttempts = loadQuizHistory();
+    const cloudAttemptIds = new Set(cloudAttempts.map((a) => a.attemptId));
+
+    // Masukkan attempt lokal yang belum ada di cloud (menghindari duplikasi)
+    const mergedAttempts = [...cloudAttempts];
+    for (const localAtt of localAttempts) {
+      if (!cloudAttemptIds.has(localAtt.attemptId)) {
+        mergedAttempts.push(localAtt);
+      }
+    }
+
+    // Urutkan secara kronologis (waktu paling lama ke paling baru)
+    // agar .slice(-8).reverse() di UI TeacherDashboard menampilkan yang terbaru di atas
+    mergedAttempts.sort((a, b) => {
+      const timeA = a.completedAt ? new Date(a.completedAt).getTime() : 0;
+      const timeB = b.completedAt ? new Date(b.completedAt).getTime() : 0;
+      return timeA - timeB;
+    });
+
+    return {
+      success: true,
+      attempts: mergedAttempts,
+      fromCloud: true,
+    };
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Gagal memuat data dari Cloud Firestore.';
+    const localFallback = loadQuizHistory();
+    return {
+      success: false,
+      attempts: localFallback,
+      fromCloud: false,
+      error: `Gagal memuat data dari Cloud Firestore (${errorMsg}). Menampilkan data cadangan lokal.`,
+    };
+  }
 }

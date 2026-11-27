@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { UserProfile } from '../../types/auth';
 import type { Page } from '../Navbar';
 import { loadQuizHistory, type QuizAttemptRecord } from '../../services/localStore';
+import { fetchTeacherQuizAttempts } from '../../services/quizService';
 import { materiList } from '../../data/materi';
 import { modul1Quiz } from '../../data/kuis/modul1Quiz';
 import './TeacherDashboard.css';
@@ -20,8 +21,67 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedClass, setSelectedClass] = useState<string>('all');
 
-  // Load actual quiz attempts recorded
-  const [attempts] = useState<QuizAttemptRecord[]>(() => loadQuizHistory());
+  // Load actual quiz attempts recorded (TB-01: Membaca Firestore sebagai sumber utama dengan cadangan lokal)
+  const [attempts, setAttempts] = useState<QuizAttemptRecord[]>(() => loadQuizHistory());
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [dataSource, setDataSource] = useState<'cloud' | 'local'>('local');
+
+  // Sinkronisasi data saat komponen dimuat atau user berubah
+  useEffect(() => {
+    let ignore = false;
+
+    async function loadData() {
+      try {
+        const res = await fetchTeacherQuizAttempts(user);
+        if (!ignore) {
+          setAttempts(res.attempts);
+          setDataSource(res.fromCloud ? 'cloud' : 'local');
+          if (!res.success && res.error) {
+            setFetchError(res.error);
+          }
+        }
+      } catch (err) {
+        if (!ignore) {
+          const msg = err instanceof Error ? err.message : 'Gagal memuat data hasil kuis.';
+          setFetchError(msg);
+          setAttempts(loadQuizHistory());
+          setDataSource('local');
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadData();
+
+    return () => {
+      ignore = true;
+    };
+  }, [user]);
+
+  // Handler tombol segarkan manual oleh guru
+  const handleManualRefresh = async () => {
+    setIsLoading(true);
+    setFetchError(null);
+    try {
+      const res = await fetchTeacherQuizAttempts(user);
+      setAttempts(res.attempts);
+      setDataSource(res.fromCloud ? 'cloud' : 'local');
+      if (!res.success && res.error) {
+        setFetchError(res.error);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Gagal memuat data hasil kuis.';
+      setFetchError(msg);
+      setAttempts(loadQuizHistory());
+      setDataSource('local');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Aggregate teacher statistics from real data
   const teacherStats = useMemo(() => {
@@ -212,11 +272,31 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
             <section className="t-card-section">
               <div className="t-section-header">
                 <div>
-                  <h3 className="t-section-title">Student Overview</h3>
+                  <div className="t-section-title-row">
+                    <h3 className="t-section-title">Student Overview</h3>
+                    <span
+                      className={`t-status-pill ${dataSource === 'cloud' ? 'status-pass' : 'status-review'}`}
+                      title={dataSource === 'cloud' ? 'Data bersumber langsung dari Cloud Firestore' : 'Data bersumber dari penyimpanan lokal peramban'}
+                    >
+                      {dataSource === 'cloud' ? '☁️ Cloud Firestore' : '💾 Cadangan Lokal'}
+                    </span>
+                  </div>
                   <p className="t-section-sub">Pemantauan partisipasi dan hasil belajar siswa.</p>
                 </div>
 
                 <div className="t-filter-tools">
+                  <button
+                    type="button"
+                    className="t-refresh-btn"
+                    onClick={handleManualRefresh}
+                    disabled={isLoading}
+                    title="Segarkan data hasil kuis dari Cloud Firestore"
+                    aria-label="Segarkan data hasil kuis"
+                  >
+                    <span aria-hidden="true" className={isLoading ? 'spin-icon' : ''}>🔄</span>
+                    <span>{isLoading ? 'Memuat...' : 'Segarkan'}</span>
+                  </button>
+
                   <div className="t-search-wrapper">
                     <span className="search-icon" aria-hidden="true">🔍</span>
                     <input
@@ -225,6 +305,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                       placeholder="Cari siswa / modul / ID..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
+                      aria-label="Cari berdasarkan nama siswa, modul, atau ID pengerjaan"
                     />
                   </div>
 
@@ -244,7 +325,22 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 </div>
               </div>
 
-              {filteredAttempts.length > 0 ? (
+              {fetchError && (
+                <div className="t-notice-banner" role="alert">
+                  <span aria-hidden="true">⚠️</span>
+                  <span>{fetchError}</span>
+                </div>
+              )}
+
+              {isLoading ? (
+                <div className="t-loading-state">
+                  <span className="t-empty-icon spin-icon" aria-hidden="true">🔄</span>
+                  <h4 className="t-empty-title">Memperbarui Data Kuis...</h4>
+                  <p className="t-empty-desc">
+                    Mengambil data hasil evaluasi siswa terbaru dari server Cloud Firestore.
+                  </p>
+                </div>
+              ) : filteredAttempts.length > 0 ? (
                 <div className="t-table-container">
                   <table className="t-data-table">
                     <thead>

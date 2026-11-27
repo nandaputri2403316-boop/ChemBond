@@ -248,6 +248,13 @@
   letter-spacing: -0.3px;
 }
 
+.t-section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .t-section-sub {
   font-size: 0.84rem;
   color: #8B7B89;
@@ -301,6 +308,34 @@
   outline: none;
   cursor: pointer;
   font-family: inherit;
+}
+
+.t-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1.5px solid #F1E3EB;
+  background: #FFFFFF;
+  color: #352B3D;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.t-refresh-btn:hover:not(:disabled) {
+  border-color: #D91D78;
+  color: #D91D78;
+  background: #FFF0F7;
+  transform: translateY(-1px);
+}
+
+.t-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Table */
@@ -453,6 +488,41 @@
   font-size: 0.85rem;
   color: #8B7B89;
   margin: 0;
+}
+
+.t-notice-banner {
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.t-loading-state {
+  text-align: center;
+  padding: 36px 20px;
+  background: #FFF9FC;
+  border-radius: 18px;
+  border: 1.5px dashed #F1E3EB;
+}
+
+.spin-icon {
+  display: inline-block;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Concept Breakdown Grid */
