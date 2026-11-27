@@ -139,7 +139,12 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate, currentUse
   const handleNavigateQuestion = (newIndex: number) => {
     if (newIndex < 0 || newIndex >= modul1Quiz.length) return;
     setCurrentIndex(newIndex);
-    setValidationError(null);
+
+    // Jika soal yang dituju sudah dijawab, bersihkan pesan validasi
+    // Jika soal yang dituju belum dijawab dan sebelumnya terdapat peringatan validasi, pertahankan pesan
+    if (answers[modul1Quiz[newIndex].id]) {
+      setValidationError(null);
+    }
 
     // Perbarui nomor soal terakhir di draf terikat UID
     const draft: QuizDraft = {
@@ -166,11 +171,27 @@ export const QuizSection: React.FC<QuizSectionProps> = ({ onNavigate, currentUse
     });
 
     if (unansweredIndexes.length > 0) {
+      // Temukan nomor soal pertama yang belum dijawab (0-indexed)
+      const firstUnansweredIndex = unansweredIndexes[0] - 1;
+
+      // Arahkan siswa secara otomatis ke soal tersebut
+      setCurrentIndex(firstUnansweredIndex);
+
+      // Tampilkan pesan peringatan yang tetap terlihat setelah perpindahan soal
       setValidationError(
-        `Masih ada ${unansweredIndexes.length} soal yang belum Anda jawab (Soal nomor: ${unansweredIndexes.join(', ')}). Mohon lengkapi seluruh soal sebelum menyelesaikan kuis.`
+        'Soal ini belum dijawab. Silakan pilih salah satu jawaban sebelum mengumpulkan kuis.'
       );
-      // Pindahkan fokus ke soal pertama yang belum dijawab
-      handleNavigateQuestion(unansweredIndexes[0] - 1);
+
+      // Perbarui nomor soal aktif di draf terikat UID
+      const draft: QuizDraft = {
+        attemptId,
+        ownerId: currentOwnerId,
+        questionVersion: MODUL1_QUESTION_VERSION,
+        currentIndex: firstUnansweredIndex,
+        answers,
+      };
+      saveQuizDraft(draft, currentOwnerId);
+      window.scrollTo({ top: 120, behavior: 'smooth' });
       return;
     }
 

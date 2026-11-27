@@ -59,7 +59,7 @@ export const modul1Quiz: QuizQuestion[] = [
     questionVersion: 'v1',
     konsep: 'jenis-jenis-ikatan-kimia',
     pertanyaan:
-      'Dua zat, yaitu zat X dan zat Y, diuji menggunakan alat penguji daya hantar listrik. Hasil pengujian menunjukkan bahwa zat X dalam keadaan padat tidak dapat menghantarkan listrik, tetapi larutannya dapat menghantarkan listrik. Sementara itu, zat Y dapat menghantarkan listrik baik dalam keadaan padat maupun setelah dilelehkan.\n\nBerdasarkan hasil pengujian tersebut, analisis yang paling tepat mengenai jenis ikatan pada kedua zat adalah ....',
+      'Dua zat, yaitu zat X dan zat Y, diuji menggunakan alat penguji daya hantar listrik. Hasil pengujian menunjukkan bahwa zat X dalam keadaan padat tidak dapat menghantarkan listrik, tetapi dapat menghantarkan listrik ketika dilelehkan maupun ketika dilarutkan dalam air. Sementara itu, zat Y dapat menghantarkan listrik baik dalam keadaan padat maupun setelah dilelehkan.\n\nBerdasarkan hasil pengujian tersebut, analisis yang paling tepat mengenai jenis ikatan pada kedua zat adalah ....',
     opsi: [
       { id: 'A', teks: 'X memiliki ikatan kovalen nonpolar, sedangkan Y memiliki ikatan kovalen polar.' },
       { id: 'B', teks: 'X memiliki ikatan logam, sedangkan Y memiliki ikatan ion.' },
@@ -69,7 +69,7 @@ export const modul1Quiz: QuizQuestion[] = [
     ],
     jawabanBenar: 'D',
     pembahasan:
-      'Zat X menunjukkan karakteristik senyawa ion. Dalam keadaan padat, ion-ionnya tidak bebas bergerak, tetapi dalam larutan dapat bergerak dan menghantarkan listrik. Zat Y menunjukkan karakteristik logam karena memiliki elektron terdelokalisasi yang dapat bergerak dalam keadaan padat maupun cair.',
+      'Zat X menunjukkan karakteristik khas senyawa ion. Dalam keadaan padat, ion-ionnya terikat kuat pada kisi kristal sehingga tidak bebas bergerak, tetapi ketika dilelehkan atau dilarutkan dalam air, ion-ionnya terdisosiasi dan bebas bergerak menghantarkan listrik (berbeda dengan kovalen polar yang lelehannya tidak menghantarkan listrik). Zat Y menunjukkan karakteristik logam karena memiliki elektron valensi terdelokalisasi (lautan elektron) yang bebas bergerak baik dalam wujud padat maupun lelehan.',
   },
   {
     id: 'm1-q5',
