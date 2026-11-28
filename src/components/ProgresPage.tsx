@@ -139,7 +139,7 @@ export const ProgresPage: React.FC<ProgresPageProps> = ({ onNavigate, currentUse
             <div className="progres-user-details">
               <div className="progres-user-name-row">
                 <span className="progres-user-name">
-                  {currentUser?.namaLengkap || 'Siswa Mandiri (Tamu)'}
+                  {currentUser?.namaLengkap || 'Siswa Mandiri'}
                 </span>
                 {currentUser ? (
                   <span className="progres-role-tag">Siswa Terverifikasi</span>
@@ -410,7 +410,7 @@ export const ProgresPage: React.FC<ProgresPageProps> = ({ onNavigate, currentUse
                           <td>
                             <span>
                               {attempt.moduleId === 'materi-1'
-                                ? 'Modul 1: Pengenalan Ikatan Kimia'
+                                ? 'Ikatan Kimia'
                                 : attempt.moduleId}
                             </span>
                           </td>
