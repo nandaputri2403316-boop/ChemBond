@@ -100,15 +100,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               </span>
             </div>
           </div>
-
-          <button
-            type="button"
-            className="sidebar-close-btn"
-            onClick={onClose}
-            aria-label="Tutup navigasi"
-          >
-            ✕
-          </button>
         </div>
 
         {/* Primary Navigation Menu */}

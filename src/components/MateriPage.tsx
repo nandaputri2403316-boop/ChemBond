@@ -5,6 +5,7 @@ import { materiList } from '../data/materi';
 import type { ModuleData, SubModule } from '../data/types';
 import { HookMedia } from './HookMedia';
 import './MateriPage.css';
+import Modul1Interactive from './Modul1Interactive';
 
 interface MateriPageProps {
     onNavigate?: (page: Page) => void;
@@ -12,12 +13,12 @@ interface MateriPageProps {
 
 // ── Peta aksen warna per submodul ────────────────────────────────────────────
 const SUBMODULE_ACCENT: Record<string, { cls: string; label: string; icon: string }> = {
-    'sub-2-1': { cls: 'accent-blue',   label: 'Konsep Dasar',    icon: '⚛️'  },
-    'sub-2-2': { cls: 'accent-orange', label: 'Pembentukan Ion', icon: '⚡'  },
-    'sub-2-3': { cls: 'accent-purple', label: 'Rumus & Lewis',   icon: '🧪'  },
-    'sub-2-4': { cls: 'accent-teal',   label: 'Kristal Ionik',   icon: '💎'  },
-    'sub-2-5': { cls: 'accent-pink',   label: 'Sifat Senyawa',   icon: '🔬'  },
-    'sub-2-6': { cls: 'accent-green',  label: 'Kehidupan Nyata', icon: '🌿'  },
+    'sub-2-1': { cls: 'accent-blue', label: 'Konsep Dasar', icon: '⚛️' },
+    'sub-2-2': { cls: 'accent-orange', label: 'Pembentukan Ion', icon: '⚡' },
+    'sub-2-3': { cls: 'accent-purple', label: 'Rumus & Lewis', icon: '🧪' },
+    'sub-2-4': { cls: 'accent-teal', label: 'Kristal Ionik', icon: '💎' },
+    'sub-2-5': { cls: 'accent-pink', label: 'Sifat Senyawa', icon: '🔬' },
+    'sub-2-6': { cls: 'accent-green', label: 'Kehidupan Nyata', icon: '🌿' },
 };
 
 // ── Heuristik klasifikasi paragraf ───────────────────────────────────────────
@@ -35,13 +36,13 @@ function classifyBlock(text: string): BlockType {
 }
 
 const BLOCK_CLASS: Record<BlockType, string> = {
-    heading:    'blok-heading',
-    intro:      'blok-intro',
-    soal:       'blok-soal',
+    heading: 'blok-heading',
+    intro: 'blok-intro',
+    soal: 'blok-soal',
     pembahasan: 'blok-pembahasan',
-    kesalahan:  'blok-kesalahan',
+    kesalahan: 'blok-kesalahan',
     kesimpulan: 'blok-kesimpulan',
-    normal:     'blok-normal',
+    normal: 'blok-normal',
 };
 
 // ── Komponen pembaca submodul ────────────────────────────────────────────────
@@ -120,10 +121,10 @@ function SubmoduleReader({
                             className={`blok ${BLOCK_CLASS[type]}`}
                             data-type={type}
                         >
-                            {type === 'soal'      && <span className="blok-icon" aria-hidden="true">❓</span>}
+                            {type === 'soal' && <span className="blok-icon" aria-hidden="true">❓</span>}
                             {type === 'kesalahan' && <span className="blok-icon" aria-hidden="true">❌</span>}
-                            {type === 'kesimpulan'&& <span className="blok-icon" aria-hidden="true">⭐</span>}
-                            {type === 'intro'     && <span className="blok-icon" aria-hidden="true">💡</span>}
+                            {type === 'kesimpulan' && <span className="blok-icon" aria-hidden="true">⭐</span>}
+                            {type === 'intro' && <span className="blok-icon" aria-hidden="true">💡</span>}
                             {paragraph}
                         </p>
                     );
@@ -350,12 +351,23 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
 
                 {/* Pembaca submodul */}
                 {selectedModule && selectedSubmodule && (
-                    <SubmoduleReader
-                        module={selectedModule}
-                        submodule={selectedSubmodule}
-                        onNavigate={onNavigate}
-                        onBack={handleBack}
-                    />
+                    selectedModule.id === 'materi-1' &&
+                        ['sub-1-1', 'sub-1-4', 'sub-1-5', 'sub-1-8'].includes(selectedSubmodule.id)
+                        ? (
+                            <Modul1Interactive
+                                module={selectedModule}
+                                submodule={selectedSubmodule}
+                                onBack={handleBack}
+                            />
+                        )
+                        : (
+                            <SubmoduleReader
+                                module={selectedModule}
+                                submodule={selectedSubmodule}
+                                onNavigate={onNavigate}
+                                onBack={handleBack}
+                            />
+                        )
                 )}
             </div>
         </main>

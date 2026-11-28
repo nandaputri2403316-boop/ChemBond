@@ -25,20 +25,40 @@ export const modul1Data: ModuleData = {
     {
       "id": "sub-1-1",
       "title": "Bab 1 · Hakikat Ikatan Kimia, Alasan Pembentukan, dan Energi Ikatan",
-      "content": [
-        "Materi tersusun atas atom-atom yang dapat berinteraksi satu sama lain. Dari interaksi atom terbentuk berbagai zat, mulai dari molekul sederhana seperti H₂O dan O₂, senyawa ion seperti NaCl, hingga molekul biologis kompleks seperti DNA.",
-        "Ikatan kimia adalah interaksi yang mempertahankan atom atau ion dalam suatu susunan kimia. Ikatan terutama berkaitan dengan gaya elektrostatik antara inti atom dan elektron, serta interaksi tolak-menolak antara inti-inti dan elektron-elektron.",
-        "Suatu ikatan dapat terbentuk apabila interaksi antarpartikel menghasilkan keadaan dengan energi total lebih rendah dibandingkan keadaan partikel-partikel yang terpisah. Susunan elektron dalam ikatan dapat melibatkan perpindahan elektron, penggunaan pasangan elektron bersama, atau elektron yang terdelokalisasi pada logam.",
-        "Secara sederhana, prosesnya dapat digambarkan sebagai: A + B (terpisah) → interaksi antaratom → A—B (berikatan, energi lebih rendah). Gas mulia umumnya berupa atom tunggal, tetapi gas mulia yang lebih berat seperti xenon dan kripton juga dapat membentuk senyawa pada kondisi tertentu.",
-        "Atom dapat membentuk ikatan ketika interaksi antaratom menghasilkan keadaan energi yang lebih rendah. Namun, tidak semua atom harus berikatan. Atom yang terisolasi juga dapat stabil, seperti atom gas mulia dalam kondisi biasa.",
-        "Ketika dua atom saling mendekat, terjadi gaya tarik antara inti suatu atom dan elektron atom lainnya. Pada saat yang sama, terdapat gaya tolak antara kedua inti dan antara elektron-elektron. Jarak tertentu menghasilkan keseimbangan interaksi sehingga energi sistem mencapai nilai minimum.",
-        "Karena itu, pembentukan ikatan tidak cukup dijelaskan dengan pernyataan bahwa atom 'ingin' stabil. Ikatan merupakan hasil interaksi fisik dan perubahan energi. Tiga gagasan pentingnya adalah adanya gaya tarik dan gaya tolak, adanya jarak kesetimbangan, dan energi sistem yang lebih rendah pada keadaan berikatan.",
-        "Pembentukan molekul hidrogen dapat dituliskan H(g) + H(g) → H₂(g). Pada jarak antarnukleus yang sangat jauh, energi potensial didefinisikan sebagai acuan nol.",
-        "Ketika dua atom H saling mendekat, gaya tarik membuat energi potensial menurun. Energi mencapai minimum pada jarak kesetimbangan sekitar 74 pm atau 0,74 Å. Jarak ini disebut panjang ikatan H—H.",
-        "Jika kedua atom dipaksa terlalu dekat, gaya tolak meningkat tajam sehingga energi potensial naik. Kedalaman minimum kurva berkaitan dengan energi yang diperlukan untuk memisahkan atom-atom dalam molekul. Energi disosiasi ikatan H—H sekitar 436 kJ mol⁻¹.",
-        "Empat keadaan pada kurva: (1) r → ∞, atom terpisah dan energi acuan mendekati nol; (2) r > r₀, atom mendekat dan energi menurun; (3) r = r₀, energi minimum dan jarak setimbang; (4) r < r₀, tolakan meningkat dan energi naik.",
-        "Catatan: nilai minimum energi potensial dan energi disosiasi eksperimen tidak selalu identik secara numerik karena energi vibrasi molekul serta perbedaan definisi energi dan entalpi dapat diperhitungkan."
-      ],
+        "content": [
+          "## Konsep Dasar dan Kestabilan Ikatan Kimia",
+          "### 1. Pengertian Ikatan Kimia",
+          "Materi tersusun atas atom-atom yang dapat berinteraksi satu sama lain. Dari interaksi antaratom terbentuk berbagai zat, mulai dari molekul sederhana seperti H₂O dan O₂, senyawa ion seperti NaCl, hingga molekul biologis kompleks seperti DNA.",
+          "Ikatan kimia adalah interaksi yang mempertahankan atom atau ion dalam suatu susunan kimia. Ikatan ini terutama berkaitan dengan gaya elektrostatik antara inti atom dan elektron, serta interaksi tolak-menolak antara inti-inti dan elektron-elektron.",
+          "Susunan atom dalam suatu zat dapat terbentuk melalui beberapa cara, seperti perpindahan elektron, penggunaan pasangan elektron bersama, atau elektron yang terdelokalisasi pada logam. Perbedaan cara tersebut menjadi dasar pengelompokan jenis-jenis ikatan kimia yang akan dipelajari selanjutnya.",
+
+          "### 2. Mengapa Atom Membentuk Ikatan?",
+          "Atom dapat membentuk ikatan ketika interaksi antaratom menghasilkan keadaan dengan energi total lebih rendah dibandingkan keadaan atom-atom yang terpisah. Keadaan dengan energi lebih rendah umumnya lebih stabil dibandingkan keadaan dengan energi lebih tinggi.",
+          "Namun, tidak semua atom harus berikatan. Atom yang terisolasi juga dapat stabil, seperti atom gas mulia dalam kondisi biasa. Gas mulia umumnya berupa atom tunggal karena susunan elektronnya relatif stabil. Meskipun demikian, gas mulia yang lebih berat, seperti xenon dan kripton, dapat membentuk senyawa pada kondisi tertentu.",
+          "Secara sederhana, pembentukan ikatan dapat digambarkan sebagai berikut: A + B (atom terpisah) → interaksi antaratom → A—B (keadaan berikatan dengan energi lebih rendah).",
+          "Dengan demikian, pembentukan ikatan kimia tidak terjadi karena atom memiliki keinginan untuk menjadi stabil, melainkan karena interaksi antarpartikel dapat menghasilkan susunan dengan energi yang lebih rendah.",
+
+          "### 3. Gaya Tarik dan Gaya Tolak Antaratom",
+          "Ketika dua atom saling mendekat, terjadi gaya tarik antara inti suatu atom dan elektron dari atom lainnya. Interaksi ini menyebabkan kedua atom dapat saling mendekat dan membentuk suatu susunan berikatan.",
+          "Pada saat yang sama, terdapat gaya tolak-menolak antara kedua inti atom yang bermuatan positif dan antara elektron-elektron yang bermuatan negatif. Kedua jenis interaksi tersebut bekerja secara bersamaan ketika jarak antaratom berubah.",
+          "Pada jarak tertentu, interaksi tarik-menarik dan tolak-menolak menghasilkan keadaan kesetimbangan. Pada keadaan ini, energi potensial sistem mencapai nilai minimum. Jarak tersebut dikenal sebagai jarak kesetimbangan atau panjang ikatan.",
+          "Dengan demikian, pembentukan ikatan kimia melibatkan tiga gagasan penting, yaitu adanya gaya tarik dan gaya tolak, adanya jarak kesetimbangan, serta energi sistem yang lebih rendah pada keadaan berikatan.",
+
+          "## Energi dalam Pembentukan Ikatan Kimia",
+          "### 4. Hubungan Jarak Antaratom dengan Energi Potensial",
+          "Energi potensial suatu sistem atom dipengaruhi oleh jarak antara atom-atom yang berinteraksi. Ketika dua atom berada pada jarak yang sangat jauh, interaksi di antara keduanya sangat lemah sehingga energi potensialnya dapat dijadikan acuan nol.",
+          "Ketika kedua atom mulai saling mendekat, gaya tarik antara inti dan elektron menyebabkan energi potensial sistem menurun. Penurunan energi ini menunjukkan bahwa interaksi antaratom menghasilkan keadaan yang lebih stabil dibandingkan ketika atom-atom berada sangat jauh satu sama lain.",
+          "Namun, jika kedua atom dipaksa berada terlalu dekat, gaya tolak-menolak antara inti dan antara elektron meningkat tajam. Akibatnya, energi potensial sistem naik dengan cepat.",
+          "Hubungan antara jarak antaratom dan energi potensial menunjukkan bahwa terdapat jarak tertentu ketika energi mencapai nilai minimum. Jarak tersebut merupakan jarak kesetimbangan yang memungkinkan terbentuknya ikatan kimia.",
+
+          "### 5. Pembentukan Molekul Hidrogen (H₂)",
+          "Pembentukan molekul hidrogen merupakan contoh sederhana untuk memahami hubungan antara interaksi antaratom dan perubahan energi potensial.",
+          "Dua atom hidrogen yang terpisah dapat berinteraksi ketika saling mendekat. Proses pembentukan molekul hidrogen dapat dituliskan sebagai berikut: H(g) + H(g) → H₂(g).",
+          "Pada jarak antarnukleus yang sangat jauh, kedua atom hampir tidak saling berinteraksi sehingga energi potensial sistem dijadikan acuan nol.",
+          "Ketika kedua atom hidrogen saling mendekat, gaya tarik-menarik menyebabkan energi potensial menurun. Energi mencapai nilai minimum ketika jarak antarnukleus sekitar 74 pm atau 0,74 Å. Jarak ini disebut panjang ikatan H—H.",
+          "Jika kedua atom dipaksa berada lebih dekat daripada jarak kesetimbangannya, gaya tolak-menolak meningkat sehingga energi potensial naik. Oleh karena itu, jarak sekitar 74 pm merupakan jarak yang paling menguntungkan secara energi bagi molekul H₂ dalam keadaan dasarnya."
+        ],
+
       "keyPoints": [
         "Ikatan kimia merupakan interaksi, bukan tali fisik yang menghubungkan atom.",
         "Pembentukan ikatan berkaitan dengan penurunan energi sistem.",
