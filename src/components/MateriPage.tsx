@@ -351,13 +351,13 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
 
                 {/* Pembaca submodul */}
                 {selectedModule && selectedSubmodule && (
-                    selectedModule.id === 'materi-1' &&
-                        ['sub-1-1', 'sub-1-4', 'sub-1-5', 'sub-1-8'].includes(selectedSubmodule.id)
+                    selectedModule.id === 'materi-1'
                         ? (
                             <Modul1Interactive
                                 module={selectedModule}
                                 submodule={selectedSubmodule}
                                 onBack={handleBack}
+                                onSelectSubmodule={(sub) => setSelectedSubmodule(sub)}
                             />
                         )
                         : (
