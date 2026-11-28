@@ -14,9 +14,15 @@ interface Modul1InteractiveProps {
 interface SubmoduleVisualConfig {
   topCallout?: {
     variant: 'pemantik' | 'catatan' | 'contoh' | 'kesimpulan';
-    title: string;
+    title?: string;
     text: string;
   };
+  inlineDiagrams?: Array<{
+    afterParagraphIndex: number;
+    type: DiagramType;
+    title?: string;
+    caption?: string;
+  }>;
   diagram?: {
     type: DiagramType;
     title?: string;
@@ -25,12 +31,12 @@ interface SubmoduleVisualConfig {
   };
   middleCallout?: {
     variant: 'pemantik' | 'catatan' | 'contoh' | 'kesimpulan';
-    title: string;
+    title?: string;
     text: string;
   };
   bottomCallout?: {
     variant: 'pemantik' | 'catatan' | 'contoh' | 'kesimpulan';
-    title: string;
+    title?: string;
     text: string;
   };
   image?: {
@@ -48,15 +54,28 @@ const SUBMODULE_VISUALS: Record<string, SubmoduleVisualConfig> = {
   'sub-1-1': {
     topCallout: {
       variant: 'pemantik',
-      title: 'Mengapa Atom Saling Berikatan?',
-      text: 'Pernahkah Anda bertanya mengapa dua atom hidrogen dapat bersatu membentuk molekul H₂, tetapi jika dipaksa terlalu dekat justru saling tolak-menolak? Jawabannya terletak pada kesetimbangan gaya tarik dan gaya tolak elektrostatik!',
+      text: 'Pernahkah kamu bertanya-tanya, mengapa gas mulia seperti helium, neon, dan argon hampir tidak pernah bereaksi dengan zat lain? Sebaliknya, natrium (Na) bereaksi hebat dengan air, dan klorin (Cl₂) adalah gas beracun. Anehnya, ketika keduanya bergabung, terbentuklah garam dapur yang aman kita makan setiap hari.',
     },
-    diagram: {
-      type: 'potential-energy-curve',
-      title: 'Kurva Energi Potensial Pembentukan Ikatan H₂',
-      caption: 'Ketika dua atom H saling mendekat, gaya tarik menurunkan energi potensial sistem hingga mencapai minimum di 74 pm (−436 kJ/mol). Bila dipaksa lebih dekat, gaya tolak antar-inti meningkat tajam.',
-      position: 'middle',
-    },
+    inlineDiagrams: [
+      {
+        afterParagraphIndex: 4, // Setelah pengertian ikatan kimia & cara pembentukan susunan atom
+        type: 'three-bonding-ways',
+        title: 'Tiga Cara Pembentukan Ikatan Kimia Antaratom',
+        caption: 'Susunan atom dapat terbentuk melalui: (1) Perpindahan elektron pada ikatan ionik, (2) Pemakaian bersama pasangan elektron pada ikatan kovalen, dan (3) Elektron terdelokalisasi pada ikatan logam.',
+      },
+      {
+        afterParagraphIndex: 14, // Setelah gaya tarik dan gaya tolak antaratom
+        type: 'hydrogen-forces-interaction',
+        title: 'Interaksi Gaya Tarik dan Tolak Antaratom Hidrogen',
+        caption: 'Dua atom H saling mendekat: gaya tarik elektrostatik inti-elektron dan gaya tolak antar-inti/antar-elektron mencapai kesetimbangan pada jarak 74 pm.',
+      },
+      {
+        afterParagraphIndex: 26, // Setelah hubungan jarak antaratom dengan energi potensial & pembentukan molekul H2
+        type: 'potential-energy-curve',
+        title: 'Kurva Energi Potensial Pembentukan Ikatan H₂',
+        caption: 'Ketika dua atom H saling mendekat, gaya tarik menurunkan energi potensial sistem hingga mencapai minimum di 74 pm (−436 kJ/mol). Bila dipaksa lebih dekat, gaya tolak antar-inti meningkat tajam.',
+      },
+    ],
     bottomCallout: {
       variant: 'catatan',
       title: 'Prinsip Kunci Kestabilan',
@@ -395,13 +414,17 @@ export const Modul1Interactive: React.FC<Modul1InteractiveProps> = ({
           </button>
         </nav>
 
-        {/* Header Submateri Modul 1 */}
+        {/* Header Submateri Modul 1 (Sesuai Referensi Visual) */}
         <header className="modul1-interactive__header">
-          <div className="m1-header-badge-row">
-            <span className="m1-badge-chapter">{chapterName}</span>
-            <span className="m1-badge-modul">{module.title}</span>
+          <div className="m1-header-icon-box" aria-hidden="true">
+            <span className="m1-header-icon">⚛️</span>
           </div>
-          <h2>{subTitle}</h2>
+          <div className="m1-header-text-col">
+            <span className="m1-header-module-label">
+              {chapterName.toUpperCase()}
+            </span>
+            <h2 className="m1-header-submodule-title">{subTitle}</h2>
+          </div>
         </header>
 
         {/* Callout Pemantik Bagian Atas (Jika Ada) */}
@@ -448,12 +471,28 @@ export const Modul1Interactive: React.FC<Modul1InteractiveProps> = ({
               );
             }
 
+            // Cek apakah ada diagram inline khusus tepat setelah paragraf index ini
+            const inlineDiag = visualConfig.inlineDiagrams?.find(
+              (d) => d.afterParagraphIndex === index
+            );
+
             // Render Paragraf Biasa
             return (
               <React.Fragment key={index}>
                 <p className="m1-paragraph">{paragraph}</p>
 
-                {/* Sisipkan Diagram di Tengah Paragraf (setelah paragraf kedua atau ketiga) */}
+                {/* Diagram Inline Spesifik Bab 1 */}
+                {inlineDiag && (
+                  <div className="m1-section-item">
+                    <Module1Diagram
+                      type={inlineDiag.type}
+                      title={inlineDiag.title}
+                      caption={inlineDiag.caption}
+                    />
+                  </div>
+                )}
+
+                {/* Sisipkan Diagram di Tengah Paragraf (untuk submodule lain yang memakai single middle diagram) */}
                 {index === 2 && visualConfig.diagram && visualConfig.diagram.position === 'middle' && (
                   <div className="m1-section-item">
                     <Module1Diagram

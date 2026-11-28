@@ -49,20 +49,25 @@ export const Module1Callout: React.FC<Module1CalloutProps> = ({
 }) => {
   const meta = DEFAULT_METADATA[variant] ?? DEFAULT_METADATA.catatan;
   const activeIcon = icon ?? meta.defaultIcon;
-  const headerTitle = title ?? meta.label;
 
   return (
     <aside
       className={`m1-callout-box ${meta.badgeCls} ${className}`}
       role="note"
-      aria-label={headerTitle}
+      aria-label={title || meta.label}
     >
-      <div className="m1-callout-header">
-        <span className="m1-callout-icon" aria-hidden="true">
+      {title ? (
+        <div className="m1-callout-header">
+          <span className="m1-callout-icon" aria-hidden="true">
+            {activeIcon}
+          </span>
+          <h4 className="m1-callout-title">{title}</h4>
+        </div>
+      ) : (
+        <span className="m1-callout-inline-icon" aria-hidden="true">
           {activeIcon}
         </span>
-        <h4 className="m1-callout-title">{headerTitle}</h4>
-      </div>
+      )}
       <div className="m1-callout-body">{children}</div>
     </aside>
   );

@@ -4,6 +4,8 @@ export type DiagramType =
   // Bab 1
   | 'potential-energy-curve'
   | 'kossel-lewis-concept'
+  | 'three-bonding-ways'
+  | 'hydrogen-forces-interaction'
   // Bab 2
   | 'bohr-atom-shells'
   | 'orbital-filling-hund'
@@ -126,6 +128,155 @@ const KosselLewisConceptDiagram: React.FC = () => (
     <text x="308" y="180" fontSize="10" fill="#14532D" fontWeight="600">🔗 Tumpang tindih orbital elektron</text>
     <text x="308" y="198" fontSize="10" fill="#14532D" fontWeight="600">✨ Mencapai aturan duplet/oktet</text>
     <text x="308" y="213" fontSize="9.5" fill="#16A34A" fontWeight="700">Contoh: H:H (H₂) &amp; H:Cl (HCl)</text>
+  </svg>
+);
+
+// ── 2B. Diagram Tiga Mekanisme Pembentukan Ikatan (Bab 1) ────────────────────
+const ThreeBondingWaysDiagram: React.FC = () => (
+  <svg viewBox="0 0 520 220" className="m1-svg-canvas" aria-hidden="true">
+    {/* 1. Perpindahan Elektron (Ikatan Ion) */}
+    <g transform="translate(15, 20)">
+      <rect x="0" y="0" width="155" height="180" rx="10" fill="#FFF7ED" stroke="#FDBA74" strokeWidth="1.2" />
+      <text x="77" y="22" textAnchor="middle" fontSize="10.5" fontWeight="800" fill="#C2410C">1. Perpindahan e⁻</text>
+      <text x="77" y="36" textAnchor="middle" fontSize="8.5" fill="#9A3412">Ikatan Ionik (Garam NaCl)</text>
+
+      <g transform="translate(77, 85)">
+        <circle cx="-24" cy="0" r="18" fill="#FDE68A" stroke="#B45309" strokeWidth="1.5" />
+        <text x="-24" y="4" textAnchor="middle" fontSize="10" fontWeight="900" fill="#78350F">Na⁺</text>
+
+        {/* Panah transfer elektron */}
+        <path d="M -6,-5 Q 0,-15 8,-5" fill="none" stroke="#EA580C" strokeWidth="2" strokeDasharray="2 2" />
+        <circle cx="8" cy="-5" r="3" fill="#EA580C" />
+
+        <circle cx="24" cy="0" r="22" fill="#A7F3D0" stroke="#047857" strokeWidth="1.5" />
+        <text x="24" y="4" textAnchor="middle" fontSize="10" fontWeight="900" fill="#064E3B">Cl⁻</text>
+      </g>
+
+      <rect x="8" y="132" width="139" height="36" rx="6" fill="#FFEDD5" />
+      <text x="77" y="147" textAnchor="middle" fontSize="9" fontWeight="800" fill="#9A3412">Gaya Tarik Elektrostatik</text>
+      <text x="77" y="159" textAnchor="middle" fontSize="7.5" fill="#7C2D12">Kation (+) &amp; Anion (−)</text>
+    </g>
+
+    {/* 2. Pasangan Elektron Bersama (Ikatan Kovalen) */}
+    <g transform="translate(182, 20)">
+      <rect x="0" y="0" width="155" height="180" rx="10" fill="#F0FDF4" stroke="#86EFAC" strokeWidth="1.2" />
+      <text x="77" y="22" textAnchor="middle" fontSize="10.5" fontWeight="800" fill="#15803D">2. Pasangan Bersama</text>
+      <text x="77" y="36" textAnchor="middle" fontSize="8.5" fill="#166534">Ikatan Kovalen (H₂, H₂O)</text>
+
+      <g transform="translate(77, 85)">
+        <circle cx="-16" cy="0" r="22" fill="none" stroke="#16A34A" strokeWidth="1.5" />
+        <circle cx="16" cy="0" r="22" fill="none" stroke="#16A34A" strokeWidth="1.5" />
+        <text x="-24" y="4" textAnchor="middle" fontSize="12" fontWeight="800" fill="#14532D">H</text>
+        <text x="24" y="4" textAnchor="middle" fontSize="12" fontWeight="800" fill="#14532D">H</text>
+        {/* Titik elektron bersama di tengah */}
+        <circle cx="0" cy="-6" r="3.2" fill="#15803D" />
+        <circle cx="0" cy="6" r="3.2" fill="#15803D" />
+      </g>
+
+      <rect x="8" y="132" width="139" height="36" rx="6" fill="#DCFCE7" />
+      <text x="77" y="147" textAnchor="middle" fontSize="9" fontWeight="800" fill="#14532D">Tumpang Tindih Orbital</text>
+      <text x="77" y="159" textAnchor="middle" fontSize="7.5" fill="#166534">Duplet / Oktet Bersama</text>
+    </g>
+
+    {/* 3. Elektron Terdelokalisasi (Ikatan Logam) */}
+    <g transform="translate(350, 20)">
+      <rect x="0" y="0" width="155" height="180" rx="10" fill="#F0F9FF" stroke="#7DD3FC" strokeWidth="1.2" />
+      <text x="77" y="22" textAnchor="middle" fontSize="10.5" fontWeight="800" fill="#0369A1">3. e⁻ Terdelokalisasi</text>
+      <text x="77" y="36" textAnchor="middle" fontSize="8.5" fill="#0284C7">Ikatan Logam (Fe, Cu, Na)</text>
+
+      <g transform="translate(77, 85)">
+        {/* Kation Logam */}
+        <circle cx="-25" cy="-15" r="10" fill="#BAE6FD" stroke="#0284C7" strokeWidth="1.2" />
+        <text x="-25" y="-12" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">+</text>
+        <circle cx="25" cy="-15" r="10" fill="#BAE6FD" stroke="#0284C7" strokeWidth="1.2" />
+        <text x="25" y="-12" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">+</text>
+        <circle cx="-25" cy="18" r="10" fill="#BAE6FD" stroke="#0284C7" strokeWidth="1.2" />
+        <text x="-25" y="21" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">+</text>
+        <circle cx="25" cy="18" r="10" fill="#BAE6FD" stroke="#0284C7" strokeWidth="1.2" />
+        <text x="25" y="21" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">+</text>
+        <circle cx="0" cy="0" r="10" fill="#BAE6FD" stroke="#0284C7" strokeWidth="1.2" />
+        <text x="0" y="3" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">+</text>
+
+        {/* Lautan Elektron */}
+        <circle cx="-12" cy="-5" r="2.5" fill="#0284C7" />
+        <circle cx="12" cy="-5" r="2.5" fill="#0284C7" />
+        <circle cx="-12" cy="8" r="2.5" fill="#0284C7" />
+        <circle cx="12" cy="8" r="2.5" fill="#0284C7" />
+        <circle cx="0" cy="-22" r="2.5" fill="#0284C7" />
+        <circle cx="0" cy="22" r="2.5" fill="#0284C7" />
+      </g>
+
+      <rect x="8" y="132" width="139" height="36" rx="6" fill="#E0F2FE" />
+      <text x="77" y="147" textAnchor="middle" fontSize="9" fontWeight="800" fill="#0369A1">Lautan Elektron</text>
+      <text x="77" y="159" textAnchor="middle" fontSize="7.5" fill="#0284C7">Bebas bergerak di seluruh kisi</text>
+    </g>
+  </svg>
+);
+
+// ── 2C. Diagram Gaya Tarik dan Gaya Tolak Antaratom Hidrogen (Bab 1) ────────
+const HydrogenForcesInteractionDiagram: React.FC = () => (
+  <svg viewBox="0 0 520 230" className="m1-svg-canvas" aria-hidden="true">
+    <defs>
+      <marker id="forceArrowRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="#EF4444" />
+      </marker>
+      <marker id="forceArrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 8 5 L 0 9 z" fill="#10B981" />
+      </marker>
+    </defs>
+
+    {/* Stage Box */}
+    <rect x="25" y="15" width="470" height="195" rx="12" fill="#FFFDFD" stroke="#E2E8F0" strokeWidth="1.2" />
+
+    {/* Judul Diagram di Dalam */}
+    <text x="260" y="36" textAnchor="middle" fontSize="12" fontWeight="800" fill="#1E293B">Interaksi Gaya Dua Atom Hidrogen yang Saling Mendekat</text>
+
+    {/* Atom Hidrogen 1 (Kiri) */}
+    <g transform="translate(145, 115)">
+      {/* Awan Elektron (R=48) */}
+      <circle cx="0" cy="0" r="48" fill="#F0F9FF" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 3" />
+      {/* Inti Atom 1 (+) */}
+      <circle cx="0" cy="0" r="16" fill="#FEF3C7" stroke="#D97706" strokeWidth="2" />
+      <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="900" fill="#B45309">+1</text>
+      <text x="0" y="-55" textAnchor="middle" fontSize="10" fontWeight="800" fill="#0369A1">Inti Atom A</text>
+
+      {/* Elektron 1 (e1) */}
+      <circle cx="-25" cy="-25" r="5" fill="#0284C7" />
+      <text x="-25" y="-33" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">e₁⁻</text>
+    </g>
+
+    {/* Atom Hidrogen 2 (Kanan) */}
+    <g transform="translate(375, 115)">
+      {/* Awan Elektron (R=48) */}
+      <circle cx="0" cy="0" r="48" fill="#F0F9FF" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 3" />
+      {/* Inti Atom 2 (+) */}
+      <circle cx="0" cy="0" r="16" fill="#FEF3C7" stroke="#D97706" strokeWidth="2" />
+      <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="900" fill="#B45309">+1</text>
+      <text x="0" y="-55" textAnchor="middle" fontSize="10" fontWeight="800" fill="#0369A1">Inti Atom B</text>
+
+      {/* Elektron 2 (e2) */}
+      <circle cx="25" cy="-25" r="5" fill="#0284C7" />
+      <text x="25" y="-33" textAnchor="middle" fontSize="8" fontWeight="800" fill="#0369A1">e₂⁻</text>
+    </g>
+
+    {/* Gaya Tolak Antar Inti (Merah) */}
+    <path d="M 165,115 L 350,115" stroke="#EF4444" strokeWidth="2" strokeDasharray="4 3" markerStart="url(#forceArrowRed)" markerEnd="url(#forceArrowRed)" />
+    <rect x="220" y="105" width="80" height="20" rx="4" fill="#FEE2E2" stroke="#FCA5A5" />
+    <text x="260" y="119" textAnchor="middle" fontSize="9" fontWeight="800" fill="#991B1B">Tolak Inti-Inti (+)(+)</text>
+
+    {/* Gaya Tarik Inti A ke e2 dan Inti B ke e1 (Hijau) */}
+    <path d="M 145,100 Q 260,65 395,90" fill="none" stroke="#10B981" strokeWidth="2" markerEnd="url(#forceArrowGreen)" />
+    <path d="M 375,100 Q 260,65 125,90" fill="none" stroke="#10B981" strokeWidth="2" markerEnd="url(#forceArrowGreen)" />
+    <rect x="215" y="55" width="90" height="20" rx="4" fill="#DCFCE7" stroke="#86EFAC" />
+    <text x="260" y="69" textAnchor="middle" fontSize="9" fontWeight="800" fill="#14532D">Tarik Inti-Elektron (+)(−)</text>
+
+    {/* Keterangan Kesetimbangan */}
+    <g transform="translate(100, 175)">
+      <rect x="0" y="0" width="320" height="24" rx="6" fill="#F8FAFC" stroke="#CBD5E1" />
+      <text x="160" y="16" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#334155">
+        Kesetimbangan tercapai saat: Gaya Tarik = Gaya Tolak (Panjang Ikatan: 74 pm)
+      </text>
+    </g>
   </svg>
 );
 
@@ -799,6 +950,8 @@ const IonicVsCovalentLatticeDiagram: React.FC = () => (
 const DIAGRAM_COMPONENTS: Record<DiagramType, React.FC> = {
   'potential-energy-curve': PotentialEnergyCurveDiagram,
   'kossel-lewis-concept': KosselLewisConceptDiagram,
+  'three-bonding-ways': ThreeBondingWaysDiagram,
+  'hydrogen-forces-interaction': HydrogenForcesInteractionDiagram,
   'bohr-atom-shells': BohrAtomShellsDiagram,
   'orbital-filling-hund': OrbitalFillingHundDiagram,
   'valence-electrons': ValenceElectronsDiagram,
@@ -820,6 +973,14 @@ const DIAGRAM_TITLES: Record<DiagramType, { title: string; caption: string }> = 
   'kossel-lewis-concept': {
     title: 'Peta Konsep Gagasan Kossel dan Lewis (1916)',
     caption: 'Kossel menjelaskan perpindahan elektron pada ikatan ionik, sedangkan Lewis menjelaskan penggunaan bersama pasangan elektron pada ikatan kovalen.',
+  },
+  'three-bonding-ways': {
+    title: 'Tiga Cara Pembentukan Ikatan Kimia Antaratom',
+    caption: '1. Perpindahan elektron (ikatan ionik), 2. Pemakaian bersama pasangan elektron (ikatan kovalen), dan 3. Lautan elektron terdelokalisasi (ikatan logam).',
+  },
+  'hydrogen-forces-interaction': {
+    title: 'Gaya Tarik dan Gaya Tolak Antaratom Hidrogen',
+    caption: 'Interaksi gaya tarik inti-elektron dan gaya tolak antar-inti/antar-elektron bekerja bersamaan hingga mencapai kesetimbangan pada jarak 74 pm.',
   },
   'bohr-atom-shells': {
     title: 'Model Kulit Atom Bohr dan Konfigurasi Natrium (₁₁Na)',

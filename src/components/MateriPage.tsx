@@ -210,14 +210,16 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
     return (
         <main className="materi-page">
             <div className="container">
-                <header className="materi-header">
-                    <span className="materi-badge">🔬 PETUALANGAN CHEMBOND</span>
-                    <h1>Jelajahi Dunia Ikatan Kimia!</h1>
-                    <p>
-                        Pelajari konsep ikatan kimia melalui tiga modul pembelajaran
-                        yang disusun secara bertahap.
-                    </p>
-                </header>
+                {!selectedSubmodule && (
+                    <header className="materi-header">
+                        <span className="materi-badge">🔬 PETUALANGAN CHEMBOND</span>
+                        <h1>Jelajahi Dunia Ikatan Kimia!</h1>
+                        <p>
+                            Pelajari konsep ikatan kimia melalui tiga modul pembelajaran
+                            yang disusun secara bertahap.
+                        </p>
+                    </header>
+                )}
 
                 {/* Daftar modul */}
                 {!selectedModule && (
