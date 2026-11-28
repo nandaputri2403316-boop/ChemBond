@@ -586,7 +586,7 @@ export const SimulasiPage: React.FC<SimulasiPageProps> = ({ onNavigate }) => {
                 <div className="guide-step-card">
                   <span className="guide-step-num">4</span>
                   <h4>Uji di "Real Molecules"</h4>
-                  <p>Beralih ke tab molekul nyata: telusuri $H_2O$ (bengkok, 104.5°), $CO_2$ (linear, 180°), dan $NH_3$ (piramida, 107.3°).</p>
+                  <p>Beralih ke tab molekul nyata: telusuri H₂O (bengkok, 104.5°), CO₂ (linear, 180°), dan NH₃ (piramida, 107.3°).</p>
                 </div>
               </div>
             </article>
@@ -598,7 +598,7 @@ export const SimulasiPage: React.FC<SimulasiPageProps> = ({ onNavigate }) => {
               <div className="vsepr-header">
                 <div>
                   <h3>📐 Inspektor Bentuk Geometri Molekul (VSEPR Hub)</h3>
-                  <p>Pilih bentuk molekul di bawah ini untuk melihat detail rumus $AX_mE_n$, PEI/PEB, dan tips pengujian di PhET.</p>
+                  <p>Pilih bentuk molekul di bawah ini untuk melihat detail rumus AXmEn, PEI/PEB, dan tips pengujian di PhET.</p>
                 </div>
 
                 {/* Domain Filter Chips */}
