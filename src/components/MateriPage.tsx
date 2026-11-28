@@ -6,6 +6,7 @@ import type { ModuleData, SubModule } from '../data/types';
 import { HookMedia } from './HookMedia';
 import './MateriPage.css';
 import Modul1Interactive from './Modul1Interactive';
+import Modul3Interactive from './Modul3Interactive';
 
 interface MateriPageProps {
     onNavigate?: (page: Page) => void;
@@ -19,6 +20,11 @@ const SUBMODULE_ACCENT: Record<string, { cls: string; label: string; icon: strin
     'sub-2-4': { cls: 'accent-teal', label: 'Kristal Ionik', icon: '💎' },
     'sub-2-5': { cls: 'accent-pink', label: 'Sifat Senyawa', icon: '🔬' },
     'sub-2-6': { cls: 'accent-green', label: 'Kehidupan Nyata', icon: '🌿' },
+    'sub-3-1': { cls: 'accent-pink', label: 'Pengantar', icon: '🌍' },
+    'sub-3-2': { cls: 'accent-purple', label: 'Ikatan Ion', icon: '🧂' },
+    'sub-3-3': { cls: 'accent-blue', label: 'Ikatan Kovalen', icon: '💧' },
+    'sub-3-4': { cls: 'accent-orange', label: 'Ikatan Logam', icon: '⚡' },
+    'sub-3-5': { cls: 'accent-green', label: 'Hubungan Bahan', icon: '⚖️' },
 };
 
 // ── Heuristik klasifikasi paragraf ───────────────────────────────────────────
@@ -301,14 +307,22 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                         <h3>📚 Jelajahi Bab Pembelajaran</h3>
 
                         <div className="materi-chapter-list">
-                            {Object.entries(chapterGroups ?? {}).map(([chapter, submodules]) => (
+                            {Object.entries(chapterGroups ?? {}).map(([chapter, submodules]) => {
+                                const isExpanded =
+                                    selectedModule.id === 'materi-3'
+                                        ? expandedChapter !== '__collapsed__'
+                                        : expandedChapter === chapter;
+
+                                return (
                                 <section className="materi-chapter" key={chapter}>
                                     <button
                                         type="button"
                                         className="materi-chapter-toggle"
                                         onClick={() =>
                                             setExpandedChapter(
-                                                expandedChapter === chapter ? null : chapter
+                                                selectedModule.id === 'materi-3'
+                                                    ? (isExpanded ? '__collapsed__' : chapter)
+                                                    : (expandedChapter === chapter ? null : chapter)
                                             )
                                         }
                                     >
@@ -317,11 +331,11 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                             <small>{submodules.length} submateri</small>
                                         </span>
                                         <span>
-                                            {expandedChapter === chapter ? '−' : '+'}
+                                            {isExpanded ? '−' : '+'}
                                         </span>
                                     </button>
 
-                                    {expandedChapter === chapter && (
+                                    {isExpanded && (
                                         <div className="materi-submodule-list">
                                             {submodules.map((submodule, index) => {
                                                 const acc = SUBMODULE_ACCENT[submodule.id];
@@ -346,7 +360,8 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                         </div>
                                     )}
                                 </section>
-                            ))}
+                            );
+                            })}
                         </div>
                     </section>
                 )}
@@ -360,6 +375,16 @@ export function MateriPage({ onNavigate }: MateriPageProps = {}) {
                                 submodule={selectedSubmodule}
                                 onBack={handleBack}
                                 onSelectSubmodule={(sub) => setSelectedSubmodule(sub)}
+                            />
+                        )
+                        : selectedModule.id === 'materi-3'
+                        ? (
+                            <Modul3Interactive
+                                module={selectedModule}
+                                submodule={selectedSubmodule}
+                                onBack={handleBack}
+                                onSelectSubmodule={(sub) => setSelectedSubmodule(sub)}
+                                onNavigate={onNavigate}
                             />
                         )
                         : (

@@ -1,0 +1,1297 @@
+/* ==========================================================================
+   ChemBond — Modul 3: Penerapan Ikatan Kimia (Interactive & Visual Stylesheet)
+   ========================================================================== */
+
+/* Page Wrapper */
+.modul3-page-wrapper {
+  background-color: #FFF9FC;
+  padding: 24px 16px 64px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 24px;
+  animation: fadeInM3 0.3s ease-out;
+}
+
+@keyframes fadeInM3 {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Centered Responsive Layout */
+.modul3-layout {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   TOP NAV BAR & HORIZONTAL STEPPER (SUBMODULE SELECTOR)
+   ========================================================================== */
+.m3-top-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.m3-progress-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #D91D78;
+  letter-spacing: 0.4px;
+  box-shadow: 0 2px 8px rgba(53, 43, 61, 0.02);
+}
+
+.m3-top-stepper {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+  padding: 8px 10px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 18px rgba(53, 43, 61, 0.03);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.m3-stepper-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: max-content;
+}
+
+.m3-step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #FFF9FC;
+  color: #4A3E4D;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.m3-step-pill:hover {
+  background: #FFF0F7;
+  border-color: #F72F91;
+  color: #D91D78;
+  transform: translateY(-1px);
+}
+
+.m3-step-pill.active {
+  background: linear-gradient(135deg, #FFF0F7 0%, #FFFFFF 100%);
+  border-color: #D91D78;
+  color: #D91D78;
+  font-weight: 800;
+  box-shadow: 0 3px 12px rgba(217, 29, 120, 0.12);
+}
+
+.m3-step-pill.past {
+  color: #8B7B89;
+  background: #FDF9FB;
+}
+
+.m3-step-pill-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: #FFFFFF;
+  border: 1px solid #F1E3EB;
+  color: #8B7B89;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.m3-step-pill.active .m3-step-pill-num {
+  background: #D91D78;
+  color: #FFFFFF;
+  border-color: #D91D78;
+}
+
+.m3-step-pill.past .m3-step-pill-num {
+  background: #10B981;
+  color: #FFFFFF;
+  border-color: #10B981;
+  font-size: 0.7rem;
+}
+
+.m3-step-pill-title {
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   READING AREA & ARTICLE
+   ========================================================================== */
+.m3-reading-area {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.m3-back-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  color: #4A3E4D;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(53, 43, 61, 0.03);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.m3-back-btn:hover {
+  background: #FFF0F7;
+  border-color: #D91D78;
+  color: #D91D78;
+  transform: translateX(-3px);
+}
+
+.m3-article-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 26px;
+  padding: 36px 40px;
+  box-shadow: 0 6px 28px rgba(53, 43, 61, 0.04);
+}
+
+/* Header Submateri */
+.m3-submodule-hero {
+  background: linear-gradient(135deg, #FFF0F7 0%, #FFF5F0 50%, #FFFFFF 100%);
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.m3-hero-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1.5px solid #FCE7F3;
+  color: #D91D78;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 14px rgba(217, 29, 120, 0.12);
+  flex-shrink: 0;
+}
+
+.m3-hero-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.m3-hero-eyebrow {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #D91D78;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 3px;
+}
+
+.m3-hero-title {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   VISUAL & GALLERY COMPONENTS
+   ========================================================================== */
+.m3-visual-wrap {
+  margin: 28px 0 36px;
+}
+
+.m3-section-badge {
+  display: inline-block;
+  background: #FFF0F7;
+  border: 1px solid #FCE7F3;
+  color: #D91D78;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.m3-visual-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.m3-visual-sub {
+  font-size: 0.9rem;
+  color: #8B7B89;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+/* Phenomena Grid (Submateri 1) */
+.m3-phenomena-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.m3-phenomena-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(53, 43, 61, 0.03);
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.m3-phenomena-card:hover {
+  transform: translateY(-3px);
+  border-color: #D91D78;
+  box-shadow: 0 10px 24px rgba(217, 29, 120, 0.1);
+}
+
+.m3-card-img-wrap {
+  background: #F8FAFC;
+  border-bottom: 1.5px solid #F1E3EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.m3-visual-svg {
+  width: 100%;
+  max-height: 135px;
+  display: block;
+}
+
+.m3-card-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.m3-card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.m3-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0;
+}
+
+.m3-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.badge-ion { background: #FCE7F3; color: #D91D78; border: 1px solid #FBCFE8; }
+.badge-kovalen { background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD; }
+.badge-logam { background: #FFEDD5; color: #C2410C; border: 1px solid #FED7AA; }
+
+.m3-card-formula {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #D91D78;
+  margin-bottom: 8px;
+}
+
+.m3-card-desc {
+  font-size: 0.84rem;
+  color: #4A3E4D;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Diagram Card (Lattice, Diamond vs Graphite, Electron Sea) */
+.m3-diagram-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 22px;
+  padding: 26px 28px;
+  margin: 24px 0;
+  box-shadow: 0 4px 18px rgba(53, 43, 61, 0.03);
+}
+
+.m3-diagram-header {
+  margin-bottom: 20px;
+}
+
+.m3-diagram-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0284C7;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: #E0F2FE;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  margin-bottom: 8px;
+}
+
+.m3-diagram-header h4 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.m3-diagram-header p {
+  font-size: 0.88rem;
+  color: #8B7B89;
+  margin: 0;
+}
+
+.m3-diagram-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.m3-diagram-box {
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.m3-box-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.m3-diagram-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Conductivity states */
+.m3-state-comparison-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.m3-state-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1px solid #F1E3EB;
+}
+
+.m3-state-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.m3-state-text strong {
+  display: block;
+  font-size: 0.86rem;
+  color: #352B3D;
+  margin-bottom: 3px;
+}
+
+.m3-state-text p {
+  font-size: 0.8rem;
+  color: #4A3E4D;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Applications Gallery (Grid of 4 cards) */
+.m3-gallery-wrap {
+  margin: 28px 0;
+}
+
+.m3-gallery-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0 0 16px;
+}
+
+.m3-apps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.m3-app-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-top-width: 4px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(53, 43, 61, 0.02);
+  transition: all 0.2s ease;
+}
+
+.m3-app-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(53, 43, 61, 0.06);
+}
+
+.m3-app-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.m3-app-icon {
+  font-size: 1.4rem;
+}
+
+.m3-app-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0 0 4px;
+}
+
+.m3-app-role {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.m3-app-desc {
+  font-size: 0.82rem;
+  color: #4A3E4D;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Diamond vs Graphite Comparison Split */
+.m3-comparison-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.m3-comparison-col {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.m3-col-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.m3-col-icon {
+  font-size: 1.6rem;
+}
+
+.m3-col-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0;
+}
+
+.m3-col-subtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8B7B89;
+}
+
+.m3-structure-svg {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.m3-feature-list {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.82rem;
+  color: #4A3E4D;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.45;
+}
+
+/* Electron Sea Properties */
+.m3-property-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.m3-prop-item {
+  background: #FFFFFF;
+  border: 1px solid #F1E3EB;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.m3-prop-badge {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #EA580C;
+  margin-bottom: 3px;
+}
+
+.m3-prop-item p {
+  font-size: 0.78rem;
+  color: #4A3E4D;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Duel Material Section (Submateri 5) */
+.m3-duel-section {
+  margin: 24px 0;
+}
+
+.m3-duel-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(53, 43, 61, 0.03);
+}
+
+.m3-duel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #F1E3EB;
+}
+
+.m3-duel-num {
+  background: #D91D78;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.m3-duel-header h5 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0;
+}
+
+.m3-duel-body {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.m3-duel-side {
+  background: #FFF9FC;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.m3-side-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.tag-copper { background: #FFEDD5; color: #C2410C; }
+.tag-plastic { background: #FCE7F3; color: #D91D78; }
+.tag-diamond { background: #E0F2FE; color: #0284C7; }
+.tag-graphite { background: #F1F5F9; color: #475569; }
+.tag-al { background: #F1F5F9; color: #334155; }
+.tag-steel { background: #E2E8F0; color: #0F172A; }
+
+.m3-duel-side p {
+  font-size: 0.82rem;
+  color: #4A3E4D;
+  margin: 4px 0;
+  line-height: 1.45;
+}
+
+.m3-duel-vs {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #D91D78;
+  background: #FFF0F7;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #FCE7F3;
+  flex-shrink: 0;
+}
+
+/* Flowchart Concept Card */
+.m3-flow-card {
+  background: linear-gradient(135deg, #FFF0F7 0%, #FFF5F0 100%);
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.m3-flow-card h5 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.m3-flow-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.m3-flow-step {
+  flex: 1;
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(53, 43, 61, 0.02);
+}
+
+.m3-step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #D91D78;
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.m3-flow-step strong {
+  font-size: 0.85rem;
+  color: #352B3D;
+  margin-bottom: 4px;
+}
+
+.m3-flow-step small {
+  font-size: 0.74rem;
+  color: #8B7B89;
+  line-height: 1.35;
+}
+
+.m3-flow-arrow {
+  font-size: 1.2rem;
+  color: #D91D78;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   CONTENT PARAGRAPHS & SEMANTIC BLOCKS (PRECISION TYPOGRAPHY)
+   ========================================================================== */
+.m3-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Heading berpenomoran: misal 1. Mengapa..., 4. Senyawa..., 4. Eksplorasi... */
+.m3-content-heading,
+.blok-heading {
+  font-size: 1.18rem !important;
+  font-weight: 800 !important;
+  color: #D91D78 !important;
+  margin: 26px 0 8px !important;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #FFF0F7;
+  letter-spacing: -0.2px;
+  line-height: 1.35;
+}
+
+/* Butir penjelas A/B/C/D dengan pembagian label semibold & teks penjelas regular */
+.m3-lead-item-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-left: 4px solid #D91D78;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 6px 0 10px;
+  box-shadow: 0 2px 8px rgba(53, 43, 61, 0.02);
+  transition: all 0.2s ease;
+  line-height: 1.68;
+}
+
+.m3-lead-item-card:hover {
+  border-color: #F72F91;
+  background: #FFFDFC;
+}
+
+.m3-lead-label {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #352B3D;
+  display: inline;
+}
+
+.m3-lead-body {
+  font-size: 0.94rem;
+  font-weight: 400; /* Regular font weight */
+  color: #352B3D;   /* Dark readable text */
+  line-height: 1.68;
+}
+
+/* Paragraf normal */
+.blok-normal {
+  font-size: 0.95rem;
+  font-weight: 400; /* Regular font weight */
+  line-height: 1.68;
+  color: #352B3D;   /* Dark readable text */
+  margin: 0 0 10px;
+}
+
+/* Kalimat pemantik / pengantar */
+.blok-intro {
+  background: #FFF9FC;
+  border-left: 4px solid #F72F91;
+  padding: 14px 18px;
+  border-radius: 0 14px 14px 0;
+  color: #4A3E4D !important;
+  font-size: 0.95rem;
+  font-weight: 400; /* Regular font weight */
+  line-height: 1.68;
+  font-style: italic;
+  margin: 0 0 12px;
+}
+
+/* Key Points & Examples Sections */
+.m3-keypoints-box {
+  background: #FFF0F7;
+  border: 1.5px solid #FCE7F3;
+  border-left: 5px solid #D91D78;
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-top: 28px;
+}
+
+.m3-keypoints-box h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #D91D78;
+  margin: 0 0 12px;
+}
+
+.m3-keypoints-box ul {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: #352B3D;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   VISUAL EXAMPLES SECTION (KARTU GAMBAR EDUKATIF CONTOH SEHARI-HARI)
+   ========================================================================== */
+.m3-examples-visual-section {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 2px dashed #F1E3EB;
+}
+
+.m3-examples-header-banner {
+  margin-bottom: 24px;
+}
+
+.m3-examples-banner-badge {
+  display: inline-block;
+  background: #FFF0F7;
+  border: 1px solid #FCE7F3;
+  color: #D91D78;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.m3-examples-banner-title {
+  font-size: 1.38rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.m3-examples-banner-sub {
+  font-size: 0.92rem;
+  color: #8B7B89;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 740px;
+}
+
+/* Example Cards Grid */
+.m3-example-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.m3-example-card {
+  background: #FFFFFF;
+  border: 1.5px solid #F1E3EB;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(53, 43, 61, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.m3-example-card:hover {
+  transform: translateY(-3px);
+  border-color: #F72F91;
+  box-shadow: 0 10px 28px rgba(217, 29, 120, 0.1);
+}
+
+/* Media SVG Wrap */
+.m3-card-media-wrap {
+  background: #FAF5F8;
+  border-bottom: 1.5px solid #F1E3EB;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.m3-card-svg {
+  width: 100%;
+  height: auto;
+  max-height: 165px;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Card Body Content */
+.m3-card-inner-body {
+  padding: 22px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.m3-card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.m3-card-bond-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: #FFF0F7;
+  color: #D91D78;
+  border: 1px solid #FCE7F3;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.m3-card-formula-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  background: #F8FAFC;
+  color: #334155;
+  border: 1px solid #E2E8F0;
+  padding: 3px 9px;
+  border-radius: 9999px;
+}
+
+.m3-card-example-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #352B3D;
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.m3-card-explanation-text {
+  font-size: 0.92rem;
+  font-weight: 400; /* Regular font weight */
+  color: #352B3D;   /* Dark readable text */
+  line-height: 1.64;
+  margin: 0 0 16px;
+  flex: 1;
+}
+
+/* Takeaway Box: Hubungan Ikatan, Sifat & Kegunaan */
+.m3-card-takeaway-box {
+  background: #FFF9FC;
+  border: 1px solid #FCE7F3;
+  border-left: 4px solid #D91D78;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: auto;
+}
+
+.m3-takeaway-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #D91D78;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.m3-takeaway-icon {
+  font-size: 0.95rem;
+}
+
+.m3-takeaway-content {
+  font-size: 0.84rem;
+  font-weight: 400; /* Regular font weight */
+  color: #4A3E4D;
+  line-height: 1.48;
+  margin: 0;
+}
+
+/* Footer Navigasi Antar-Submateri */
+.m3-submodule-nav-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1.5px solid #F1E3EB;
+}
+
+.m3-nav-btn {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1.5px solid #F1E3EB;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  max-width: 48%;
+}
+
+.m3-nav-btn:hover {
+  border-color: #D91D78;
+  background: #FFF0F7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(217, 29, 120, 0.1);
+}
+
+.m3-nav-btn.prev { text-align: left; align-items: flex-start; }
+.m3-nav-btn.next { text-align: right; align-items: flex-end; margin-left: auto; }
+
+.m3-nav-btn-hint {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #D91D78;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.m3-nav-btn-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #352B3D;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   PELAJARAN SELANJUTNYA CARD (MENGGANTIKAN CTA PRAKTIKUM VIRTUAL)
+   ========================================================================== */
+.m3-next-lesson-card {
+  background: linear-gradient(135deg, #FFF0F7 0%, #FFF5F0 50%, #FFFFFF 100%);
+  border: 2px solid #FBCFE8;
+  border-radius: 24px;
+  padding: 32px 36px;
+  margin-top: 36px;
+  box-shadow: 0 10px 32px rgba(217, 29, 120, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.m3-next-lesson-card::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247, 47, 145, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.m3-next-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #D91D78;
+  color: #FFFFFF;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.m3-next-title {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #352B3D;
+  margin: 0 0 8px;
+  letter-spacing: -0.3px;
+}
+
+.m3-next-desc {
+  font-size: 0.94rem;
+  color: #4A3E4D;
+  line-height: 1.6;
+  margin: 0 0 24px;
+  max-width: 680px;
+}
+
+.m3-next-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.m3-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #F72F91 0%, #D91D78 100%);
+  color: #FFFFFF;
+  font-size: 0.92rem;
+  font-weight: 800;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(217, 29, 120, 0.25);
+  transition: all 0.22s ease;
+}
+
+.m3-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(217, 29, 120, 0.35);
+}
+
+.m3-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  color: #4A3E4D;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: 1.5px solid #F1E3EB;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.m3-btn-secondary:hover {
+  background: #FFF9FC;
+  border-color: #D91D78;
+  color: #D91D78;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 960px) {
+  .m3-article-card {
+    padding: 26px 22px;
+  }
+
+  .m3-diagram-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .m3-comparison-split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .m3-duel-body {
+    grid-template-columns: 1fr;
+  }
+
+  .m3-duel-vs {
+    margin: 4px auto;
+  }
+
+  .m3-flow-steps {
+    flex-direction: column;
+  }
+
+  .m3-flow-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .m3-example-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .m3-card-inner-body {
+    padding: 18px 16px;
+  }
+
+  .m3-phenomena-grid,
+  .m3-apps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .m3-submodule-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .m3-hero-title {
+    font-size: 1.35rem;
+  }
+
+  .m3-next-lesson-card {
+    padding: 24px 20px;
+  }
+
+  .m3-next-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .m3-btn-primary,
+  .m3-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .m3-submodule-nav-footer {
+    flex-direction: column;
+  }
+
+  .m3-nav-btn {
+    max-width: 100%;
+    width: 100%;
+  }
+}

@@ -3,7 +3,7 @@ import type { ModuleData } from '../types';
 export const modul3Data: ModuleData = {
     id: 'materi-3',
     order: 3,
-    title: 'PENERAPAN IKATAN KIMIA',
+    title: 'Penerapan Ikatan Kimia',
     subtitle: 'Mengenal hubungan ikatan kimia dengan benda-benda di sekitar kita.',
     description:
         'Mempelajari bagaimana jenis ikatan kimia dan struktur zat memengaruhi sifat serta pemanfaatan berbagai bahan dalam kehidupan sehari-hari.',
